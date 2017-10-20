@@ -114,7 +114,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         presenter.register(this);
 
         progress = new MyProgress(this);
-
         gson = new Gson();
         EventBus.getDefault().register(this);
         MyTrace.getInstance().startTrace();
