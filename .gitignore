@@ -1,0 +1,6 @@
+*.rawproto
+gradle-wrapper.jar
+build/*
+app/src/test/*
+.idea/*
+.gradle/*

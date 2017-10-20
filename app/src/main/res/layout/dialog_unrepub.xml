@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#99232323">
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/btn_white_round_5"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/item_margin2"
+            android:layout_marginTop="@dimen/default_margin"
+            android:paddingTop="@dimen/item_margin"
+            android:src="@drawable/ic_unrepub"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/item_margin"
+            android:gravity="center"
+            android:text="用车2小时内不可改派！"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_18"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:gravity="center"
+            android:text="(无法服务，无责改派请联系车队！)"
+            android:textColor="@color/text_color_black_gray"
+            android:textSize="@dimen/text_size_16"/>
+
+
+        <!-- OK&Cancel Button -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line_color"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/default_height">
+
+            <Button
+                android:id="@+id/btn_yes"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="确认"
+                android:textColor="@color/text_color_blue"
+                android:textSize="@dimen/text_size_18"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

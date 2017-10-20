@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mxingo.driver.module.base.map.route.SearchRouteActivity">
+
+    <include layout="@layout/action_bar"/>
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/mapView_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

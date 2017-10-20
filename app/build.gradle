@@ -1,0 +1,124 @@
+apply plugin: 'com.android.application'
+//apply plugin: 'com.neenbedankt.android-apt'
+//apply plugin: 'android-apt'
+apply plugin: 'kotlin-android'
+
+
+def releaseTime() {
+    return new Date().format("yyyyMMdd")
+}
+
+// versionCode按时间自增
+def increasedVersionCode() {
+    return Integer.valueOf(releaseTime())
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.mxingo.driver"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode increasedVersionCode()
+        versionName "1.1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    signingConfigs {
+        release {
+            storeFile file("renxing.jks")
+            keyAlias "renxing2017"
+            keyPassword "renxing2017"
+            storePassword "renxing2017"
+        }
+    }
+
+    productFlavors {
+
+//        m360 { manifestPlaceholders = [UMENG_CHANNEL_VALUE: "360"] }
+//        yingyongbao { manifestPlaceholders = [UMENG_CHANNEL_VALUE: "yingyongbao"] }
+        rx { manifestPlaceholders = [UMENG_CHANNEL_VALUE: "rx"] }
+    }
+
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+        release {
+            // 不显示log
+            buildConfigField("boolean", "LOG_DEBUG", "true")
+            // Zipalign 优化
+            zipAlignEnabled true
+            debuggable false
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        //定义输出文件名
+                        productFlavors.each { flavor ->
+                            def myFlavor = flavor
+                            def fileName = "${applicationId}_v${defaultConfig.versionName}_${myFlavor.manifestPlaceholders.UMENG_CHANNEL_VALUE}_${releaseTime()}_release.apk"
+                            output.outputFile = new File(outputFile.parent, fileName)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    //umeng数据统计，用于用户统计和错误统计
+    //loading
+
+    //ui java 代码生成器
+
+
+    compile 'com.squareup.okio:okio:1.13.0'
+    compile 'com.qiniu:qiniu-android-sdk:7.3.+'
+    compile 'com.qiniu:happy-dns:0.2.13'
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.kaopiz:kprogresshud:1.1.0'
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:design:26.+'
+    compile 'com.android.support:support-v4:26.+'
+    compile 'com.android.support:support-vector-drawable:26.+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.jakewharton:butterknife:8.7.0'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    compile 'com.squareup.retrofit2:converter-scalars:2.3.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup:otto:1.3.8'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.google.dagger:dagger:2.8'
+    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.github.fabioCollini:DaggerMock:0.6.1'
+    androidTestCompile 'com.github.fabioCollini:DaggerMock:0.6.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
+}
+

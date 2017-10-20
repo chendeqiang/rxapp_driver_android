@@ -1,0 +1,185 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mxingo.driver.module.LoginActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_car_bg" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            android:paddingTop="@dimen/item_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_height"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/ic_height"
+                    android:layout_height="@dimen/ic_height"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_phone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/item_margin"
+                    android:text="@string/phone_txt"
+
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_16" />
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/item_margin"
+                    android:background="@null"
+                    android:hint="@string/prompt_phone"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    android:maxLines="1"
+                    android:textColor="@color/text_color_black"
+                    android:textColorHint="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_16" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:layout_toStartOf="@+id/btn_get_vcode"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/ic_height"
+                        android:layout_height="@dimen/ic_height"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_vcode" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/item_margin"
+                        android:text="@string/vcode_txt"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_16" />
+
+                    <EditText
+                        android:id="@+id/et_vcode"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/item_margin"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/prompt_vcode"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textColor="@color/text_color_black"
+                        android:textColorHint="@color/text_color_gray"
+                        android:textSize="@dimen/text_size_16" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_get_vcode"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/btn_red_box"
+                    android:text="获取验证码"
+                    android:textColor="@color/text_color_red"
+                    android:textSize="@dimen/text_size_14" />
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_height"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/ic_height"
+                    android:layout_height="@dimen/ic_height"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_car" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/item_margin"
+                    android:text="@string/car_team_txt"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_16" />
+
+                <EditText
+                    android:id="@+id/et_car_team"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/item_margin"
+                    android:background="@null"
+                    android:hint="@string/prompt_car_team"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color_black"
+                    android:textColorHint="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_16" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
+
+            <Button
+                android:id="@+id/btn_sign"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_height"
+                android:layout_marginTop="50dp"
+                android:background="@color/colorButtonBg"
+                android:text="@string/btn_login"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_18" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

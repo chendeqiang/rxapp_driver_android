@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <corners android:radius="0dp" />
+    <!-- 圆角，你也可以对不同的角设置不同的数值 -->
+
+
+    <stroke
+        android:dashGap="0dp"
+        android:dashWidth="1dp"
+        android:width="1dp"
+        android:color="@color/text_color_blue" />
+    <!-- 虚线边框宽度和颜色 -->
+
+</shape>
