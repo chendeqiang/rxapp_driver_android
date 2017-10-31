@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.Toolbar
+import android.view.View
 import android.widget.AbsListView
 import android.widget.LinearLayout
 import android.widget.ListView
@@ -16,6 +17,7 @@ import com.mxingo.driver.model.OrderEntity
 import com.mxingo.driver.module.BaseActivity
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
+import com.mxingo.driver.module.base.log.LogUtils
 import com.mxingo.driver.module.take.TakeOrderActivity
 
 import com.mxingo.driver.utils.Constants
@@ -127,10 +129,11 @@ class OrdersActivity : BaseActivity(), AbsListView.OnScrollListener {
             var listOrder: ListOrderEntity = any as ListOrderEntity
             if (listOrder.rspCode.equals("00")) {
                 orderAdapter.addAll(listOrder.order)
+                //动态设置listview底部view,当获取的数据大于或等于20条，orderFooterView.refresh的状态为true,底部显示刷新状态，相反为false，底部显示没有更多
                 orderFooterView.refresh = listOrder.order.size >= pageCount
             }
+            srlRefresh.isRefreshing = false
         }
-        srlRefresh.isRefreshing = false
         progress.dismiss()
     }
 }

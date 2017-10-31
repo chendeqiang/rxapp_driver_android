@@ -10,8 +10,8 @@ object ApiConstants {
     const val token = "Rx-Token"
     const val version = "Rx-Vern"
 
-    const val ip = "http://101.37.34.157:8018/"//线上
-//    const val ip = "http://101.37.202.182:8018/"//测试
+//    const val ip = "http://101.37.34.157:8018/"//线上
+    const val ip = "http://101.37.202.182:8018/"//测试
 
 
     const val getVcode = "usr/driver/getvcode"//获取验证码

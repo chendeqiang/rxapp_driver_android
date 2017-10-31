@@ -1,5 +1,6 @@
 package com.mxingo.driver.module.base.http
 
+import android.util.Log
 import com.mxingo.driver.model.*
 import com.mxingo.driver.module.base.log.LogUtils
 import com.mxingo.driver.utils.TextUtil

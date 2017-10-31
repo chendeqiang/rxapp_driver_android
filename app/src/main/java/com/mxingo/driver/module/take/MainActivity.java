@@ -212,7 +212,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 HybridSearchActivity.startHybridSearchActivity(this);
                 break;
             }
-            case R.id.ll_driver_car_registration:{
+            case R.id.ll_driver_car_registration:{//网约车认证
                 DriverCarRegistrationActivity.startDriverCarRegistrationActivity(this,info);
                 break;
             }
