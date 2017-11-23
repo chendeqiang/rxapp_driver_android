@@ -201,7 +201,7 @@
                     android:id="@+id/tv_fee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginLeft="150dp"
                     android:text="¥600"
                     android:textColor="@color/text_color_red"
                     android:textSize="@dimen/text_size_18"/>
@@ -315,6 +315,7 @@
                     android:id="@+id/tv_plan_milleage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/tv_milleage"
                     android:text="100公里"
                     android:textColor="@color/text_color_black"
@@ -326,17 +327,44 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/default_margin2"
-                    android:text="查看路径"
+                    android:text="查看路线"
                     android:textColor="@color/colorButtonBg"/>
             </RelativeLayout>
         </LinearLayout>
 
+
         <LinearLayout
-            android:padding="@dimen/default_margin3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/default_margin3"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="@dimen/default_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/default_margin40"
+                android:text="订单来源："
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_14"/>
+
+            <TextView
+                android:id="@+id/tv_order_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_14"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_margin3"
+            android:background="@color/white"
+            android:padding="@dimen/default_margin3">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -350,6 +378,7 @@
                 android:id="@+id/tv_remarks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/text_size_14"/>
         </LinearLayout>

@@ -102,5 +102,11 @@ interface ApiService {
     @POST(ApiConstants.getQiNiuToken)
     fun getQiNiuToken(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<QiNiuTokenEntity>
 
+    @FormUrlEncoded
+    @POST(ApiConstants.listNotice)
+    fun listNotice(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<ListNoticeEntity>
 
+    @FormUrlEncoded
+    @POST(ApiConstants.driverBill)
+    fun listBill(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<ListBillEntity>
 }

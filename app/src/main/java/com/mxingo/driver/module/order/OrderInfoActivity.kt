@@ -75,6 +75,7 @@ class OrderInfoActivity : BaseActivity() {
     private lateinit var tvFinishTime: TextView
 
     private lateinit var tvOrderNo: TextView
+    private lateinit var tvOrderFrom: TextView
 
 
     private lateinit var orderNo: String
@@ -157,6 +158,7 @@ class OrderInfoActivity : BaseActivity() {
         tvFinishEstimate = findViewById(R.id.tv_finish_estimate) as TextView
         tvFinishTime = findViewById(R.id.tv_finish_time) as TextView
         tvOrderNo = findViewById(R.id.tv_order_no) as TextView
+        tvOrderFrom = findViewById(R.id.tv_order_from_detail) as TextView
     }
 
     private fun initListener(lon: Double, lat: Double, address: String) {
@@ -232,7 +234,7 @@ class OrderInfoActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_change_order) {
             val curTime = TimeUtil.getNowTime()
-            val endTime = tvBookTime.text.toString()
+            val endTime = tvBookTime.text.toString().substring(0, 15)
             val times = TimeUtil.getTimeDifference(curTime, endTime)
             val times1 = times.substring(0, times.indexOf("小"))
             val times2 = Integer.parseInt(times1)
@@ -243,16 +245,16 @@ class OrderInfoActivity : BaseActivity() {
                 }
                 dialog.show()
             } else {
-            val dialog = RepubDialog(this)
-            dialog.setOnCancelClickListener {
-                dialog.dismiss()
-            }
-            dialog.setOnOkClickListener {
-                dialog.dismiss()
-                progress.show()
-                presenter.repubOrder(orderNo, flowNo, driverNo)
-            }
-            dialog.show()
+                val dialog = RepubDialog(this)
+                dialog.setOnCancelClickListener {
+                    dialog.dismiss()
+                }
+                dialog.setOnOkClickListener {
+                    dialog.dismiss()
+                    progress.show()
+                    presenter.repubOrder(orderNo, flowNo, driverNo)
+                }
+                dialog.show()
             }
             return true
         }
@@ -308,7 +310,7 @@ class OrderInfoActivity : BaseActivity() {
 
     private fun setData(orderInfo: OrderEntity) {
         if (orderInfo.orderType == OrderType.SEND_PLANE_TYPE || orderInfo.orderType == OrderType.TAKE_PLANE_TYPE) {
-            tvFlightHint.text = "航班"
+            tvFlightHint.text = "航班:"
             imgFlight.setImageResource(R.drawable.ic_plane)
             llEndAddress.visibility = View.VISIBLE
             llStartAddress.visibility = View.VISIBLE
@@ -317,7 +319,7 @@ class OrderInfoActivity : BaseActivity() {
             tvBookTime.text = TextUtil.getFormatWeek2(orderInfo.bookTime.toLong())
 
         } else if (orderInfo.orderType == OrderType.SEND_TRAIN_TYPE || orderInfo.orderType == OrderType.TAKE_TRAIN_TYPE) {
-            tvFlightHint.text = "车次"
+            tvFlightHint.text = "车次:"
             imgFlight.setImageResource(R.drawable.ic_train)
             llEndAddress.visibility = View.VISIBLE
             llStartAddress.visibility = View.VISIBLE
@@ -330,7 +332,7 @@ class OrderInfoActivity : BaseActivity() {
             llFlight.visibility = View.GONE
             llAddress.visibility = View.VISIBLE
 
-            tvBookTime.text = TextUtil.getFormatString((orderInfo.bookTime)!!.toLong(), orderInfo.bookDays, "MM月dd号")
+            tvBookTime.text = TextUtil.getFormatString((orderInfo.bookTime)!!.toLong(), orderInfo.bookDays, "yyyy-MM-dd HH:mm")
         }
 
         if (orderInfo.orderModel == OrderModel.POINT_TYPE) {
@@ -343,6 +345,7 @@ class OrderInfoActivity : BaseActivity() {
         tvFlight.text = orderInfo.tripNo
         tvStartAddress.text = orderInfo.startAddr
         tvAddress.text = orderInfo.startAddr
+        tvOrderFrom.text = OrderSource.getKey(orderInfo.source)
 
         tvEndAddress.text = orderInfo.endAddr
         tvFee.text = "¥" + orderInfo.orderAmount / 100 + "元"

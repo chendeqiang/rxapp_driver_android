@@ -67,7 +67,7 @@ class OrderAdapter() : BaseAdapter() {
         }
 
         holder.tvOrderNo.text = order.orderNo
-
+        holder.tv0rderFrom.text = OrderSource.getKey(order.source)
 
         if (order.orderType == OrderType.DAY_RENTER_TYPE) {
             holder.llBusiness.visibility = View.VISIBLE
@@ -105,6 +105,7 @@ class OrderAdapter() : BaseAdapter() {
         var tvType: TextView
         var llNoBusiness: LinearLayout
         var llBusiness: LinearLayout
+        var tv0rderFrom: TextView
 
 
         constructor(view: View) {
@@ -118,6 +119,7 @@ class OrderAdapter() : BaseAdapter() {
             llBusiness = view.findViewById(R.id.ll_business)
             tvAddress = view.findViewById(R.id.tv_address)
             tvOrderNo = view.findViewById(R.id.tv_order_no)
+            tv0rderFrom = view.findViewById(R.id.tv_order_from_list)
 
         }
     }

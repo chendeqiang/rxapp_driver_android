@@ -3,6 +3,9 @@ package com.mxingo.driver.module.base.http;
 import com.mxingo.driver.module.DriverCarRegistrationActivity;
 import com.mxingo.driver.module.HybridSearchActivity;
 import com.mxingo.driver.module.LoginActivity;
+import com.mxingo.driver.module.MyBillActivity;
+import com.mxingo.driver.module.NoticeActivity;
+import com.mxingo.driver.module.NoticeInfoActivity;
 import com.mxingo.driver.module.SettingActivity;
 import com.mxingo.driver.module.base.map.route.SearchRouteActivity;
 import com.mxingo.driver.module.order.MapActivity;
@@ -48,4 +51,9 @@ public interface AppComponent {
 
     void inject(DriverCarRegistrationActivity activity);
 
+    void inject(NoticeActivity activity);
+
+    void inject(NoticeInfoActivity activity);
+
+    void inject(MyBillActivity activity);
 }

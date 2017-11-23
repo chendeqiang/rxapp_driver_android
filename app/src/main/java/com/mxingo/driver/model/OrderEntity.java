@@ -44,6 +44,7 @@ public class OrderEntity implements Serializable {
     public double startLat;
     public double startLon;
     public String tripNo;
+
     /**
      * carLevel : 1
      * orderAmount : 5800
@@ -91,6 +92,7 @@ public class OrderEntity implements Serializable {
     public long orderStopTime;
     public int payAmount;
     public int payType;
+    public int source;
 
     public int orderQuote;
     public int bookDays;
@@ -130,6 +132,7 @@ public class OrderEntity implements Serializable {
                 ", orderStopTime=" + orderStopTime +
                 ", payAmount=" + payAmount +
                 ", payType=" + payType +
+                ", source=" + source +
                 '}';
     }
 }

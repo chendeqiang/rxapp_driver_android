@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/activity_bg"
+              android:orientation="vertical">
+
+    <include layout="@layout/action_bar"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/line_color"
+        android:padding="@dimen/default_margin3"
+        android:text="    账单说明"
+        android:textColor="@color/text_color_black_gray"
+        android:textSize="@dimen/text_size_14"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="       1.账单每周对账一次"
+        android:textColor="@color/text_color_black_gray"
+        android:textSize="@dimen/text_size_14"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="       2.处罚扣款及减免会有延迟"
+        android:textColor="@color/text_color_black_gray"
+        android:textSize="@dimen/text_size_14"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="       3.如账单有疑议，请联系车队长"
+        android:textColor="@color/text_color_black_gray"
+        android:textSize="@dimen/text_size_14"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:background="@color/line_color"
+        android:padding="@dimen/default_margin3"
+        android:text="    钱包提现"
+        android:textColor="@color/text_color_black_gray"
+        android:textSize="@dimen/text_size_14"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="       1.车队结算，暂不开通"
+        android:textColor="@color/text_color_black_gray"
+        android:textSize="@dimen/text_size_14"/>
+</LinearLayout>

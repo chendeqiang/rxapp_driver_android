@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -32,6 +33,8 @@ import com.mxingo.driver.module.BaseActivity;
 import com.mxingo.driver.module.DriverCarRegistrationActivity;
 import com.mxingo.driver.module.HybridSearchActivity;
 import com.mxingo.driver.module.LoginActivity;
+import com.mxingo.driver.module.MyBillActivity;
+import com.mxingo.driver.module.NoticeActivity;
 import com.mxingo.driver.module.SettingActivity;
 import com.mxingo.driver.module.WebViewActivity;
 import com.mxingo.driver.module.base.data.UserInfoPreferences;
@@ -77,6 +80,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     Button btnOnline;
     @BindView(R.id.img_taking_order)
     ImageView imgTakingOrder;
+    @BindView(R.id.rl_notice)
+    RelativeLayout rlNotice;
 
     private Button btnOffline;
     private Button btnExit;
@@ -134,6 +139,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         toggle.syncState();
 
         toolbar.setNavigationIcon(R.drawable.ic_header);
+        rlNotice.setOnClickListener(this);
 
         btnOnline.setOnClickListener(this);
 
@@ -145,6 +151,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         view.findViewById(R.id.ll_orders).setOnClickListener(this);
         view.findViewById(R.id.ll_my_order).setOnClickListener(this);
+        view.findViewById(R.id.ll_my_bill).setOnClickListener(this);
         view.findViewById(R.id.ll_flight).setOnClickListener(this);
         view.findViewById(R.id.ll_driver_car_registration).setOnClickListener(this);
         view.findViewById(R.id.ll_rule).setOnClickListener(this);
@@ -184,6 +191,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rl_notice://通知
+                NoticeActivity.startNoticeActivity(this);
+                break;
             case R.id.btn_online: {//上线
                 progress.show();
                 presenter.online(driverNo);
@@ -208,12 +218,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 MyOrderActivity.startMyOrderActivity(this, driverNo);
                 break;
             }
+            case R.id.ll_my_bill: {//我的账单
+                MyBillActivity.startMyOrderActivity(this, driverNo);
+                break;
+            }
             case R.id.ll_flight: {//航班动态
                 HybridSearchActivity.startHybridSearchActivity(this);
                 break;
             }
-            case R.id.ll_driver_car_registration:{//网约车认证
-                DriverCarRegistrationActivity.startDriverCarRegistrationActivity(this,info);
+            case R.id.ll_driver_car_registration: {//网约车认证
+                DriverCarRegistrationActivity.startDriverCarRegistrationActivity(this, info);
                 break;
             }
             case R.id.ll_rule: {//服务规范

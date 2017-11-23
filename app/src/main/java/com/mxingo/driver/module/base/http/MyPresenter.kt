@@ -360,6 +360,25 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
                 })
     }
 
+    fun listBill(driverNo: String, pageIndex: Int, pageCount: Int) {
+        manger.listBill(driverNo, pageIndex, pageCount, object : Callback<ListBillEntity> {
+            override fun onFailure(call: Call<ListBillEntity>, t: Throwable) {
+                val data = ListBillEntity()
+                data.rspCode = "1000"
+                data.rspDesc = "网络连接失败"
+                mBs.post(data)
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<ListBillEntity>, response: Response<ListBillEntity>) {
+                LogUtils.d("listBill", "" + response.body() + "")
+                if (response.body() != null) {
+                    mBs.post(response.body())
+                }
+            }
+        })
+    }
+
     fun startOrder(orderNo: String, flowNo: String) {
         manger.startOrder(orderNo, flowNo,
                 object : Callback<StartOrderEntity> {
@@ -460,8 +479,8 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
 
 
     fun checkInfo(driverNo: String, name: String, mobile: String, carBrand: String, carNo: String, carLevel: Int,
-                     imgIdface: String, imgIdback: String, imgDriverlicense: String, imgVehiclelicense: String,
-                     imgInsurance: String) {
+                  imgIdface: String, imgIdback: String, imgDriverlicense: String, imgVehiclelicense: String,
+                  imgInsurance: String) {
 
         manger.checkInfo(driverNo, name, mobile, carBrand, carNo, carLevel, imgIdface, imgIdback, imgDriverlicense,
                 imgVehiclelicense, imgInsurance, object : Callback<CommEntity> {
@@ -503,5 +522,26 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
             }
 
         })
+    }
+
+    fun listNotice(pageIndex: Int, pageCount: Int) {
+        manger.listNotice(pageIndex, pageCount, object : Callback<ListNoticeEntity> {
+            override fun onResponse(call: Call<ListNoticeEntity>, response: Response<ListNoticeEntity>) {
+
+                if (response.body() != null) {
+                    LogUtils.d("listnotice", response.body().toString())
+                    mBs.post(response.body())
+                }
+            }
+
+            override fun onFailure(call: Call<ListNoticeEntity>, t: Throwable) {
+                val data = ListNoticeEntity()
+                data.rspCode = "1000"
+                data.rspDesc = "网络连接失败"
+                mBs.post(data)
+                t.printStackTrace()
+            }
+        })
+
     }
 }

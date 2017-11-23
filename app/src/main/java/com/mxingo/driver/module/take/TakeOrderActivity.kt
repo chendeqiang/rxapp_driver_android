@@ -18,6 +18,7 @@ import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
 import com.mxingo.driver.module.base.map.route.SearchRouteActivity
 import com.mxingo.driver.module.order.OrderInfoActivity
+import com.mxingo.driver.module.order.OrderSource
 
 import com.mxingo.driver.utils.Constants
 import com.mxingo.driver.utils.TextUtil
@@ -51,6 +52,7 @@ class TakeOrderActivity : BaseActivity(), TextWatcher {
     private lateinit var tvPlanMilleage: TextView
     private lateinit var tvOpenMap: TextView
     private lateinit var tvRemarks: TextView
+    private lateinit var tvOrderFrom: TextView
 
     private lateinit var orderEntity: OrderEntity
     private lateinit var driverNo: String
@@ -130,18 +132,19 @@ class TakeOrderActivity : BaseActivity(), TextWatcher {
         val order = qryOrderEntity.order
         orderEntity = order
         tvFlight.text = order.tripNo
+        tvOrderFrom.text=OrderSource.getKey(order.source)
         tvOrderType.text = OrderType.getKey(order.orderType) + "(" + CarLevel.getKey(order.carLevel) + ")"
         tvBookTime.text = TextUtil.getFormatWeek(order.bookTime!!.toLong())
         tvFee.text = "¥ " + (order.orderAmount / 100) + " 元"
         tvOrderNo.text = "订单号: " + order.orderNo
         tvPlanMilleage.text = "${order.planMileage / 100 / 10.0}公里"
         if (OrderType.SEND_PLANE_TYPE == order.orderType || OrderType.TAKE_PLANE_TYPE == order.orderType) {
-            tvFlightHint.text = "航班"
+            tvFlightHint.text = "航班:"
             imgFlight.setImageResource(R.drawable.ic_plane)
             llEndAddress.visibility = View.VISIBLE
             llAddress.visibility = View.GONE
         } else if (OrderType.SEND_TRAIN_TYPE == order.orderType || OrderType.TAKE_TRAIN_TYPE == order.orderType) {
-            tvFlightHint.text = "车次"
+            tvFlightHint.text = "车次:"
             imgFlight.setImageResource(R.drawable.ic_train)
             llEndAddress.visibility = View.VISIBLE
             llAddress.visibility = View.GONE
@@ -149,8 +152,8 @@ class TakeOrderActivity : BaseActivity(), TextWatcher {
             llEndAddress.visibility = View.GONE
             llFlight.visibility = View.GONE
             llStartAddress.visibility = View.GONE
-
-            tvBookTime.text = TextUtil.getFormatString((order.bookTime)!!.toLong(), order.bookDays, "MM月dd号")
+            llQuote.visibility = View.GONE
+            tvBookTime.text = TextUtil.getFormatString((order.bookTime)!!.toLong(), order.bookDays, "yyyy-MM-dd HH:mm")
 
         }
         if (!TextUtil.isEmpty(order.startAddr)) {
@@ -203,6 +206,7 @@ class TakeOrderActivity : BaseActivity(), TextWatcher {
         tvPlanMilleage = findViewById(R.id.tv_plan_milleage) as TextView
         tvOpenMap = findViewById(R.id.tv_open_map) as TextView
         tvRemarks = findViewById(R.id.tv_remarks) as TextView
+        tvOrderFrom = findViewById(R.id.tv_order_from) as TextView
 
         tvOpenMap.setOnClickListener {
             SearchRouteActivity.startSearchRouteActivity(this, orderEntity.orderNo, driverNo)

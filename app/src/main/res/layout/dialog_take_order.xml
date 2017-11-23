@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/ll_take_order"
@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:text="送机(经济型)"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"/>
 
                 <TextView
                     android:id="@+id/tv_book_time"
@@ -40,7 +40,7 @@
                     android:layout_marginTop="@dimen/item_margin"
                     android:text="6月20号  22:00"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_18" />
+                    android:textSize="@dimen/text_size_18"/>
             </LinearLayout>
 
             <ImageView
@@ -49,13 +49,13 @@
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_margin="@dimen/item_margin"
-                android:src="@drawable/ic_cancel_take_order" />
+                android:src="@drawable/ic_cancel_take_order"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/colorButtonBg" />
+                android:background="@color/colorButtonBg"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -77,7 +77,7 @@
                     android:layout_width="@dimen/ic_height"
                     android:layout_height="@dimen/ic_height"
                     android:layout_marginLeft="@dimen/default_margin"
-                    android:src="@drawable/ic_start_address" />
+                    android:src="@drawable/ic_start_address"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
                     android:layout_marginLeft="@dimen/item_margin"
                     android:text="地址:"
                     android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"/>
 
                 <TextView
                     android:id="@+id/tv_address"
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/item_margin"
                     android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"/>
             </LinearLayout>
 
             <LinearLayout
@@ -108,7 +108,7 @@
                     android:layout_width="@dimen/ic_height"
                     android:layout_height="@dimen/ic_height"
                     android:layout_marginLeft="@dimen/default_margin"
-                    android:src="@drawable/ic_plane" />
+                    android:src="@drawable/ic_plane"/>
 
                 <TextView
                     android:id="@+id/tv_flight_hint"
@@ -117,7 +117,7 @@
                     android:layout_marginLeft="@dimen/item_margin"
                     android:text="航班:"
                     android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"/>
 
                 <TextView
                     android:id="@+id/tv_flight"
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/item_margin"
                     android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"/>
             </LinearLayout>
 
             <LinearLayout
@@ -140,7 +140,7 @@
                     android:layout_width="@dimen/ic_height"
                     android:layout_height="@dimen/ic_height"
                     android:layout_marginLeft="@dimen/default_margin"
-                    android:src="@drawable/ic_start_address" />
+                    android:src="@drawable/ic_start_address"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                     android:layout_marginLeft="@dimen/item_margin"
                     android:text="起点:"
                     android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"/>
 
                 <TextView
                     android:id="@+id/tv_start_address"
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/item_margin"
                     android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"/>
             </LinearLayout>
 
             <LinearLayout
@@ -170,7 +170,7 @@
                     android:layout_width="@dimen/ic_height"
                     android:layout_height="@dimen/ic_height"
                     android:layout_marginLeft="@dimen/default_margin"
-                    android:src="@drawable/ic_end_address" />
+                    android:src="@drawable/ic_end_address"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -178,7 +178,7 @@
                     android:layout_marginLeft="@dimen/item_margin"
                     android:text="终点:"
                     android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"/>
 
                 <TextView
                     android:id="@+id/tv_end_address"
@@ -186,13 +186,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/item_margin"
                     android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/line_color" />
+                android:background="@color/line_color"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -203,9 +203,9 @@
                     android:id="@+id/tv_fee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginLeft="120dp"
                     android:textColor="@color/text_color_red"
-                    android:textSize="@dimen/text_size_18" />
+                    android:textSize="@dimen/text_size_18"/>
 
                 <TextView
                     android:id="@+id/tv_order_hint"
@@ -214,14 +214,14 @@
                     android:layout_marginLeft="@dimen/default_margin"
                     android:text="当前最低价"
                     android:textColor="@color/text_color_red"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"/>
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/line_color" />
+                android:background="@color/line_color"/>
         </LinearLayout>
 
 
@@ -238,7 +238,7 @@
                 android:layout_marginLeft="@dimen/default_margin"
                 android:text="出价:"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_16" />
+                android:textSize="@dimen/text_size_16"/>
 
             <LinearLayout
                 android:layout_width="90dp"
@@ -253,12 +253,12 @@
                     android:gravity="center_horizontal|bottom"
                     android:inputType="number"
                     android:textColor="@color/text_color_red"
-                    android:textSize="@dimen/text_size_16" />
+                    android:textSize="@dimen/text_size_16"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/text_color_blue" />
+                    android:background="@color/text_color_blue"/>
             </LinearLayout>
 
             <TextView
@@ -266,7 +266,7 @@
                 android:layout_height="wrap_content"
                 android:text="元"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_16" />
+                android:textSize="@dimen/text_size_16"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -274,8 +274,32 @@
                 android:layout_marginLeft="@dimen/item_margin"
                 android:text="(降幅至少5元)"
                 android:textColor="@color/text_color_gray"
-                android:textSize="@dimen/text_size_14" />
+                android:textSize="@dimen/text_size_14"/>
 
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_order_from_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin3"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/default_margin2"
+                android:text="订单来源："
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_14"/>
+
+            <TextView
+                android:id="@+id/tv_order_from_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_14"/>
         </LinearLayout>
 
         <RelativeLayout
@@ -293,7 +317,7 @@
                 android:layout_marginLeft="@dimen/default_margin2"
                 android:text="预估里程："
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_14" />
+                android:textSize="@dimen/text_size_14"/>
 
             <TextView
                 android:id="@+id/tv_mileage_forecast"
@@ -303,7 +327,7 @@
                 android:layout_toRightOf="@+id/tv_mileage"
                 android:text="0.0公里"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_14" />
+                android:textSize="@dimen/text_size_14"/>
 
             <TextView
                 android:id="@+id/tv_open_order"
@@ -314,7 +338,7 @@
                 android:layout_marginRight="50dp"
                 android:text="查看详情"
                 android:textColor="@color/colorButtonBg"
-                android:textSize="@dimen/text_size_14" />
+                android:textSize="@dimen/text_size_14"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -331,14 +355,14 @@
                 android:layout_marginLeft="@dimen/default_margin2"
                 android:text="备注："
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_14" />
+                android:textSize="@dimen/text_size_14"/>
 
             <TextView
                 android:id="@+id/tv_remark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_14" />
+                android:textSize="@dimen/text_size_14"/>
         </LinearLayout>
 
         <TextView
@@ -349,7 +373,7 @@
             android:layout_marginTop="@dimen/default_margin3"
             android:text="60s"
             android:textColor="@color/text_color_red"
-            android:textSize="@dimen/text_size_14" />
+            android:textSize="@dimen/text_size_14"/>
 
         <Button
             android:id="@+id/btn_take"
@@ -360,7 +384,7 @@
             android:background="@drawable/btn_blue_round"
             android:text="报价"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_18" />
+            android:textSize="@dimen/text_size_18"/>
     </LinearLayout>
 
 </RelativeLayout>

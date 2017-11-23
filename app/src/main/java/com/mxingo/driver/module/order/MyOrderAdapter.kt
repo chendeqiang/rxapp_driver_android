@@ -73,6 +73,7 @@ class MyOrderAdapter() : BaseAdapter() {
         }
         holder.tvFee.text = "¥" + order.orderAmount / 100
         holder.tvType.text = FlowStatus.getKey(order.flowStatus)
+        holder.tvOrderFrom.text = OrderSource.getKey(order.source)
         holder.tvType.setTextColor(ContextCompat.getColor(context, R.color.text_color_red))
         holder.tvType.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
 
@@ -91,6 +92,7 @@ class MyOrderAdapter() : BaseAdapter() {
         var llNoBusiness: LinearLayout
         var llBusiness: LinearLayout
         var tvOrderNo: TextView
+        var tvOrderFrom: TextView
 
 
         constructor(view: View) {
@@ -104,6 +106,7 @@ class MyOrderAdapter() : BaseAdapter() {
             llBusiness = view.findViewById(R.id.ll_business)
             tvAddress = view.findViewById(R.id.tv_address)
             tvOrderNo = view.findViewById(R.id.tv_order_no)
+            tvOrderFrom = view.findViewById(R.id.tv_order_from_list)
 
         }
 

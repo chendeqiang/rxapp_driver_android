@@ -263,15 +263,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_height">
+                android:layout_height="@dimen/default_height1">
 
                 <TextView
                     android:id="@+id/tv_fee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/default_margin"
-                    android:text="¥600"
+                    android:layout_marginLeft="150dp"
                     android:textColor="@color/text_color_red"
                     android:textSize="@dimen/text_size_18" />
 
@@ -293,12 +292,44 @@
                 android:layout_height="@dimen/item_margin"
                 android:background="@color/activity_bg" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/nav_item_height"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:text="订单来源:"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_14" />
+
+                <TextView
+                    android:id="@+id/tv_order_from_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/item_margin"
+                    android:padding="5dp"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_14" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:minHeight="@dimen/default_height"
+                android:minHeight="@dimen/nav_item_height"
                 android:orientation="horizontal">
 
 
@@ -328,7 +359,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_height">
+                android:layout_height="@dimen/nav_item_height">
 
                 <TextView
                     android:id="@+id/tv_hint_mobile"
@@ -371,7 +402,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:minHeight="@dimen/default_height"
+                android:minHeight="@dimen/nav_item_height"
                 android:orientation="horizontal">
 
 
@@ -386,7 +417,6 @@
                 <TextView
                     android:padding="5dp"
                     android:singleLine="true"
-                    android:text="苏州锦华股份服务有限公司"
                     android:id="@+id/tv_remark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -444,7 +474,7 @@
             <TextView
                 android:id="@+id/tv_estimate"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_height"
+                android:layout_height="@dimen/default_height1"
                 android:layout_marginLeft="@dimen/item_margin"
                 android:gravity="center"
                 android:textColor="@color/text_color_red"
@@ -466,7 +496,6 @@
                 android:layout_width="300dp"
                 android:layout_height="@dimen/default_height"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/default_margin"
                 android:background="@color/colorButtonBg"
                 android:text="就位"
                 android:textColor="@color/white"
@@ -478,7 +507,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/default_margin3"
+                android:layout_marginTop="1dp"
                 android:src="@drawable/ic_order_finish"
                 android:visibility="gone" />
 

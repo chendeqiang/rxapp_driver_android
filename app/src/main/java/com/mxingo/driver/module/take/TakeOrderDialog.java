@@ -27,6 +27,7 @@ import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.MyPresenter;
 import com.mxingo.driver.module.base.speech.MySpeechSynthesizer;
 import com.mxingo.driver.module.order.OrderInfoActivity;
+import com.mxingo.driver.module.order.OrderSource;
 import com.mxingo.driver.utils.TextUtil;
 import com.mxingo.driver.widget.MyProgress;
 import com.mxingo.driver.widget.ShowToast;
@@ -100,6 +101,10 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
     TextView mTvRemark;
     @BindView(R.id.ll_remark)
     LinearLayout mLlRemark;
+    @BindView(R.id.ll_order_from_dialog)
+    LinearLayout mLlOrderFromDialog;
+    @BindView(R.id.tv_order_from_dialog)
+    TextView tvOrderFromDialog;
 
     private Activity activity;
     private String driverNo;
@@ -244,10 +249,11 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
         orderEntity = order;
         llTakeOrder.setVisibility(View.VISIBLE);
         tvFlight.setText(order.tripNo);
+        tvOrderFromDialog.setText(OrderSource.getKey(order.source));
         tvOrderType.setText(OrderType.getKey(order.orderType) + "(" + CarLevel.getKey(order.carLevel) + ")");
         mTvMileageForecast.setText(order.planMileage / 100 / 10.0 + "公里");
         if (OrderType.SEND_PLANE_TYPE == order.orderType || OrderType.TAKE_PLANE_TYPE == order.orderType) {
-            tvFlightHint.setText("航班");
+            tvFlightHint.setText("航班:");
             imgFlight.setImageResource(R.drawable.ic_plane);
             llEndAddress.setVisibility(View.VISIBLE);
             llFlight.setVisibility(View.VISIBLE);
@@ -255,7 +261,7 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
             llAddress.setVisibility(View.GONE);
             tvBookTime.setText(TextUtil.getFormatWeek(Long.valueOf(order.bookTime)));
         } else if (OrderType.SEND_TRAIN_TYPE == order.orderType || OrderType.TAKE_TRAIN_TYPE == order.orderType) {
-            tvFlightHint.setText("车次");
+            tvFlightHint.setText("车次:");
             imgFlight.setImageResource(R.drawable.ic_train);
             llEndAddress.setVisibility(View.VISIBLE);
             llFlight.setVisibility(View.VISIBLE);
@@ -267,7 +273,7 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
             llFlight.setVisibility(View.GONE);
             llStartAddress.setVisibility(View.GONE);
             llAddress.setVisibility(View.VISIBLE);
-            tvBookTime.setText(TextUtil.getFormatString(Long.valueOf(order.bookTime), order.bookDays, "MM月dd号"));
+            tvBookTime.setText(TextUtil.getFormatString(Long.valueOf(order.bookTime), order.bookDays, "yyyy-MM-dd HH:mm"));
         }
         if (!TextUtil.isEmpty(order.startAddr)) {
             tvStartAddress.setText(order.startAddr);
@@ -310,6 +316,7 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
             btnTake.setText("抢单");
             mRlMileageForecast.setVisibility(View.VISIBLE);
             mLlRemark.setVisibility(View.VISIBLE);
+            mLlOrderFromDialog.setVisibility(View.VISIBLE);
         }
         if (tvOrderHint != null) {
             tvOrderHint.setVisibility(View.GONE);

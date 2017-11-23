@@ -2,6 +2,7 @@ package com.mxingo.driver.module.base.http
 
 import com.mxingo.driver.model.*
 import com.mxingo.driver.module.base.log.LogUtils
+import retrofit2.Callback
 import java.util.*
 
 /**
@@ -156,6 +157,15 @@ class MyManger(val apiService: ApiService) {
 
     }
 
+    fun listNotice(pageIndex: Int, pageCount: Int, callback: retrofit2.Callback<ListNoticeEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("pageIndex", pageIndex)
+        map.put("pageCount", pageCount)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("listOrder 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.listNotice(map, headers).enqueue(callback)
+    }
 
     fun listDriverOrder(driverNo: String, flowStatus: Int, orderType: Int, pageIndex: Int, pageCount: Int, callback: retrofit2.Callback<ListDriverOrderEntity>) {
         val map = TreeMap<String, Any>()
@@ -171,6 +181,17 @@ class MyManger(val apiService: ApiService) {
         LogUtils.d("headers", headers.toString())
         apiService.listDriverOrder(map, headers).enqueue(callback)
 
+    }
+
+    fun listBill(driverNo: String, pageIndex: Int, pageCount: Int, callback: retrofit2.Callback<ListBillEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("driverNo", driverNo)
+        map.put("pageIndex", pageIndex)
+        map.put("pageCount", pageCount)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("listBill 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.listBill(map, headers).enqueue(callback)
     }
 
     fun startOrder(orderNo: String, flowNo: String, callback: retrofit2.Callback<StartOrderEntity>) {
@@ -231,8 +252,8 @@ class MyManger(val apiService: ApiService) {
     }
 
     fun checkInfo(driverNo: String, name: String, mobile: String, carBrand: String, carNo: String, carLevel: Int,
-                     imgIdface: String, imgIdback: String, imgDriverlicense: String, imgVehiclelicense: String,
-                     imgInsurance: String, callback: retrofit2.Callback<CommEntity>) {
+                  imgIdface: String, imgIdback: String, imgDriverlicense: String, imgVehiclelicense: String,
+                  imgInsurance: String, callback: retrofit2.Callback<CommEntity>) {
         val map = TreeMap<String, Any>()
         map.put("driverNo", driverNo)
         map.put("name", name)

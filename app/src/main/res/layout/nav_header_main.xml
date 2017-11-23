@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="@dimen/item_margin"
-                android:src="@drawable/ic_default_head" />
+                android:src="@drawable/ic_default_head"/>
 
             <TextView
                 android:id="@+id/tv_name"
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/item_margin"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_16" />
+                android:textSize="@dimen/text_size_16"/>
 
             <TextView
                 android:id="@+id/tv_mobile"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/item_margin"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_16" />
+                android:textSize="@dimen/text_size_16"/>
         </LinearLayout>
 
 
@@ -54,7 +54,7 @@
             android:layout_width="@dimen/ic_height"
             android:layout_height="@dimen/ic_height"
             android:layout_marginLeft="@dimen/default_margin"
-            android:src="@drawable/ic_order" />
+            android:src="@drawable/ic_order"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -64,13 +64,13 @@
             android:paddingRight="@dimen/default_margin"
             android:text="车队订单"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/line_color" />
+        android:background="@color/line_color"/>
 
     <LinearLayout
         android:id="@+id/ll_my_order"
@@ -82,7 +82,7 @@
             android:layout_width="@dimen/ic_height"
             android:layout_height="@dimen/ic_height"
             android:layout_marginLeft="@dimen/default_margin"
-            android:src="@drawable/ic_my_order" />
+            android:src="@drawable/ic_my_order"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -90,7 +90,7 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:text="我的订单"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -107,25 +107,25 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_gray"
                     android:text="待服务"
+                    android:textColor="@color/text_color_gray"
                     android:textSize="@dimen/text_size_15"/>
 
                 <TextView
+                    android:id="@+id/tv_recv_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_red"
-                    android:text="0"
-                    android:id="@+id/tv_recv_num"
-                    android:layout_marginRight="@dimen/item_margin"
                     android:layout_marginLeft="@dimen/item_margin"
+                    android:layout_marginRight="@dimen/item_margin"
+                    android:text="0"
+                    android:textColor="@color/text_color_red"
                     android:textSize="@dimen/text_size_15"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_gree_arrow"
-                    android:textColor="@color/text_color_black" />
+                    android:textColor="@color/text_color_black"/>
             </LinearLayout>
 
         </RelativeLayout>
@@ -135,7 +135,35 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/line_color" />
+        android:background="@color/line_color"/>
+
+    <LinearLayout
+        android:id="@+id/ll_my_bill"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_item_height"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="@dimen/ic_height"
+            android:layout_height="@dimen/ic_height"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:src="@drawable/ic_my_bill"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:drawableRight="@drawable/ic_gree_arrow"
+            android:paddingRight="@dimen/default_margin"
+            android:text="我的账单"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_16"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_color"/>
 
     <LinearLayout
         android:id="@+id/ll_flight"
@@ -147,7 +175,7 @@
             android:layout_width="@dimen/ic_height"
             android:layout_height="@dimen/ic_height"
             android:layout_marginLeft="@dimen/default_margin"
-            android:src="@drawable/ic_flight" />
+            android:src="@drawable/ic_flight"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -157,13 +185,13 @@
             android:paddingRight="@dimen/default_margin"
             android:text="航班动态"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/line_color" />
+        android:background="@color/line_color"/>
 
     <LinearLayout
         android:id="@+id/ll_driver_car_registration"
@@ -175,7 +203,7 @@
             android:layout_width="@dimen/ic_height"
             android:layout_height="@dimen/ic_height"
             android:layout_marginLeft="@dimen/default_margin"
-            android:src="@drawable/ic_driver_car" />
+            android:src="@drawable/ic_driver_car"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -185,13 +213,13 @@
             android:paddingRight="@dimen/default_margin"
             android:text="网约车认证"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/line_color" />
+        android:background="@color/line_color"/>
 
     <LinearLayout
         android:id="@+id/ll_rule"
@@ -203,7 +231,7 @@
             android:layout_width="@dimen/ic_height"
             android:layout_height="@dimen/ic_height"
             android:layout_marginLeft="@dimen/default_margin"
-            android:src="@drawable/ic_rule" />
+            android:src="@drawable/ic_rule"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -213,15 +241,14 @@
             android:paddingRight="@dimen/default_margin"
             android:text="服务规范"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
     </LinearLayout>
-
 
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/line_color" />
+        android:background="@color/line_color"/>
 
     <LinearLayout
         android:id="@+id/ll_setting"
@@ -233,7 +260,7 @@
             android:layout_width="@dimen/ic_height"
             android:layout_height="@dimen/ic_height"
             android:layout_marginLeft="@dimen/default_margin"
-            android:src="@drawable/ic_setting" />
+            android:src="@drawable/ic_setting"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -243,13 +270,13 @@
             android:paddingRight="@dimen/default_margin"
             android:text="用户设置"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_margin"
-        android:background="@color/activity_bg" />
+        android:background="@color/activity_bg"/>
 
 
     <LinearLayout
@@ -264,7 +291,7 @@
             android:layout_width="@dimen/ic_height"
             android:layout_height="@dimen/ic_height"
             android:layout_marginLeft="@dimen/default_margin"
-            android:src="@drawable/ic_kefu" />
+            android:src="@drawable/ic_kefu"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -273,7 +300,7 @@
             android:paddingRight="@dimen/default_margin"
             android:text="联系客服"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
 
         <TextView
             android:id="@+id/tv_kefu"
@@ -282,13 +309,13 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:text="400-887-8810"
             android:textColor="@color/text_color_gray"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/line_color" />
+        android:background="@color/line_color"/>
 
     <LinearLayout
         android:id="@+id/ll_car_team"
@@ -300,7 +327,7 @@
             android:layout_width="@dimen/ic_height"
             android:layout_height="@dimen/ic_height"
             android:layout_marginLeft="@dimen/default_margin"
-            android:src="@drawable/ic_car_team" />
+            android:src="@drawable/ic_car_team"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -309,7 +336,7 @@
             android:paddingRight="@dimen/default_margin"
             android:text="联系车队"
             android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
 
         <TextView
             android:id="@+id/tv_car_team"
@@ -317,19 +344,19 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/default_margin"
             android:textColor="@color/text_color_gray"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/line_color" />
+        android:background="@color/line_color"/>
 
     <RelativeLayout
-        android:layout_marginTop="@dimen/default_margin"
         android:id="@+id/rl_offline"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/default_margin">
 
         <Button
             android:id="@+id/btn_offline"
@@ -338,7 +365,7 @@
             android:layout_centerHorizontal="true"
             android:background="@color/colorButtonBg"
             android:text="停止接单"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
 
         <Button
             android:id="@+id/btn_exit"
@@ -348,7 +375,7 @@
             android:layout_centerHorizontal="true"
             android:background="@color/colorButtonBg"
             android:text="登出"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
     </RelativeLayout>
 
 

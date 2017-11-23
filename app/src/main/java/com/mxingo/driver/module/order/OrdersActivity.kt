@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.Toolbar
-import android.view.View
 import android.widget.AbsListView
 import android.widget.LinearLayout
 import android.widget.ListView
@@ -17,7 +16,6 @@ import com.mxingo.driver.model.OrderEntity
 import com.mxingo.driver.module.BaseActivity
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
-import com.mxingo.driver.module.base.log.LogUtils
 import com.mxingo.driver.module.take.TakeOrderActivity
 
 import com.mxingo.driver.utils.Constants

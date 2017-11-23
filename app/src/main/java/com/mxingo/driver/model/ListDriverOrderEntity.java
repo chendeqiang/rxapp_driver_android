@@ -43,6 +43,7 @@ public class ListDriverOrderEntity {
         public String orderNo;
         public int orderType;
         public String startAddr;
+        public int source;
         /**
          * carLevel : 1
          * orderAmount : 5800
@@ -66,6 +67,7 @@ public class ListDriverOrderEntity {
                     ", startAddr='" + startAddr + '\'' +
                     ", carLevel=" + carLevel +
                     ", orderAmount=" + orderAmount +
+                    ", source=" + source +
                     '}';
         }
     }
