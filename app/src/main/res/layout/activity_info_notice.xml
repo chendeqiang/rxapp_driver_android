@@ -7,17 +7,8 @@
 
     <include layout="@layout/action_bar"/>
 
-    <ScrollView
+    <WebView
+        android:id="@+id/web_noticeInfo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
-
-        <TextView
-            android:layout_margin="@dimen/item_margin"
-            android:id="@+id/tv_contant"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:textColor="@color/text_color_black"/>
-    </ScrollView>
+        android:layout_height="match_parent"></WebView>
 </LinearLayout>

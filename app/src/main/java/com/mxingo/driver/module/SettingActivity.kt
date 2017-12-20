@@ -14,6 +14,7 @@ import com.mxingo.driver.module.base.download.UpdateVersionActivity
 import com.mxingo.driver.module.base.download.VersionEntity
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
+import com.mxingo.driver.module.base.log.LogUtils
 import com.mxingo.driver.module.take.CarLevel
 import com.mxingo.driver.utils.Constants
 import com.mxingo.driver.utils.VersionInfo
