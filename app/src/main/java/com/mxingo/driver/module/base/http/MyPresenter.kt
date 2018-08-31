@@ -544,4 +544,19 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
         })
 
     }
+
+    fun getCurrentTime() {
+        manger.getTime(object : Callback<CurrentTimeEntity> {
+            override fun onFailure(call: Call<CurrentTimeEntity>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<CurrentTimeEntity>, response: Response<CurrentTimeEntity>) {
+                if (response.body() != null) {
+                    LogUtils.d("getCurrentTime", "" + response!!.body() + "")
+                    mBs.post(response.body())
+                }
+            }
+        })
+    }
 }

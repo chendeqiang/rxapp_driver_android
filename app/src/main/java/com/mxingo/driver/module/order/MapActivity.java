@@ -203,6 +203,7 @@ public class MapActivity extends BaseActivity {
                 btnFinishOrder.setVisibility(View.GONE);
                 track(order.orderStartTime, order.orderStopTime, UserInfoPreferences.getInstance().getMobile());
                 tvToolbarTitle.setText("轨迹查询");
+                ShowToast.showCenter(this,"此订单已结束");
             } else {
                 llOrderInfo.setVisibility(View.GONE);
                 btnFinishOrder.setVisibility(View.GONE);

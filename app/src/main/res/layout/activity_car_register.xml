@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    tools:context="com.mxingo.driver.module.DriverRegisterActivity">
+
+    <include layout="@layout/action_bar"/>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <!-- 车牌号 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="车牌号"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <EditText
+                        android:id="@+id/et_plate_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:hint="请输入车牌号(必填)"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+                <!-- 车辆类型 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="车辆类型"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <EditText
+                        android:id="@+id/et_car_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/textView3"
+                        android:layout_alignBottom="@+id/textView3"
+                        android:layout_alignParentEnd="true"
+                        android:background="@null"
+                        android:hint="请选择车辆类型(必填)"
+                        android:maxLength="11"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+                <!-- 车辆所有人 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="车辆所有人(单位/个人)"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <EditText
+                        android:id="@+id/et_car_owner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:hint="请输入车辆所有人(必填)"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+                <!-- 车辆地址 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="地址"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <TextView
+                        android:id="@+id/tv_car_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:hint="请输入车辆地址(必填)"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+
+                <!-- 车辆颜色 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="车辆颜色"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <TextView
+                        android:id="@+id/tv_car_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:hint="请选择车辆颜色(必填)"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+
+                <!-- 车架号 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="车架号"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <EditText
+                        android:id="@+id/et_frame_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:hint="请输入车架号(必填)"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+
+                <!-- 座位 -->
+                <RelativeLayout
+                    android:id="@+id/rl_car_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="座位"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <EditText
+                        android:id="@+id/et_car_seats"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:hint="请选择座位数(必填)"
+                        android:maxLength="18"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+                <!-- 经营范围 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="经营范围"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <EditText
+                        android:id="@+id/et_car_scope"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:hint="经营范围(必填)"
+                        android:maxLength="18"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+
+                <!-- 车辆尺寸 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="车辆尺寸"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <EditText
+                        android:id="@+id/et_car_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:hint="长x宽x高(单位:mm)"
+                        android:maxLength="18"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+
+                <!-- 网络预约出租汽车运输证号 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="2"
+                        android:maxEms="6"
+                        android:text="网络预约出租汽车运输证号"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <EditText
+                        android:id="@+id/et_transport_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:hint="请输入号码(必填)"
+                        android:lines="2"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+
+                <!-- 网络预约出租汽车运输证有效期 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="2"
+                        android:maxEms="7"
+                        android:text="网络预约出租汽车运输证有效期"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <TextView
+                        android:id="@+id/tv_date_transport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:hint="请选择证件有效期(必填)"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+                <!-- 核发机关 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="核发机关"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <EditText
+                        android:id="@+id/et_agency_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:hint="请输入核发机关(必填)"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+
+                <!-- 上传图片 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_transport"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/item_margin"
+                        android:paddingTop="@dimen/item_margin">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_driver_car"
+                            android:gravity="center_vertical"
+                            android:text="网络预约出租汽车运输证"
+                            android:textColor="@color/text_color_red"
+                            android:textSize="@dimen/text_size_14"/>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_transport"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_below="@+id/rl_transport">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/img_transport_front"
+                                android:layout_width="match_parent"
+                                android:layout_height="70dp"
+                                android:layout_above="@+id/tv_transport_front"
+                                android:layout_marginBottom="@dimen/item_margin"
+                                android:src="@drawable/ic_add"/>
+
+                            <TextView
+                                android:id="@+id/tv_transport_front"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:text="正面"
+                                android:textColor="@color/text_color_black"
+                                android:textSize="@dimen/text_size_14"/>
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/item_margin"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/img_transport_back"
+                                android:layout_width="match_parent"
+                                android:layout_height="70dp"
+                                android:layout_above="@+id/tv_transport_back"
+                                android:layout_marginBottom="@dimen/item_margin"
+                                android:src="@drawable/ic_add"/>
+
+                            <TextView
+                                android:id="@+id/tv_transport_back"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:text="反面"
+                                android:textColor="@color/text_color_black"
+                                android:textSize="@dimen/text_size_14"/>
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ll_transport"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_marginBottom="@dimen/item_margin"
+                            android:layout_marginTop="@dimen/item_margin"
+                            android:background="@color/line_color"/>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/item_margin">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_driver_car"
+                                android:gravity="center_vertical"
+                                android:text="人车合影"
+                                android:textColor="@color/text_color_red"
+                                android:textSize="@dimen/text_size_14"/>
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_man_car"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp">
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/img_man_car"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="70dp"
+                                    android:layout_above="@+id/tv_man_car"
+                                    android:layout_marginBottom="@dimen/item_margin"
+                                    android:src="@drawable/ic_add"/>
+
+                                <TextView
+                                    android:id="@+id/tv_man_car"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:text="正面"
+                                    android:textColor="@color/text_color_black"
+                                    android:textSize="@dimen/text_size_14"/>
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginBottom="@dimen/item_margin"
+                    android:layout_marginTop="@dimen/item_margin"
+                    android:background="@color/line_color"/>
+
+                <Button
+                    android:id="@+id/btn_submit_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:layout_margin="@dimen/default_margin"
+                    android:background="@drawable/btn_next_step"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:text="提 交"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

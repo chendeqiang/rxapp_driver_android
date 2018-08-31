@@ -23,7 +23,7 @@
     <color name="bottom_tab_bg">#f4f4f4</color>
     <color name="white">#fff</color>
 
-
+    <color name="btn_next">#dbdbdb</color>
     <color name="transparent">#00000000</color>
     <color name="take_order_color">#96bebdc1</color>
 

@@ -96,6 +96,15 @@ dependencies {
     //loading
 
     //ui java 代码生成器
+    compile('com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.3') {
+        exclude group: 'com.android.support'
+    }
+    compile('com.github.gzu-liyujiang.AndroidPicker:FilePicker:1.5.3') {
+        exclude group: 'com.android.support'
+    }
+    compile('com.github.gzu-liyujiang.AndroidPicker:ColorPicker:1.5.3') {
+        exclude group: 'com.android.support'
+    }
 
 
     compile 'com.squareup.okio:okio:1.13.0'

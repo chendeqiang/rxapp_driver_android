@@ -14,6 +14,7 @@ object Constants {
     const val ACTIVITY_DATA = "activity_data"
     const val ORDER_NO = "order_no"
     const val FLOW_NO = "flow_no"
+    const val FLOW_Stu = "flow_stu"
     const val DRIVER_NO = "driver_no"
     const val DRIVER_INFO = "driver_info"
 

@@ -11,14 +11,18 @@ import android.view.View
 import android.widget.*
 import com.mxingo.driver.R
 import com.mxingo.driver.model.ListDriverOrderEntity
+import com.mxingo.driver.model.OrderEntity
+import com.mxingo.driver.model.QryOrderEntity
 import com.mxingo.driver.module.BaseActivity
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
+import com.mxingo.driver.module.take.OrderStatus
 
 import com.mxingo.driver.utils.Constants
 import com.mxingo.driver.widget.MyProgress
 import com.mxingo.driver.widget.MyTagButton
 import com.mxingo.driver.widget.OrderFooterView
+import com.mxingo.driver.widget.ShowToast
 import com.squareup.otto.Subscribe
 import javax.inject.Inject
 
@@ -41,8 +45,8 @@ class MyOrderActivity : BaseActivity(), View.OnClickListener, AbsListView.OnScro
     private var pageIndex: Int = 0
     private var pageCount: Int = 20
 
-    private lateinit var progress: MyProgress
 
+    private lateinit var progress: MyProgress
 
     companion object {
         @JvmStatic

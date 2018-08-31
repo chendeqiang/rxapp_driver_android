@@ -62,4 +62,11 @@ public class DisplayUtil {
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm;
     }
+
+    // 屏幕宽度（像素）
+    public static int getWindowWidth(Activity context) {
+        DisplayMetrics metric = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(metric);
+        return metric.widthPixels;
+    }
 }

@@ -17,27 +17,22 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.Toolbar
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import com.bumptech.glide.Glide
+import android.widget.*
+import cn.qqtheme.framework.picker.DatePicker
 import com.mxingo.driver.R
 import com.mxingo.driver.dialog.MessageDialog
 import com.mxingo.driver.dialog.SelectImageTypeDialog
 import com.mxingo.driver.model.CommEntity
-import com.mxingo.driver.model.DriverInfoEntity
-import com.mxingo.driver.model.GetCheckInfo
 import com.mxingo.driver.model.QiNiuTokenEntity
-import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
 import com.mxingo.driver.module.base.log.LogUtils
-import com.mxingo.driver.module.take.CarLevel
 import com.mxingo.driver.module.upload.UploadFile
 import com.mxingo.driver.module.upload.UploadFileResult
 import com.mxingo.driver.utils.BitmapUtil
 import com.mxingo.driver.utils.Constants
 import com.mxingo.driver.widget.MyProgress
+import com.mxingo.driver.widget.OnePicker
 import com.mxingo.driver.widget.ShowToast
 import com.squareup.otto.Subscribe
 import java.io.File
@@ -45,55 +40,51 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class DriverCarRegistrationActivity : BaseActivity() {
-
-    private lateinit var tvDriverName: TextView
-    private lateinit var tvMobile: TextView
-    private lateinit var tvCarBrand: TextView
-    private lateinit var tvCarNo: TextView
-    private lateinit var tvCarType: TextView
-    private lateinit var tvStatus: TextView
-    private lateinit var imgLicence: ImageView
-
-
-    private lateinit var driverInfo: DriverInfoEntity
+/**
+ * Created by chendeqiang on 2018/4/14 12:43
+ */
+class DriverRegisterActivity : BaseActivity() {
+    private lateinit var etDriverName: EditText
+    private lateinit var etDriverMobile: EditText
+    private lateinit var etCarNumber: EditText
+    private lateinit var etDriverId: EditText
+    private lateinit var etDriverNumber: EditText
+    private lateinit var tvDrivrerBirth: TextView
+    private lateinit var tvDrivrerAddress: TextView
+    private lateinit var tvDrivingModel: TextView
+    private lateinit var tvEndDate: TextView
+    private lateinit var rlDrivrerBirth: RelativeLayout
+    private lateinit var rlDrivrerAddress: RelativeLayout
+    private lateinit var rlDrivingModel: RelativeLayout
+    private lateinit var rlEndDate: RelativeLayout
+    private lateinit var btnNextRegister: Button
 
     private var bitFront: Bitmap? = null
     private var bitBack: Bitmap? = null
-    private var bitDriver: Bitmap? = null
-    private var bitDriving: Bitmap? = null
-    private var bitInsurance: Bitmap? = null
-
+    private var bitDriverFront: Bitmap? = null
+    private var bitDriverBack: Bitmap? = null
     private lateinit var imgTmp: ImageView
-
     private lateinit var imgUpload: Array<ImageView>
-
     private var imgFrontUri: Uri? = null
     private var imgBackUri: Uri? = null
-    private var imgDriverUri: Uri? = null
-    private var imgDrivingUri: Uri? = null
-    private var imgInsuranceUri: Uri? = null
-
+    private var imgDriverFrontUri: Uri? = null
+    private var imgDriverBackUri: Uri? = null
 
     private var keyFront: String = ""
     private var keyBack: String = ""
-    private var keyDriver: String = ""
-    private var keyDriving: String = ""
-    private var keyInsurance: String = ""
-
+    private var keyDriverFront: String = ""
+    private var keyDriverBack: String = ""
 
     private var urlFront: String = ""
     private var urlBack: String = ""
-    private var urlDriver: String = ""
-    private var urlDriving: String = ""
-    private var urlInsurance: String = ""
-
-    private var urlLicence: String = "http://oo6ia0hqz.bkt.clouddn.com/16062d8b-667e-47bd-89d8-feed9202629d.jpg"
-
+    private var urlDriverFront: String = ""
+    private var urlDriverBack: String = ""
     private var cameraFile: File? = null
     private var outputUri: Uri? = null
     private val upload = UploadFile()
 
+    private val drivingModel = arrayListOf("A1", "A2", "A3", "B1", "B2", "C1")
+    private var dataEmpty = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     private var status = -1
 
     @Inject
@@ -102,6 +93,10 @@ class DriverCarRegistrationActivity : BaseActivity() {
     private lateinit var progress: MyProgress
 
     private var token = ""
+
+
+    private lateinit var drivingModelPicker: OnePicker
+    private lateinit var birthPicker: DatePicker
 
     companion object {
         const val START_CAMERA = 101
@@ -112,15 +107,14 @@ class DriverCarRegistrationActivity : BaseActivity() {
         const val REQUEST_IMAGE = 1000
 
         @JvmStatic
-        fun startDriverCarRegistrationActivity(context: Context, info: DriverInfoEntity) {
-
-            context.startActivity(Intent(context, DriverCarRegistrationActivity::class.java).putExtra(Constants.DRIVER_INFO, info))
+        fun startRegisterActivity(context: Context) {
+            context.startActivity(Intent(context, DriverRegisterActivity::class.java))
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_driver_car_registration)
+        setContentView(R.layout.activity_register)
         ComponentHolder.appComponent!!.inject(this)
         presenter.register(this)
         progress = MyProgress(this)
@@ -129,107 +123,103 @@ class DriverCarRegistrationActivity : BaseActivity() {
 
     private fun initView() {
         setToolbar(toolbar = findViewById(R.id.toolbar) as Toolbar)
-        (findViewById(R.id.tv_toolbar_title) as TextView).text = "网约车认证"
-        driverInfo = intent.getSerializableExtra(Constants.DRIVER_INFO) as DriverInfoEntity
-        tvDriverName = findViewById(R.id.tv_driver_name) as TextView
-        tvCarBrand = findViewById(R.id.tv_car_brand) as TextView
-        tvCarNo = findViewById(R.id.tv_car_no) as TextView
-        tvCarType = findViewById(R.id.tv_car_type) as TextView
-        tvMobile = findViewById(R.id.tv_mobile) as TextView
-        tvStatus = findViewById(R.id.tv_status) as TextView
+        (findViewById(R.id.tv_toolbar_title) as TextView).text = "司机注册信息"
+        etDriverName = findViewById(R.id.et_driver_name) as EditText
+        etDriverMobile = findViewById(R.id.et_driver_mobile) as EditText
+        tvDrivrerBirth = findViewById(R.id.tv_driver_birthday) as TextView
+        tvDrivrerAddress = findViewById(R.id.tv_driver_address) as TextView
+        tvDrivingModel = findViewById(R.id.tv_driving_model) as TextView
+        etCarNumber = findViewById(R.id.et_car_number) as EditText
+        etDriverId = findViewById(R.id.et_driver_id) as EditText
+        etDriverNumber = findViewById(R.id.et_driver_number) as EditText
+        tvEndDate = findViewById(R.id.tv_end_date) as TextView
+        btnNextRegister = findViewById(R.id.btn_next_register) as Button
 
-        imgLicence = findViewById(R.id.img_licence) as ImageView
-        Glide.with(this).load(urlLicence).into(imgLicence)
-        imgLicence.setOnClickListener {
-            ImageActivity.startImageActivity(this, null, urlLicence, 0, REQUEST_IMAGE)
-        }
+        rlDrivrerBirth = findViewById(R.id.rl_driver_birthday) as RelativeLayout
+        rlDrivrerAddress = findViewById(R.id.rl_driver_address) as RelativeLayout
+        rlDrivingModel = findViewById(R.id.rl_driving_model) as RelativeLayout
+        rlEndDate = findViewById(R.id.rl_end_date) as RelativeLayout
+
+        drivingModelPicker = OnePicker(this, drivingModel)
+        birthPicker = DatePicker(this)
+        birthPicker.setTitleText("生日选择")
+        birthPicker.setCanceledOnTouchOutside(true)
+        birthPicker.setRangeEnd(2000, 12, 31)
+        birthPicker.setRangeStart(1918, 1, 1)
+        birthPicker.setSelectedItem(1950, 1, 1)
+        birthPicker.setResetWhileWheel(false)
 
 
-        imgUpload = arrayOf(findViewById(R.id.img_front) as ImageView,
-                findViewById(R.id.img_back) as ImageView,
-                findViewById(R.id.img_driver) as ImageView,
-                findViewById(R.id.img_driving) as ImageView,
-                findViewById(R.id.img_insurance) as ImageView)
+        imgUpload = arrayOf(findViewById(R.id.img_id_front) as ImageView,
+                findViewById(R.id.img_id_back) as ImageView,
+                findViewById(R.id.img_driver_front) as ImageView,
+                findViewById(R.id.img_driver_back) as ImageView)
 
+        findViewById(R.id.btn_next_register).setOnClickListener {
 
-        findViewById(R.id.btn_submit).setOnClickListener {
-            if (bitFront == null) {
-                ShowToast.showCenter(this, "请选择身份证正面照")
-                return@setOnClickListener
-            }
-            if (bitBack == null) {
-                ShowToast.showCenter(this, "请选择身份证反面照")
-                return@setOnClickListener
-            }
-            if (bitDriver == null) {
-                ShowToast.showCenter(this, "请选择驾照")
-                return@setOnClickListener
-            }
-            if (bitDriving == null) {
-                ShowToast.showCenter(this, "请选择驾驶证")
-                return@setOnClickListener
-            }
-            if (bitInsurance == null) {
-                ShowToast.showCenter(this, "请选择保险单")
-                return@setOnClickListener
-            }
+            CarRegisterActivity.startCarRegisterActivity(this)
+
             progress.show()
             presenter.getQiNiuToken()
         }
 
+        rlDrivrerBirth.setOnClickListener {
+            birthPicker.show()
+        }
+        birthPicker.setOnDatePickListener(DatePicker.OnYearMonthDayPickListener { year, month, day -> tvDrivrerBirth.text = "$year-$month-$day" })
+
+        rlDrivingModel.setOnClickListener {
+            drivingModelPicker.show()
+        }
+        drivingModelPicker.setOnPickListener {
+            tvDrivingModel.text = drivingModelPicker.selectedItem
+            dataEmpty[4] = 1
+            checkView()
+        }
+
+
         imgUpload[0].setOnClickListener {
-            if (bitFront == null && (status == DriverCheckInfoStatus.UNSUBMIT.status || status == DriverCheckInfoStatus.CANTPASS.status)) {
+            if (bitFront == null) {
                 imgTmp = imgUpload[0]
                 showImageDialog()
             } else {
                 LogUtils.d("url", urlFront)
                 ImageActivity.startImageActivity(this, imgFrontUri, urlFront, 0, REQUEST_IMAGE)
             }
-
         }
-
         imgUpload[1].setOnClickListener {
-            if (bitBack == null && (status == DriverCheckInfoStatus.UNSUBMIT.status || status == DriverCheckInfoStatus.CANTPASS.status)) {
+            if (bitBack == null) {
                 imgTmp = imgUpload[1]
                 showImageDialog()
             } else {
                 ImageActivity.startImageActivity(this, imgBackUri, urlBack, 1, REQUEST_IMAGE)
             }
         }
-
         imgUpload[2].setOnClickListener {
-            if (bitDriver == null && (status == DriverCheckInfoStatus.UNSUBMIT.status || status == DriverCheckInfoStatus.CANTPASS.status)) {
+            if (bitDriverFront == null) {
                 imgTmp = imgUpload[2]
                 showImageDialog()
             } else {
-                ImageActivity.startImageActivity(this, imgDriverUri, urlDriver, 2, REQUEST_IMAGE)
+                ImageActivity.startImageActivity(this, imgDriverFrontUri, urlDriverFront, 2, REQUEST_IMAGE)
             }
         }
-
         imgUpload[3].setOnClickListener {
-            if (bitDriving == null && (status == DriverCheckInfoStatus.UNSUBMIT.status || status == DriverCheckInfoStatus.CANTPASS.status)) {
+            if (bitDriverBack == null) {
                 imgTmp = imgUpload[3]
                 showImageDialog()
             } else {
-                ImageActivity.startImageActivity(this, imgDrivingUri, urlDriving, 3, REQUEST_IMAGE)
+                ImageActivity.startImageActivity(this, imgDriverBackUri, urlDriverBack, 3, REQUEST_IMAGE)
             }
         }
+    }
 
-        imgUpload[4].setOnClickListener {
-            if (bitInsurance == null && (status == DriverCheckInfoStatus.UNSUBMIT.status || status == DriverCheckInfoStatus.CANTPASS.status)) {
-                imgTmp = imgUpload[4]
-                showImageDialog()
-            } else {
-                ImageActivity.startImageActivity(this, imgInsuranceUri, urlInsurance, 4, REQUEST_IMAGE)
-            }
-        }
-        if (intent.getSerializableExtra(Constants.DRIVER_INFO) != null) {
-            tvDriverName.text = driverInfo.driver.cname
-            tvCarType.text = CarLevel.getKey(driverInfo.carLevel)
-            tvMobile.text = UserInfoPreferences.getInstance().mobile
-
-            progress.show()
-            presenter.getCheckInfo(driverInfo.driver.cuuid)
+    private fun checkView() {
+        if (dataEmpty[0] + dataEmpty[1] + dataEmpty[2] + dataEmpty[3] + dataEmpty[4] + dataEmpty[5] + dataEmpty[6] + dataEmpty[7] + dataEmpty[8] + dataEmpty[9] + dataEmpty[10] == 11) {
+            btnNextRegister.isSelected = true
+            btnNextRegister.isClickable = true
+        } else {
+            btnNextRegister.isSelected = false
+            btnNextRegister.isClickable = false
         }
     }
 
@@ -237,7 +227,6 @@ class DriverCarRegistrationActivity : BaseActivity() {
     fun loadData(any: Any) {
         when {
             any::class == QiNiuTokenEntity::class -> getQiNiuToken(any)
-            any::class == GetCheckInfo::class -> getCheckInfo(any)
             any::class == CommEntity::class -> checkInfo(any)
         }
     }
@@ -251,37 +240,6 @@ class DriverCarRegistrationActivity : BaseActivity() {
             ShowToast.showCenter(this, data.rspDesc)
         }
         progress.dismiss()
-    }
-
-    private fun getCheckInfo(any: Any) {
-        val data = any as GetCheckInfo
-        if (data.rspCode == "00") {
-            tvCarBrand.text = data.carBrand
-            tvCarNo.text = data.carNo
-            if (data.driverCheckInfo != null) {
-                tvStatus.text = DriverCheckInfoStatus.getDesc(data.driverCheckInfo.status)
-                status = data.driverCheckInfo.status
-                if (data.driverCheckInfo.status in (0..1)) {
-                    findViewById(R.id.btn_submit).visibility = View.GONE
-                }
-                urlFront = Constants.pictureIp + data.driverCheckInfo.imgIdface
-                urlBack = Constants.pictureIp + data.driverCheckInfo.imgIdback
-                urlDriver = Constants.pictureIp + data.driverCheckInfo.imgDriverlicense
-                urlDriving = Constants.pictureIp + data.driverCheckInfo.imgVehiclelicense
-                urlInsurance = Constants.pictureIp + data.driverCheckInfo.imgInsurance
-
-                Glide.with(this).load(urlFront + "?${Constants.pictureSmall}").into(imgUpload[0])
-                Glide.with(this).load(urlBack + "?${Constants.pictureSmall}").into(imgUpload[1])
-                Glide.with(this).load(urlDriver + "?${Constants.pictureSmall}").into(imgUpload[2])
-                Glide.with(this).load(urlDriving + "?${Constants.pictureSmall}").into(imgUpload[3])
-                Glide.with(this).load(urlInsurance + "?${Constants.pictureSmall}").into(imgUpload[4])
-            }
-            findViewById(R.id.rl_main).visibility = View.VISIBLE
-        } else {
-            ShowToast.showCenter(this, data.rspDesc)
-        }
-        progress.dismiss()
-
     }
 
     private fun getQiNiuToken(any: Any) {
@@ -311,7 +269,7 @@ class DriverCarRegistrationActivity : BaseActivity() {
                     val message = MessageDialog(this)
                     message.setMessageText("您的权限申请失败，请前往应用信息打开相机权限")
                     message.setOnOkClickListener {
-                        val packageURI = Uri.parse("package:" + this@DriverCarRegistrationActivity.packageName)
+                        val packageURI = Uri.parse("package:" + this@DriverRegisterActivity.packageName)
                         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI)
                         startActivity(intent)
                         message.dismiss()
@@ -324,7 +282,6 @@ class DriverCarRegistrationActivity : BaseActivity() {
             }
         }
         dialog.show()
-
     }
 
     private fun startCamera() {
@@ -340,11 +297,9 @@ class DriverCarRegistrationActivity : BaseActivity() {
         } else {
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile!!))
         }
-        startActivityForResult(cameraIntent, START_CAMERA)
-
+        startActivityForResult(cameraIntent, DriverCarRegistrationActivity.START_CAMERA)
     }
 
-    // 使用系统当前日期加以调整作为照片的名称
     private fun getPhotoFileName(): String {
         val date = Date(System.currentTimeMillis())
         val dateFormat = SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss")
@@ -385,16 +340,12 @@ class DriverCarRegistrationActivity : BaseActivity() {
                 imgBackUri = null
             }
             2 -> {
-                bitDriver = null
-                imgDriverUri = null
+                bitDriverFront = null
+                imgDriverFrontUri = null
             }
             3 -> {
-                bitDriving = null
-                imgDrivingUri = null
-            }
-            4 -> {
-                bitInsurance = null
-                imgInsuranceUri = null
+                bitDriverBack = null
+                imgDriverBackUri = null
             }
         }
     }
@@ -406,56 +357,53 @@ class DriverCarRegistrationActivity : BaseActivity() {
                 imgUpload[0] -> {
                     bitFront = BitmapUtil.compressUri(this, outputUri, 720, 1080)
                     imgFrontUri = outputUri
+                    dataEmpty[7] = 1
+                    checkView()
                 }
                 imgUpload[1] -> {
                     bitBack = BitmapUtil.compressUri(this, outputUri, 720, 1080)
                     imgBackUri = outputUri
+                    dataEmpty[8] = 1
+                    checkView()
                 }
 
                 imgUpload[2] -> {
-                    bitDriver = BitmapUtil.compressUri(this, outputUri, 720, 1080)
-                    imgDriverUri = outputUri
+                    bitDriverFront = BitmapUtil.compressUri(this, outputUri, 720, 1080)
+                    imgDriverFrontUri = outputUri
+                    dataEmpty[9] = 1
+                    checkView()
                 }
 
                 imgUpload[3] -> {
-                    bitDriving = BitmapUtil.compressUri(this, outputUri, 720, 1080)
-                    imgDrivingUri = outputUri
-                }
-
-                imgUpload[4] -> {
-                    bitInsurance = BitmapUtil.compressUri(this, outputUri, 720, 1080)
-                    imgInsuranceUri = outputUri
+                    bitDriverBack = BitmapUtil.compressUri(this, outputUri, 720, 1080)
+                    imgDriverBackUri = outputUri
+                    dataEmpty[10] = 1
+                    checkView()
                 }
             }
         } else if (it.what == 2) {
             progress.setLabel("上传中")
-            progress.setDetailsLabel("身份证正面照上传中...")
+            progress.setDetailsLabel("身份证正面上传中...")
             keyFront = getKey()
             upload(bitFront!!, keyFront, token, 0)
         } else if (it.what == 3) {
-            progress.setDetailsLabel("身份证正反面上传中...")
+            progress.setDetailsLabel("身份证反面上传中...")
             keyBack = getKey()
             upload(bitBack!!, keyBack, token, 1)
         } else if (it.what == 4) {
-            progress.setDetailsLabel("驾驶证上传中...")
-            keyDriver = getKey()
-            upload(bitDriver!!, keyDriver, token, 2)
+            progress.setDetailsLabel("驾驶员证正面上传中...")
+            keyDriverFront = getKey()
+            upload(bitDriverFront!!, keyDriverFront, token, 2)
         } else if (it.what == 5) {
-            progress.setDetailsLabel("行驶证上传中...")
-            keyDriving = getKey()
-            upload(bitDriving!!, keyDriving, token, 3)
+            progress.setDetailsLabel("驾驶员证反面上传中...")
+            keyDriverBack = getKey()
+            upload(bitDriverBack!!, keyDriverBack, token, 3)
         } else if (it.what == 6) {
-            progress.setDetailsLabel("保险单上传中...")
-            keyInsurance = getKey()
-            upload(bitInsurance!!, keyInsurance, token, 4)
-        } else if (it.what == 7) {
             progress.dismiss()
             ShowToast.showCenter(this, "上传完成")
             progress.setLabel("请稍等")
             progress.setDetailsLabel("请求中")
-            presenter.checkInfo(driverInfo.driver.cuuid, tvDriverName.text.toString(), tvMobile.text.toString(), tvCarBrand.text.toString(),
-                    tvCarNo.text.toString(), driverInfo.carLevel, keyFront, keyBack, keyDriver, keyDriving, keyInsurance)
-        } else if (it.what == 8) {
+        } else if (it.what == 7) {
             progress.dismiss()
         }
         true
@@ -478,11 +426,11 @@ class DriverCarRegistrationActivity : BaseActivity() {
 
     inner class UploadResult(val index: Int) : UploadFileResult {
         override fun uploadSuccess() {
-            this@DriverCarRegistrationActivity.handler.sendEmptyMessage(index + 3)
+            this@DriverRegisterActivity.handler.sendEmptyMessage(index + 3)
         }
 
         override fun uploadFail() {
-            this@DriverCarRegistrationActivity.handler.sendEmptyMessage(8)
+            this@DriverRegisterActivity.handler.sendEmptyMessage(7)
         }
 
         override fun uploadProgress(percent: Double) {

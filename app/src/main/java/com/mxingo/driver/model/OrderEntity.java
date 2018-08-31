@@ -86,8 +86,9 @@ public class OrderEntity implements Serializable {
     public double arriveLat;
     public double arriveLon;
     public long arriveTime;
+//    public String arriveTime;
     public String carNo;
-    public long orderFinishTime;
+    public String orderFinishTime;
     public long orderStartTime;
     public long orderStopTime;
     public int payAmount;

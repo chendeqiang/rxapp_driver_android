@@ -2,10 +2,7 @@ package com.mxingo.driver.module.base.http
 
 import com.mxingo.driver.model.*
 import retrofit2.Call
-import retrofit2.http.FieldMap
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.HeaderMap
-import retrofit2.http.POST
+import retrofit2.http.*
 import java.util.*
 
 /**
@@ -109,4 +106,8 @@ interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstants.driverBill)
     fun listBill(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<ListBillEntity>
+
+
+    @GET(ApiConstants.getTime)
+    fun getTime(): Call<CurrentTimeEntity>
 }

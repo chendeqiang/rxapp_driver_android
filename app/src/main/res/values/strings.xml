@@ -20,6 +20,7 @@
     <string name="prompt_password">请输入密码</string>
     <string name="prompt_car_team">请输入车队</string>
     <string name="btn_login">登 录</string>
+    <string name="btn_register">新用户注册</string>
 
     <!-- forget -->
     <string name="vcode_txt">验证码</string>

@@ -30,6 +30,7 @@ class LoginActivity : BaseActivity() {
     private lateinit var etPhone: EditText
     private lateinit var etCarTeam: EditText
     private lateinit var btnLogin: Button
+    private lateinit var btnRegister: Button
     private lateinit var btnGetVCode: Button
     private lateinit var progress: MyProgress
 
@@ -77,11 +78,16 @@ class LoginActivity : BaseActivity() {
         btnLogin = findViewById(R.id.btn_sign) as Button
         btnGetVCode = findViewById(R.id.btn_get_vcode) as Button
 
+        btnRegister=findViewById(R.id.btn_register) as Button
+
         if (!TextUtils.isEmpty(UserInfoPreferences.getInstance().driverNo)) {
             MainActivity.startMainActivity(this)
             finish()
         }
 
+        btnRegister.setOnClickListener {
+            DriverRegisterActivity.startRegisterActivity(this)
+        }
         btnLogin.setOnClickListener {
             progress.show()
             var devType: String = UserInfoPreferences.getInstance().devToken

@@ -233,29 +233,31 @@ class OrderInfoActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_change_order) {
-            val curTime = TimeUtil.getNowTime()
-            val endTime = tvBookTime.text.toString().substring(0, 15)
-            val times = TimeUtil.getTimeDifference(curTime, endTime)
-            val times1 = times.substring(0, times.indexOf("小"))
-            val times2 = Integer.parseInt(times1)
-            if (times2 < 2) {
-                val dialog = UnRepubDialog(this)
-                dialog.setOnYesClickListener {
-                    dialog.dismiss()
-                }
-                dialog.show()
-            } else {
-                val dialog = RepubDialog(this)
-                dialog.setOnCancelClickListener {
-                    dialog.dismiss()
-                }
-                dialog.setOnOkClickListener {
-                    dialog.dismiss()
-                    progress.show()
-                    presenter.repubOrder(orderNo, flowNo, driverNo)
-                }
-                dialog.show()
-            }
+            progress.show()
+            presenter.getCurrentTime()
+//            val curTime = TimeUtil.getNowTime()
+//            val endTime = tvBookTime.text.toString().substring(0, 15)
+//            val times = TimeUtil.getTimeDifference(curTime, endTime)
+//            val times1 = times.substring(0, times.indexOf("小"))
+//            val times2 = Integer.parseInt(times1)
+//            if (times2 < 2) {
+//                val dialog = UnRepubDialog(this)
+//                dialog.setOnYesClickListener {
+//                    dialog.dismiss()
+//                }
+//                dialog.show()
+//            } else {
+//                val dialog = RepubDialog(this)
+//                dialog.setOnCancelClickListener {
+//                    dialog.dismiss()
+//                }
+//                dialog.setOnOkClickListener {
+//                    dialog.dismiss()
+//                    progress.show()
+//                    presenter.repubOrder(orderNo, flowNo, driverNo)
+//                }
+//                dialog.show()
+//            }
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -304,6 +306,32 @@ class OrderInfoActivity : BaseActivity() {
                 finish()
             } else {
                 ShowToast.showCenter(this, data.rspDesc)
+            }
+        } else if (any::class == CurrentTimeEntity::class) {
+            progress.dismiss()
+            val data = any as CurrentTimeEntity
+            val curTime = TimeUtil.getDateToString(data.now)
+            val endTime = tvBookTime.text.toString().substring(0, 15)
+            val times = TimeUtil.getTimeDifference(curTime, endTime)
+            val times1 = times.substring(0, times.indexOf("小"))
+            val times2 = Integer.parseInt(times1)
+            if (times2 < Integer.parseInt(data.v)) {
+                val dialog = UnRepubDialog(this)
+                dialog.setOnYesClickListener {
+                    dialog.dismiss()
+                }
+                dialog.show()
+            } else {
+                val dialog = RepubDialog(this)
+                dialog.setOnCancelClickListener {
+                    dialog.dismiss()
+                }
+                dialog.setOnOkClickListener {
+                    dialog.dismiss()
+                    progress.show()
+                    presenter.repubOrder(orderNo, flowNo, driverNo)
+                }
+                dialog.show()
             }
         }
     }

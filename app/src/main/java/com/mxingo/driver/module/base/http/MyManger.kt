@@ -281,4 +281,7 @@ class MyManger(val apiService: ApiService) {
         apiService.getQiNiuToken(map, headers).enqueue(callback)
     }
 
+    fun getTime(callback: retrofit2.Callback<CurrentTimeEntity>) {
+        apiService.getTime().enqueue(callback)
+    }
 }

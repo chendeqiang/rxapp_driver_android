@@ -57,13 +57,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/rxDebug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/rxDebug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/rxDebug/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/rx/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/rx/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/rx/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/rx/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/rx/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/rx/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/rx/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testRxDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testRxDebug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testRxDebug/assets" type="java-test-resource" />
@@ -71,6 +64,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testRxDebug/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testRxDebug/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testRxDebug/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/rx/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/rx/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/rx/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/rx/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/rx/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/rx/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/rx/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/rx/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/rx/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/rx/assets" type="java-resource" />
@@ -161,17 +161,19 @@
     <orderEntry type="library" exported="" name="support-fragment-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" name="GetuiSDK2.11.1.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-library-1.3" level="project" />
+    <orderEntry type="library" exported="" name="Common-1.5.3" level="project" />
     <orderEntry type="library" exported="" name="disklrucache-4.0.0-RC1" level="project" />
     <orderEntry type="library" exported="" name="converter-scalars-2.3.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="mockito-core-1.10.19" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="exposed-instrumentation-api-publish-0.5" level="project" />
-    <orderEntry type="library" exported="" name="analytics-6.1.3" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" name="happy-dns-0.2.13" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.annotation-api-1.2" level="project" />
+    <orderEntry type="library" exported="" name="okio-1.14.0" level="project" />
     <orderEntry type="library" exported="" name="adapter-rxjava-2.3.0" level="project" />
-    <orderEntry type="library" exported="" name="qiniu-android-sdk-7.3.10" level="project" />
+    <orderEntry type="library" exported="" name="analytics-6.1.4" level="project" />
+    <orderEntry type="library" exported="" name="qiniu-android-sdk-7.3.12" level="project" />
     <orderEntry type="library" exported="" name="gifdecoder-4.0.0-RC1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
@@ -185,6 +187,7 @@
     <orderEntry type="library" exported="" name="support-v4-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" name="support-media-compat-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-integration-1.3" level="project" />
+    <orderEntry type="library" exported="" name="WheelPicker-1.5.3" level="project" />
     <orderEntry type="library" exported="" name="kotlin-stdlib-jre7-1.1.51" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="DaggerMock-0.6.1" level="project" />
     <orderEntry type="library" exported="" name="design-26.0.0-alpha1" level="project" />
@@ -193,13 +196,15 @@
     <orderEntry type="library" exported="" name="Msc" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="objenesis-2.1" level="project" />
+    <orderEntry type="library" exported="" name="FilePicker-1.5.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-3.10.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="rules-0.5" level="project" />
     <orderEntry type="library" exported="" name="constraint-layout-solver-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="butterknife-annotations-8.7.0" level="project" />
     <orderEntry type="library" exported="" name="transition-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" name="bos-android-sdk-1.0.2" level="project" />
-    <orderEntry type="library" exported="" name="okio-1.13.0" level="project" />
+    <orderEntry type="library" exported="" name="ColorPicker-1.5.3" level="project" />
     <orderEntry type="library" exported="" name="retrofit-2.3.0" level="project" />
     <orderEntry type="library" exported="" name="annotations-13.0" level="project" />
     <orderEntry type="library" exported="" name="converter-gson-2.3.0" level="project" />
@@ -207,7 +212,6 @@
     <orderEntry type="library" exported="" name="gson-2.7" level="project" />
     <orderEntry type="library" exported="" name="rxjava-1.3.0" level="project" />
     <orderEntry type="library" exported="" name="eventbus-3.0.0" level="project" />
-    <orderEntry type="library" exported="" name="okhttp-3.8.1" level="project" />
     <orderEntry type="library" exported="" name="kotlin-stdlib-1.1.51" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
     <orderEntry type="library" exported="" name="kprogresshud-1.1.0" level="project" />

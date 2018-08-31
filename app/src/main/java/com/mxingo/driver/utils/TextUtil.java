@@ -1,5 +1,6 @@
 package com.mxingo.driver.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -9,9 +10,19 @@ import android.view.View;
 import android.widget.EditText;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.mxingo.driver.model.AddressEntity;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import cn.qqtheme.framework.util.ConvertUtils;
 
 
 /**
@@ -248,6 +259,12 @@ public class TextUtil {
         return sdf.format(date);
     }
 
+    public static String getFormatString(long timeInminutes, String farmat) {
+        Date date = new Date(timeInminutes);
+        SimpleDateFormat format = new SimpleDateFormat(farmat);//小写的mm表示的是分钟
+        return format.format(date);
+    }
+
     public static String getFormatWeek(long timeInminutes) {
         Date date = new Date(timeInminutes);
         SimpleDateFormat sdfMoth = new SimpleDateFormat("MM月dd号");//小写的mm表示的是分钟
@@ -300,6 +317,17 @@ public class TextUtil {
                 break;
         }
         return week;
+    }
+    public static List<AddressEntity> getCity(Activity activity) {
+        Type type = new TypeToken<List<AddressEntity>>() {
+        }.getType();
+        try {
+            return new Gson().fromJson(ConvertUtils.toString(activity.getAssets().open("city.json")), type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<AddressEntity>();
     }
 
 }

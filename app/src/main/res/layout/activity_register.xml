@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_bg"
-    tools:context="com.mxingo.driver.module.DriverCarRegistrationActivity">
+    tools:context="com.mxingo.driver.module.DriverRegisterActivity">
 
-    <include layout="@layout/action_bar" />
+    <include layout="@layout/action_bar"/>
 
 
     <RelativeLayout
+        android:id="@+id/rl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rl_main"
         android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,22 +41,24 @@
                         android:layout_height="wrap_content"
                         android:text="司机姓名"
                         android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_14" />
+                        android:textSize="@dimen/text_size_14"/>
 
-                    <TextView
-                        android:id="@+id/tv_driver_name"
+                    <EditText
+                        android:id="@+id/et_driver_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="司机姓名"
+                        android:background="@null"
+                        android:hint="请输入身份证真实姓名(必填)"
+                        android:maxLength="5"
                         android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_14" />
+                        android:textSize="@dimen/text_size_14"/>
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/line_color" />
+                    android:background="@color/line_color"/>
 
                 <!-- 联系电话 -->
                 <RelativeLayout
@@ -64,29 +69,35 @@
                     android:paddingRight="@dimen/default_margin">
 
                     <TextView
+                        android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="联系电话"
                         android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_14" />
+                        android:textSize="@dimen/text_size_14"/>
 
-                    <TextView
-                        android:id="@+id/tv_mobile"
+                    <EditText
+                        android:id="@+id/et_driver_mobile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:text="联系电话"
+                        android:layout_alignBaseline="@+id/textView3"
+                        android:layout_alignBottom="@+id/textView3"
+                        android:layout_alignParentEnd="true"
+                        android:background="@null"
+                        android:hint="请输入真实手机号(必填)"
+                        android:maxLength="11"
                         android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_14" />
+                        android:textSize="@dimen/text_size_14"/>
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/line_color" />
+                    android:background="@color/line_color"/>
 
-                <!-- 车辆品牌 -->
+                <!-- 生日 -->
                 <RelativeLayout
+                    android:id="@+id/rl_driver_birthday"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/default_height"
                     android:gravity="center_vertical"
@@ -96,27 +107,91 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="车辆品牌"
+                        android:text="生日"
                         android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_14" />
+                        android:textSize="@dimen/text_size_14"/>
 
                     <TextView
-                        android:id="@+id/tv_car_brand"
+                        android:id="@+id/tv_driver_birthday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="车辆品牌"
+                        android:hint="请选择出生年月日(必填)"
                         android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_14" />
+                        android:textSize="@dimen/text_size_14"/>
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/line_color" />
+                    android:background="@color/line_color"/>
 
 
-                <!-- 车辆号码 -->
+                <!-- 联系地址 -->
+                <RelativeLayout
+                    android:id="@+id/rl_driver_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="联系地址"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <TextView
+                        android:id="@+id/tv_driver_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:hint="请选择联系地址(必填)"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+
+                <!-- 准驾类型 -->
+                <RelativeLayout
+                    android:id="@+id/rl_driving_model"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="准驾类型"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <TextView
+                        android:id="@+id/tv_driving_model"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:hint="请选择准驾类型(必填)"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+
+                <!-- 驾驶证号码 -->
                 <RelativeLayout
                     android:id="@+id/rl_car_no"
                     android:layout_width="match_parent"
@@ -128,26 +203,28 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="车辆号码"
+                        android:text="机动车驾驶证号"
                         android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_14" />
+                        android:textSize="@dimen/text_size_14"/>
 
-                    <TextView
-                        android:id="@+id/tv_car_no"
+                    <EditText
+                        android:id="@+id/et_car_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="车辆号码"
+                        android:background="@null"
+                        android:hint="请输入驾驶证号码(必填)"
+                        android:maxLength="18"
                         android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_14" />
+                        android:textSize="@dimen/text_size_14"/>
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/line_color" />
+                    android:background="@color/line_color"/>
 
-                <!-- 车辆类型 -->
+                <!-- 身份证号码 -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/default_height"
@@ -158,24 +235,98 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="车辆类型"
+                        android:text="身份证号码"
                         android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_14" />
+                        android:textSize="@dimen/text_size_14"/>
 
-                    <TextView
-                        android:id="@+id/tv_car_type"
+                    <EditText
+                        android:id="@+id/et_driver_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="车辆类型"
+                        android:background="@null"
+                        android:hint="请输入身份证号码(必填)"
+                        android:maxLength="18"
                         android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_14" />
+                        android:textSize="@dimen/text_size_14"/>
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/line_color" />
+                    android:background="@color/line_color"/>
+
+
+                <!-- 网络预约出租汽车驾驶员号码 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="2"
+                        android:maxEms="6"
+                        android:text="网络预约出租汽车驾驶员证号码"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <EditText
+                        android:id="@+id/et_driver_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:hint="请输入驾驶员证号码(必填)"
+                        android:lines="2"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
+
+                <!-- 网络预约出租汽车驾驶员证有效期 -->
+                <RelativeLayout
+                    android:id="@+id/rl_end_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_height"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/default_margin"
+                    android:paddingRight="@dimen/default_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="2"
+                        android:maxEms="7"
+                        android:text="网络预约出租汽车驾驶员证有效期"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                    <TextView
+                        android:id="@+id/tv_end_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:hint="请选择证件有效期(必填)"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="@dimen/text_size_14"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_color"/>
+
 
                 <!-- 上传图片 -->
                 <RelativeLayout
@@ -186,7 +337,7 @@
                     android:paddingRight="@dimen/default_margin">
 
                     <RelativeLayout
-                        android:id="@+id/rl_status"
+                        android:id="@+id/rl_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="@dimen/item_margin"
@@ -197,27 +348,16 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_driver_car"
                             android:gravity="center_vertical"
-                            android:text="网约车认证"
+                            android:text="身份证"
                             android:textColor="@color/text_color_red"
-                            android:textSize="@dimen/text_size_14" />
-
-                        <TextView
-                            android:id="@+id/tv_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:text="未认证"
-                            android:textColor="@color/text_color_gray"
-                            android:textSize="@dimen/text_size_14" />
+                            android:textSize="@dimen/text_size_14"/>
                     </RelativeLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_id"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:layout_below="@+id/rl_status">
-
-
+                        android:layout_below="@+id/rl_id">
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -225,43 +365,12 @@
                             android:layout_weight="1">
 
                             <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="70dp"
-                                android:layout_above="@+id/tv_id_licence"
-                                android:layout_marginBottom="@dimen/item_margin"
-                                android:src="@drawable/ic_add"
-                                android:id="@+id/img_licence"/>
-
-                            <TextView
-                                android:id="@+id/tv_id_licence"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:text="网络预约出租车证件"
-                                android:singleLine="true"
-                                android:textColor="@color/text_color_black"
-                                android:textSize="@dimen/text_size_14" />
-                        </RelativeLayout>
-
-
-
-
-
-
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
-
-                            <ImageView
+                                android:id="@+id/img_id_front"
                                 android:layout_width="match_parent"
                                 android:layout_height="70dp"
                                 android:layout_above="@+id/tv_id_front"
                                 android:layout_marginBottom="@dimen/item_margin"
-                                android:src="@drawable/ic_add"
-                                android:id="@+id/img_front"/>
+                                android:src="@drawable/ic_add"/>
 
                             <TextView
                                 android:id="@+id/tv_id_front"
@@ -271,7 +380,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:text="身份证正面"
                                 android:textColor="@color/text_color_black"
-                                android:textSize="@dimen/text_size_14" />
+                                android:textSize="@dimen/text_size_14"/>
                         </RelativeLayout>
 
 
@@ -282,12 +391,12 @@
                             android:layout_weight="1">
 
                             <ImageView
+                                android:id="@+id/img_id_back"
                                 android:layout_width="match_parent"
                                 android:layout_height="70dp"
                                 android:layout_above="@+id/tv_id_back"
                                 android:layout_marginBottom="@dimen/item_margin"
-                                android:src="@drawable/ic_add"
-                                android:id="@+id/img_back"/>
+                                android:src="@drawable/ic_add"/>
 
                             <TextView
                                 android:id="@+id/tv_id_back"
@@ -297,11 +406,14 @@
                                 android:layout_centerHorizontal="true"
                                 android:text="身份证反面"
                                 android:textColor="@color/text_color_black"
-                                android:textSize="@dimen/text_size_14" />
+                                android:textSize="@dimen/text_size_14"/>
                         </RelativeLayout>
+
                     </LinearLayout>
 
+
                     <LinearLayout
+                        android:id="@+id/ll_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/ll_id"
@@ -310,14 +422,28 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1px"
-                            android:background="@color/line_color"
+                            android:layout_marginBottom="@dimen/item_margin"
                             android:layout_marginTop="@dimen/item_margin"
-                            android:layout_marginBottom="@dimen/item_margin"/>
+                            android:background="@color/line_color"/>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/item_margin">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_driver_car"
+                                android:gravity="center_vertical"
+                                android:text="网络预约出租汽车驾驶员证"
+                                android:textColor="@color/text_color_red"
+                                android:textSize="@dimen/text_size_14"/>
+                        </RelativeLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:layout_below="@+id/rl_status">
+                            android:layout_height="100dp">
 
                             <RelativeLayout
                                 android:layout_width="0dp"
@@ -325,22 +451,22 @@
                                 android:layout_weight="1">
 
                                 <ImageView
+                                    android:id="@+id/img_driver_front"
                                     android:layout_width="match_parent"
                                     android:layout_height="70dp"
-                                    android:layout_above="@+id/tv_driver"
+                                    android:layout_above="@+id/tv_driver_front"
                                     android:layout_marginBottom="@dimen/item_margin"
-                                    android:src="@drawable/ic_add"
-                                    android:id="@+id/img_driver"/>
+                                    android:src="@drawable/ic_add"/>
 
                                 <TextView
-                                    android:id="@+id/tv_driver"
+                                    android:id="@+id/tv_driver_front"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
                                     android:layout_centerHorizontal="true"
-                                    android:text="驾驶证"
+                                    android:text="正面"
                                     android:textColor="@color/text_color_black"
-                                    android:textSize="@dimen/text_size_14" />
+                                    android:textSize="@dimen/text_size_14"/>
                             </RelativeLayout>
 
 
@@ -351,62 +477,48 @@
                                 android:layout_weight="1">
 
                                 <ImageView
+                                    android:id="@+id/img_driver_back"
                                     android:layout_width="match_parent"
                                     android:layout_height="70dp"
-                                    android:layout_above="@+id/tv_driving"
+                                    android:layout_above="@+id/tv_driver_back"
                                     android:layout_marginBottom="@dimen/item_margin"
-                                    android:src="@drawable/ic_add"
-                                    android:id="@+id/img_driving"/>
+                                    android:src="@drawable/ic_add"/>
 
                                 <TextView
-                                    android:id="@+id/tv_driving"
+                                    android:id="@+id/tv_driver_back"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
                                     android:layout_centerHorizontal="true"
-                                    android:text="行驶证"
+                                    android:text="反面"
                                     android:textColor="@color/text_color_black"
-                                    android:textSize="@dimen/text_size_14" />
+                                    android:textSize="@dimen/text_size_14"/>
                             </RelativeLayout>
 
-                            <RelativeLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="@dimen/item_margin"
-                                android:layout_weight="1">
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="70dp"
-                                    android:layout_above="@+id/tv_insurance"
-                                    android:layout_marginBottom="@dimen/item_margin"
-                                    android:src="@drawable/ic_add"
-                                    android:id="@+id/img_insurance"/>
-
-                                <TextView
-                                    android:id="@+id/tv_insurance"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentBottom="true"
-                                    android:layout_centerHorizontal="true"
-                                    android:text="保险单"
-                                    android:textColor="@color/text_color_black"
-                                    android:textSize="@dimen/text_size_14" />
-                            </RelativeLayout>
                         </LinearLayout>
 
                     </LinearLayout>
 
+
                 </RelativeLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginBottom="@dimen/item_margin"
+                    android:layout_marginTop="@dimen/item_margin"
+                    android:background="@color/line_color"/>
+
                 <Button
-                    android:id="@+id/btn_submit"
+                    android:id="@+id/btn_next_register"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/default_height"
                     android:layout_margin="@dimen/default_margin"
-                    android:background="@drawable/btn_blue_round_5"
-                    android:text="提 交"
-                    android:textColor="@color/white" />
+                    android:background="@drawable/btn_next_step"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:text="下一步"
+                    android:textColor="@color/white"/>
 
             </LinearLayout>
         </ScrollView>
