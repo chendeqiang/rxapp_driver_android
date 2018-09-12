@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/item_margin"
             android:gravity="center"
-            android:text="改派会产生违约金，确定要改派？"
+            android:text="改派会产生改派费30元，确定要改派？"
             android:textColor="@color/text_color_black"
             android:textSize="@dimen/text_size_18"/>
 

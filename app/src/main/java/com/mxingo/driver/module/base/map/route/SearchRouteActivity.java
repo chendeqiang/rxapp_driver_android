@@ -95,8 +95,8 @@ public class SearchRouteActivity extends BaseActivity {
     private void routePlan(double startLat, double startLon, double endLat, double endLon) {
         searchUtil = new RoutePlanSearchUtil(mMapViewSearch.getMap(), this);
         searchUtil.drivingPlan(startLat, startLon, endLat, endLon);
-        BaiduMapUtil.getInstance().setBaiduMap(mMapViewSearch);
-        BaiduMapUtil.getInstance().registerLocationListener();
+//        BaiduMapUtil.getInstance().setBaiduMap(mMapViewSearch);
+//        BaiduMapUtil.getInstance().registerLocationListener();
     }
 
     @Override
@@ -117,9 +117,9 @@ public class SearchRouteActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mMapViewSearch.onDestroy();
-        if (searchUtil != null) {
-            BaiduMapUtil.getInstance().unregisterLocationListener();
-        }
+//        if (searchUtil != null) {
+//            BaiduMapUtil.getInstance().unregisterLocationListener();
+//        }
         presenter.unregister(this);
     }
 }

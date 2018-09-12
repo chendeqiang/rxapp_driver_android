@@ -186,7 +186,8 @@
                 android:background="@color/colorButtonBg"
                 android:text="@string/btn_register"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18"/>
+                android:textSize="@dimen/text_size_18"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

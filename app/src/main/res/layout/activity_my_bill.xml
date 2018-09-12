@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/activity_bg"
-    tools:context="com.mxingo.driver.module.order.MyOrderActivity">
+    tools:context="com.mxingo.driver.module.MyBillActivity">
 
     <include layout="@layout/action_bill_bar"/>
 
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/item_margin"
-                    android:text="尚未有订单哦~"
+                    android:text="尚未有账单哦~"
                     android:textColor="@color/text_color_black"
                     android:textSize="@dimen/text_size_16"/>
             </LinearLayout>
