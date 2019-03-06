@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.mxingo.driver.R
 import com.mxingo.driver.model.ListDriverOrderEntity
+import com.mxingo.driver.module.take.CarLevel
 import com.mxingo.driver.module.take.OrderType
 import com.mxingo.driver.utils.TextUtil
 import java.text.SimpleDateFormat
@@ -59,7 +60,7 @@ class MyOrderAdapter() : BaseAdapter() {
 
         var order = datas[position]
         holder.tvOrderNo.text = order.orderNo
-        holder.tvOrderType.text = OrderType.getKey(order.orderType)
+        holder.tvOrderType.text = OrderType.getKey(order.orderType) + "(" + CarLevel.getKey(order.carLevel) + ")"
         holder.tvBookTime.text = sdfMoth.format(order.bookTime.toLong()) + " (" + TextUtil.getWeekDay(order.bookTime.toLong()) + ") " + sdfDay.format(order.bookTime.toLong())
         if (order.orderType == OrderType.DAY_RENTER_TYPE) {
             holder.llBusiness.visibility = View.VISIBLE
@@ -71,7 +72,9 @@ class MyOrderAdapter() : BaseAdapter() {
             holder.tvStartAddress.text = order.startAddr
             holder.tvEndAddress.text = order.endAddr
         }
-        holder.tvFee.text = "¥" + order.orderAmount / 100
+//        holder.tvFee.text = "¥" + order.orderAmount / 100
+
+        holder.tvFee.text = "¥" + String.format("%.2f", order.orderAmount.toDouble() / 100)
         holder.tvType.text = FlowStatus.getKey(order.flowStatus)
         holder.tvOrderFrom.text = OrderSource.getKey(order.source)
         holder.tvType.setTextColor(ContextCompat.getColor(context, R.color.text_color_red))

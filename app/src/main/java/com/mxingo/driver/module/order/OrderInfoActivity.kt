@@ -376,7 +376,8 @@ class OrderInfoActivity : BaseActivity() {
         tvOrderFrom.text = OrderSource.getKey(orderInfo.source)
 
         tvEndAddress.text = orderInfo.endAddr
-        tvFee.text = "¥" + orderInfo.orderAmount / 100 + "元"
+//        tvFee.text = "¥" + orderInfo.orderAmount / 100 + "元(此订单为一口价订单)"
+        tvFee.text = "¥" + String.format("%.2f", orderInfo.orderAmount.toDouble() / 100) + "元(此订单为一口价订单)"
         tvMobile.text = orderInfo.passengerMobile
         tvPassengerName.text = orderInfo.passengerName
 

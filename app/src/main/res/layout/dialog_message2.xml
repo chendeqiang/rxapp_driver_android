@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99232323">
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/btn_white_round_5"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/tv_update_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="@dimen/item_margin"
+            android:layout_marginBottom="@dimen/item_margin"
+            android:focusable="true"
+            android:minHeight="@dimen/default_height"
+            android:textColor="@color/text_color_black"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_16"/>
+
+
+        <!-- OK&Cancel Button -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line_color"/>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/default_height">
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="确认"
+                android:textColor="@color/text_color_blue" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

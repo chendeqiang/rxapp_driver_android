@@ -318,6 +318,7 @@ public class TextUtil {
         }
         return week;
     }
+
     public static List<AddressEntity> getCity(Activity activity) {
         Type type = new TypeToken<List<AddressEntity>>() {
         }.getType();

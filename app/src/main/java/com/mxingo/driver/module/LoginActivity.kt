@@ -92,7 +92,7 @@ class LoginActivity : BaseActivity() {
             progress.show()
             var devType: String = UserInfoPreferences.getInstance().devToken
             val devInfo: String = DevInfo.getInfo()
-            presenter.login(etPhone.text.toString(), etVCode.text.toString(), etCarTeam.text.toString(), 1, devType, devInfo)
+            presenter.login(etPhone.text.toString().trim(), etVCode.text.toString().trim(), etCarTeam.text.toString(), 1, devType, devInfo)
         }
         btnGetVCode.setOnClickListener {
             countDown.start()

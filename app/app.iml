@@ -57,13 +57,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/rxDebug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/rxDebug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/rxDebug/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/rx/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/rx/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/rx/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/rx/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/rx/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/rx/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/rx/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testRxDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testRxDebug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testRxDebug/assets" type="java-test-resource" />
@@ -71,6 +64,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testRxDebug/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testRxDebug/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testRxDebug/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/rx/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/rx/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/rx/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/rx/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/rx/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/rx/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/rx/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/rx/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/rx/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/rx/assets" type="java-resource" />
@@ -176,7 +176,7 @@
     <orderEntry type="library" exported="" name="analytics-6.1.4" level="project" />
     <orderEntry type="library" exported="" name="gifdecoder-4.0.0-RC1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-26.0.0-alpha1" level="project" />
-    <orderEntry type="library" exported="" name="qiniu-android-sdk-7.3.13" level="project" />
+    <orderEntry type="library" exported="" name="qiniu-android-sdk-7.3.15" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
     <orderEntry type="library" exported="" name="dagger-2.8" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-26.0.0-alpha1" level="project" />

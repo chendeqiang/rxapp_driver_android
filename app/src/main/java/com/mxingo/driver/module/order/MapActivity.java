@@ -1,5 +1,6 @@
 package com.mxingo.driver.module.order;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +18,10 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.MapView;
 import com.mxingo.driver.OrderModel;
 import com.mxingo.driver.R;
+import com.mxingo.driver.dialog.MessageDialog2;
 import com.mxingo.driver.dialog.NaviSelectDialog;
 import com.mxingo.driver.model.CloseOrderEntity;
+import com.mxingo.driver.model.CurrentTimeEntity;
 import com.mxingo.driver.model.OrderEntity;
 import com.mxingo.driver.model.QryOrderEntity;
 import com.mxingo.driver.module.BaseActivity;
@@ -34,6 +37,7 @@ import com.mxingo.driver.module.take.OrderType;
 import com.mxingo.driver.utils.Constants;
 import com.mxingo.driver.utils.StartUtil;
 import com.mxingo.driver.utils.TextUtil;
+import com.mxingo.driver.utils.TimeUtil;
 import com.mxingo.driver.widget.MyProgress;
 import com.mxingo.driver.widget.ShowToast;
 import com.mxingo.driver.widget.SlippingButton;
@@ -48,6 +52,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Single;
 
 public class MapActivity extends BaseActivity {
 
@@ -134,20 +139,19 @@ public class MapActivity extends BaseActivity {
         setToolbar(toolbar);
         tvToolbarTitle.setText("用车中");
 
-
-        btnFinishOrder.setPosition(new SlippingButton.Position() {
-            @Override
-            public void overPosition() {
-                progress.show();
-                presenter.closeOrder(orderNo, flowNo);
-            }
-        });
-
         orderNo = getIntent().getStringExtra(Constants.ORDER_NO);
         flowNo = getIntent().getStringExtra(Constants.FLOW_NO);
         driverNo = getIntent().getStringExtra(Constants.DRIVER_NO);
         progress.show();
         presenter.qryOrder(orderNo);
+        btnFinishOrder.setPosition(new SlippingButton.Position() {
+            @Override
+            public void overPosition() {
+                progress.show();
+                presenter.getCurrentTime();
+
+            }
+        });
     }
 
     @Subscribe
@@ -158,6 +162,31 @@ public class MapActivity extends BaseActivity {
         } else if (object.getClass() == CloseOrderEntity.class) {
             progress.dismiss();
             closeOrder((CloseOrderEntity) object);
+        } else if (object.getClass() == CurrentTimeEntity.class) {
+            judgeTime((CurrentTimeEntity) object);
+        }
+    }
+
+    private void judgeTime(CurrentTimeEntity data) {
+        String curTime = TimeUtil.getDateToString(data.now);
+        String endTime = TimeUtil.getDateToString(Long.parseLong(order.bookTime));
+        String times = TimeUtil.getTimeDifferenceHour(curTime, endTime);
+//        String times1 = times.substring(times.length() - 2, times.length() - 1);
+
+        int times2 = Integer.parseInt(times.substring(0, times.indexOf(".")));
+        if (times2 > 0) {
+            progress.dismiss();
+            final MessageDialog2 dialog = new MessageDialog2(this);
+            dialog.setMessageText("无法提前结束订单");
+            dialog.setOnOkClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        } else {
+            presenter.closeOrder(orderNo, flowNo);
         }
     }
 
@@ -203,7 +232,7 @@ public class MapActivity extends BaseActivity {
                 btnFinishOrder.setVisibility(View.GONE);
                 track(order.orderStartTime, order.orderStopTime, UserInfoPreferences.getInstance().getMobile());
                 tvToolbarTitle.setText("轨迹查询");
-                ShowToast.showCenter(this,"此订单已结束");
+                ShowToast.showCenter(this, "此订单已结束");
             } else {
                 llOrderInfo.setVisibility(View.GONE);
                 btnFinishOrder.setVisibility(View.GONE);

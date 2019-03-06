@@ -21,7 +21,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 26
         versionCode increasedVersionCode()
-        versionName "1.1.4"
+        versionName "1.1.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -85,14 +85,13 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
     //umeng数据统计，用于用户统计和错误统计
+
     //loading
 
     //ui java 代码生成器
@@ -105,8 +104,6 @@ dependencies {
     compile('com.github.gzu-liyujiang.AndroidPicker:ColorPicker:1.5.3') {
         exclude group: 'com.android.support'
     }
-
-
     compile 'com.squareup.okio:okio:1.13.0'
     compile 'com.qiniu:qiniu-android-sdk:7.3.+'
     compile 'com.qiniu:happy-dns:0.2.13'

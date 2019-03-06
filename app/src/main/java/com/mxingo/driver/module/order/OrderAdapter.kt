@@ -88,7 +88,8 @@ class OrderAdapter() : BaseAdapter() {
         } else {
             holder.tvOrderType.text = OrderType.getKey(order.orderType) + "(" + CarLevel.getKey(order.carLevel) + "）"
         }
-        holder.tvFee.text = "¥" + order.orderAmount / 100
+//        holder.tvFee.text = "¥" + order.orderAmount / 100
+        holder.tvFee.text = "¥" + String.format("%.2f",order.orderAmount.toDouble() / 100)
         holder.tvType.text = OrderModel.getKey(order.orderModel)
         return v
     }

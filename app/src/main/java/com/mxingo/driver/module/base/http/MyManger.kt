@@ -245,7 +245,7 @@ class MyManger(val apiService: ApiService) {
         val map = TreeMap<String, Any>()
         map.put("driverNo", driverNo)
         val headers = HeaderUtil.getHeaders(map)
-        LogUtils.d("checkVersion 参数", map.toString())
+        LogUtils.d("getCheckInfo 参数", map.toString())
         LogUtils.d("headers", headers.toString())
         apiService.getCheckInfo(map, headers).enqueue(callback)
 
@@ -267,7 +267,7 @@ class MyManger(val apiService: ApiService) {
         map.put("imgVehiclelicense", imgVehiclelicense)
         map.put("imgInsurance", imgInsurance)
         val headers = HeaderUtil.getHeaders(map)
-        LogUtils.d("getCheckInfo 参数", map.toString())
+        LogUtils.d("CheckInfo 参数", map.toString())
         LogUtils.d("headers", headers.toString())
         apiService.checkInfo(map, headers).enqueue(callback)
     }

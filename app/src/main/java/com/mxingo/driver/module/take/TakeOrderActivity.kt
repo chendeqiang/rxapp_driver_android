@@ -135,7 +135,7 @@ class TakeOrderActivity : BaseActivity(), TextWatcher {
         tvOrderFrom.text=OrderSource.getKey(order.source)
         tvOrderType.text = OrderType.getKey(order.orderType) + "(" + CarLevel.getKey(order.carLevel) + ")"
         tvBookTime.text = TextUtil.getFormatWeek(order.bookTime!!.toLong())
-        tvFee.text = "¥ " + (order.orderAmount / 100) + " 元"
+        tvFee.text = "¥ " + String.format("%.2f",order.orderAmount.toDouble() / 100) + " 元"
         tvOrderNo.text = "订单号: " + order.orderNo
         tvPlanMilleage.text = "${order.planMileage / 100 / 10.0}公里"
         if (OrderType.SEND_PLANE_TYPE == order.orderType || OrderType.TAKE_PLANE_TYPE == order.orderType) {
@@ -164,7 +164,7 @@ class TakeOrderActivity : BaseActivity(), TextWatcher {
             tvEndAddress.text = order.endAddr
         }
         if (order.orderModel == OrderModel.ROB_TYPE || order.orderModel == OrderModel.POINT_TYPE) {
-            tvFee.text = "¥ " + order.orderAmount / 100 + " 元"
+            tvFee.text = "¥ " + String.format("%.2f",order.orderAmount.toDouble() / 100) + " 元"
             robOrder()
         } else if (order.orderModel == OrderModel.QUOTE_TYPE) {
             quoteOrder(qryOrderEntity)
