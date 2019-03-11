@@ -16,14 +16,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.mxingo.driver.OrderModel
 import com.mxingo.driver.R
-import com.mxingo.driver.dialog.MessageDialog
-import com.mxingo.driver.dialog.NaviSelectDialog
-import com.mxingo.driver.dialog.RepubDialog
-import com.mxingo.driver.dialog.UnRepubDialog
+import com.mxingo.driver.dialog.*
 import com.mxingo.driver.model.*
 import com.mxingo.driver.module.BaseActivity
+import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
+import com.mxingo.driver.module.base.log.LogUtils
 import com.mxingo.driver.module.base.map.BaiduMapUtil
 import com.mxingo.driver.module.take.CarLevel
 import com.mxingo.driver.module.take.OrderStatus
@@ -199,18 +198,33 @@ class OrderInfoActivity : BaseActivity() {
         }
 
         btnReach.setOnClickListener {
-            val dialog = MessageDialog(this)
-            dialog.setMessageText("确定就位吗?")
-            dialog.setOnCancelClickListener {
-                dialog.dismiss()
-            }
-            dialog.setOnOkClickListener {
-                dialog.dismiss()
-                progress.show()
-                presenter.arrive(orderNo, flowNo, BaiduMapUtil.getInstance().lat, BaiduMapUtil.getInstance().lon)
-            }
-            dialog.show()
+            val curTime = TimeUtil.getNowTime()
+            val bookTime = tvBookTime.text.toString().substring(0, 16)
+            val leftTime = TimeUtil.getTimeDifferenceHour(curTime, bookTime)
+            val left = Integer.parseInt(leftTime.substring(0, leftTime.indexOf(".")))
+//            LogUtils.d("----------", left.toString())
+//            LogUtils.d("----------", leftTime.substring(0, leftTime.length-1))
 
+            if (left < 2) {
+                val dialog = MessageDialog(this)
+                dialog.setMessageText("确定就位吗?")
+                dialog.setOnCancelClickListener {
+                    dialog.dismiss()
+                }
+                dialog.setOnOkClickListener {
+                    dialog.dismiss()
+                    progress.show()
+                    presenter.arrive(orderNo, flowNo, BaiduMapUtil.getInstance().lat, BaiduMapUtil.getInstance().lon)
+                }
+                dialog.show()
+            } else {
+                val dialog = MessageDialog2(this)
+                dialog.setMessageText("请在距用车时间2小时内点击就位")
+                dialog.setOnOkClickListener {
+                    dialog.dismiss()
+                }
+                dialog.show()
+            }
         }
 
         btnTrace.setOnClickListener {
@@ -281,11 +295,11 @@ class OrderInfoActivity : BaseActivity() {
             }
             progress.dismiss()
         } else if (any::class == ArriveEntity::class) {
+            progress.dismiss()
             val data = any as ArriveEntity
             if (data.rspCode.equals("00")) {
                 presenter.qryOrder(orderNo)
             } else {
-                progress.dismiss()
                 ShowToast.showCenter(this, data.rspDesc)
             }
         } else if (any::class == StartOrderEntity::class) {

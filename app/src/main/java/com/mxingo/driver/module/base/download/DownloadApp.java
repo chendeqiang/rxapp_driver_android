@@ -44,7 +44,7 @@ public class DownloadApp {
                 DownloadManager dm = (DownloadManager) MyApplication.application.getSystemService(MyApplication.application.DOWNLOAD_SERVICE);
                 DownloadManager.Request request = new DownloadManager.Request(Uri.parse(data.url));
                 //设置在什么网络情况下进行下载
-                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
                 //设置通知栏标题
                 request.setMimeType("application/vnd.android.package-archive");
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);

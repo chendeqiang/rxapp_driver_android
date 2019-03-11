@@ -11,9 +11,9 @@ object ApiConstants {
     const val version = "Rx-Vern"
 
 //        const val ip = "http://101.37.34.157:8018/"//线上
-    const val ip = "http://101.37.202.182:8018/"//测试
+//    const val ip = "http://101.37.202.182:8018/"//测试
 //    const val ip = "http://101.37.85.68:8018/"//测试
-//    const val ip = "https://wycapi.mxingo.com:443/"//线上1
+    const val ip = "https://wycapi.mxingo.com:443/"//线上1
 
 
     const val getVcode = "usr/driver/getvcode"//获取验证码

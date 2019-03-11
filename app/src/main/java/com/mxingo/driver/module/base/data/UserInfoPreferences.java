@@ -19,6 +19,7 @@ public class UserInfoPreferences {
     private final String DRIVERNN = "driverNo";
     private final String LECHTOKEN = "token";
     private final String CAR_TEAM = "car_team";
+    private final String START_TIME = "start_time";//开始行程时间
 
 
     public static UserInfoPreferences getInstance() {
@@ -85,6 +86,17 @@ public class UserInfoPreferences {
     public void setCarTeam(String carTeam) {
         SharedPreferences.Editor edit = sharedPreference.edit();
         edit.putString(CAR_TEAM, carTeam + "");
+        edit.apply();
+    }
+
+
+    public String getStartTime(){
+        return sharedPreference.getString(START_TIME,"");
+    }
+
+    public void setStartTime(String startTime) {
+        SharedPreferences.Editor edit = sharedPreference.edit();
+        edit.putString(START_TIME, startTime + "");
         edit.apply();
     }
 

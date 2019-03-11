@@ -326,6 +326,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (data.rspCode.equals("00")) {
             onlineView();
             speechSynthesizer.startSpeaking("上线接单啦");
+        } else if (data.rspCode.equals("101")) {
+            ShowToast.showCenter(this, "TOKEN失效，请重新登陆");
+            UserInfoPreferences.getInstance().clear();
+            LoginActivity.startLoginActivity(this);
+            finish();
         } else {
             ShowToast.showCenter(this, data.rspDesc);
         }
@@ -344,6 +349,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (data.rspCode.equals("00")) {
             offlineView();
             speechSynthesizer.startSpeaking("停止接单啦");
+        } else if (data.rspCode.equals("101")) {
+            ShowToast.showCenter(this, "TOKEN失效，请重新登陆");
+            UserInfoPreferences.getInstance().clear();
+            LoginActivity.startLoginActivity(this);
+            finish();
         } else {
             ShowToast.showCenter(this, data.rspDesc);
         }
@@ -369,6 +379,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             } else {
                 offlineView();
             }
+        } else if (data.rspCode.equals("101")) {
+            ShowToast.showCenter(this, "TOKEN失效，请重新登陆");
+
+            UserInfoPreferences.getInstance().clear();
+            LoginActivity.startLoginActivity(this);
+            finish();
         }
     }
 

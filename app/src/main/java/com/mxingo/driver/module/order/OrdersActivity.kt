@@ -14,6 +14,8 @@ import com.mxingo.driver.R
 import com.mxingo.driver.model.ListOrderEntity
 import com.mxingo.driver.model.OrderEntity
 import com.mxingo.driver.module.BaseActivity
+import com.mxingo.driver.module.LoginActivity
+import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
 import com.mxingo.driver.module.take.TakeOrderActivity
@@ -21,6 +23,7 @@ import com.mxingo.driver.module.take.TakeOrderActivity
 import com.mxingo.driver.utils.Constants
 import com.mxingo.driver.widget.MyProgress
 import com.mxingo.driver.widget.OrderFooterView
+import com.mxingo.driver.widget.ShowToast
 import com.squareup.otto.Subscribe
 import javax.inject.Inject
 
@@ -129,6 +132,11 @@ class OrdersActivity : BaseActivity(), AbsListView.OnScrollListener {
                 orderAdapter.addAll(listOrder.order)
                 //动态设置listview底部view,当获取的数据大于或等于20条，orderFooterView.refresh的状态为true,底部显示刷新状态，相反为false，底部显示没有更多
                 orderFooterView.refresh = listOrder.order.size >= pageCount
+            } else if (listOrder.rspCode.equals("101")) {
+                ShowToast.showCenter(this, "TOKEN失效，请重新登陆")
+                UserInfoPreferences.getInstance().clear()
+                LoginActivity.startLoginActivity(this)
+                finish()
             }
             srlRefresh.isRefreshing = false
         }

@@ -350,12 +350,14 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
                 getNext();
                 break;
             case R.id.btn_take:
-                if (OrderModel.ROB_TYPE == orderEntity.orderModel) {
-                    progress.show();
-                    presenter.takeOrder(orderEntity.orderNo, driverNo);
-                } else if (OrderModel.QUOTE_TYPE == orderEntity.orderModel) {
-                    progress.show();
-                    presenter.quoteOrder(orderEntity.orderNo, driverNo, orderEntity.orderQuote, etQuote.getText().toString());
+                if (TextUtil.isFastClick()) {
+                    if (OrderModel.ROB_TYPE == orderEntity.orderModel) {
+                        progress.show();
+                        presenter.takeOrder(orderEntity.orderNo, driverNo);
+                    } else if (OrderModel.QUOTE_TYPE == orderEntity.orderModel) {
+                        progress.show();
+                        presenter.quoteOrder(orderEntity.orderNo, driverNo, orderEntity.orderQuote, etQuote.getText().toString());
+                    }
                 }
                 break;
         }

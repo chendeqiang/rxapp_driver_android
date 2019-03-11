@@ -10,15 +10,19 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.*
 import com.mxingo.driver.R
+import com.mxingo.driver.model.CurrentTimeEntity
 import com.mxingo.driver.model.ListDriverOrderEntity
 import com.mxingo.driver.model.OrderEntity
 import com.mxingo.driver.model.QryOrderEntity
 import com.mxingo.driver.module.BaseActivity
+import com.mxingo.driver.module.LoginActivity
+import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
 import com.mxingo.driver.module.take.OrderStatus
 
 import com.mxingo.driver.utils.Constants
+import com.mxingo.driver.utils.TimeUtil
 import com.mxingo.driver.widget.MyProgress
 import com.mxingo.driver.widget.MyTagButton
 import com.mxingo.driver.widget.OrderFooterView
@@ -94,6 +98,7 @@ class MyOrderActivity : BaseActivity(), View.OnClickListener, AbsListView.OnScro
             if (view != orderFooterView) {
                 var data = adapter.getItem(i) as ListDriverOrderEntity.OrderEntity
                 if (data.flowStatus == FlowStatus.ARRIVE_TYPE) {
+//                    presenter.getCurrentTime()
                     MapActivity.startMapActivity(this, data.orderNo, data.flowNo, driverNo)
                 } else {
                     OrderInfoActivity.startOrderInfoActivity(this, data.orderNo, data.flowNo, driverNo)
@@ -183,9 +188,19 @@ class MyOrderActivity : BaseActivity(), View.OnClickListener, AbsListView.OnScro
             if (data.rspCode.equals("00")) {
                 adapter.addAll(data.order)
                 orderFooterView.refresh = data.order.size >= pageCount
+            } else if (data.rspCode.equals("101")) {
+                ShowToast.showCenter(this, "TOKEN失效，请重新登陆")
+                UserInfoPreferences.getInstance().clear()
+                LoginActivity.startLoginActivity(this)
+                finish()
             }
             srlRefresh.isRefreshing = false
         }
+//        else if (any::class == CurrentTimeEntity::class) {
+//            val data = any as CurrentTimeEntity
+//            val curTime = TimeUtil.getDateToString(data.now)
+//            UserInfoPreferences.getInstance().startTime = curTime
+//        }
         progress.dismiss()
 
     }

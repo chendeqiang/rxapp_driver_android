@@ -28,6 +28,7 @@ import com.mxingo.driver.module.BaseActivity;
 import com.mxingo.driver.module.base.data.UserInfoPreferences;
 import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.MyPresenter;
+import com.mxingo.driver.module.base.log.LogUtils;
 import com.mxingo.driver.module.base.map.BaiduMapUtil;
 import com.mxingo.driver.module.base.map.route.RoutePlanSearchUtil;
 import com.mxingo.driver.module.base.map.trace.MyTrace;
@@ -95,6 +96,7 @@ public class MapActivity extends BaseActivity {
     private String orderNo;
     private String flowNo;
     private String driverNo;
+    private String startTime;
     private NaviSelectDialog navDialog;
     private MyProgress progress;
     private OrderEntity order;
@@ -139,6 +141,7 @@ public class MapActivity extends BaseActivity {
         setToolbar(toolbar);
         tvToolbarTitle.setText("用车中");
 
+        startTime = UserInfoPreferences.getInstance().getStartTime();
         orderNo = getIntent().getStringExtra(Constants.ORDER_NO);
         flowNo = getIntent().getStringExtra(Constants.FLOW_NO);
         driverNo = getIntent().getStringExtra(Constants.DRIVER_NO);
@@ -163,21 +166,38 @@ public class MapActivity extends BaseActivity {
             progress.dismiss();
             closeOrder((CloseOrderEntity) object);
         } else if (object.getClass() == CurrentTimeEntity.class) {
-            judgeTime((CurrentTimeEntity) object);
+            compareTime((CurrentTimeEntity) object);
         }
     }
 
-    private void judgeTime(CurrentTimeEntity data) {
+    private void compareTime(CurrentTimeEntity data) {
         String curTime = TimeUtil.getDateToString(data.now);
         String endTime = TimeUtil.getDateToString(Long.parseLong(order.bookTime));
         String times = TimeUtil.getTimeDifferenceHour(curTime, endTime);
-//        String times1 = times.substring(times.length() - 2, times.length() - 1);
+        String useTimes = tvUseTime.getText().toString();
+        String minute = useTimes.substring(useTimes.indexOf("时") + 1, useTimes.indexOf("分"));
+        String hour = useTimes.substring(0, useTimes.indexOf("小"));
+        int min = Integer.parseInt(minute);
+        int hours = Integer.parseInt(hour);
+//        LogUtils.d("diftime-------------------1", hour + "小时" + minute + "分");
+//        LogUtils.d("diftime-------------------2", times);
 
         int times2 = Integer.parseInt(times.substring(0, times.indexOf(".")));
         if (times2 > 0) {
             progress.dismiss();
             final MessageDialog2 dialog = new MessageDialog2(this);
             dialog.setMessageText("无法提前结束订单");
+            dialog.setOnOkClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        } else if (min < 10 && hours < 1) {
+            progress.dismiss();
+            final MessageDialog2 dialog = new MessageDialog2(this);
+            dialog.setMessageText("开始与结束间隔需大于10分钟");
             dialog.setOnOkClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
