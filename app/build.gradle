@@ -21,9 +21,14 @@ android {
         minSdkVersion 19
         targetSdkVersion 26
         versionCode increasedVersionCode()
-        versionName "1.2.1"
+        versionName "1.2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDir 'libs'
+        }
     }
     signingConfigs {
         release {
@@ -31,6 +36,7 @@ android {
             keyAlias "renxing2017"
             keyPassword "renxing2017"
             storePassword "renxing2017"
+            v2SigningEnabled false
         }
     }
 
@@ -130,5 +136,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
+
 }
 

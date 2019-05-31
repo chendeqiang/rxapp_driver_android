@@ -12,8 +12,9 @@ import com.mxingo.driver.module.base.http.AppComponent;
 import com.mxingo.driver.module.base.http.AppModule;
 import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.DaggerAppComponent;
+import com.mxingo.driver.module.base.push.MyPushService;
 import com.mxingo.driver.module.base.push.PushIntentService;
-import com.mxingo.driver.module.base.push.PushService;
+
 import com.mxingo.driver.utils.Constants;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -46,12 +47,12 @@ public class MyApplication extends Application {
     @Subscribe
     public void startApp(Object o) {
         //个推初始化
-        PushManager.getInstance().initialize(this.getApplicationContext(), PushService.class);
+        PushManager.getInstance().initialize(this.getApplicationContext(), MyPushService.class);
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), PushIntentService.class);
 
         //百度地图
         SDKInitializer.initialize(getApplicationContext());
-        SDKInitializer.setCoordType(CoordType.GCJ02);
+        SDKInitializer.setCoordType(CoordType.BD09LL);
 
         //讯飞语音
         Setting.setShowLog(false);

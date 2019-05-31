@@ -151,6 +151,11 @@ public class MyTrace {
         public void onPushCallback(byte b, PushMessage pushMessage) {
             LogUtils.d("onPushCallback", String.format("messageType:%d, messageContent:%s ", b, pushMessage.getMessage()));
         }
+
+        @Override
+        public void onInitBOSCallback(int i, String s) {
+            LogUtils.d("onInitBOSCallback", String.format("errorNo:%d, message:%s ", i, s));
+        }
     };
 
     public void startTrace() {

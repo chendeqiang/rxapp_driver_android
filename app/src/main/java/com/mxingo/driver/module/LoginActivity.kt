@@ -78,7 +78,7 @@ class LoginActivity : BaseActivity() {
         btnLogin = findViewById(R.id.btn_sign) as Button
         btnGetVCode = findViewById(R.id.btn_get_vcode) as Button
 
-        btnRegister=findViewById(R.id.btn_register) as Button
+        btnRegister = findViewById(R.id.btn_register) as Button
 
         if (!TextUtils.isEmpty(UserInfoPreferences.getInstance().driverNo)) {
             MainActivity.startMainActivity(this)
@@ -92,7 +92,7 @@ class LoginActivity : BaseActivity() {
             progress.show()
             var devType: String = UserInfoPreferences.getInstance().devToken
             val devInfo: String = DevInfo.getInfo()
-            presenter.login(etPhone.text.toString().trim(), etVCode.text.toString().trim(), etCarTeam.text.toString(), 1, devType, devInfo)
+            presenter.login(etPhone.text.toString().trim(), etVCode.text.toString().trim(), etCarTeam.text.toString().trim(), 1, devType, devInfo)
         }
         btnGetVCode.setOnClickListener {
             countDown.start()

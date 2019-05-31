@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.igexin.sdk.GTIntentService;
 import com.igexin.sdk.message.GTCmdMessage;
+import com.igexin.sdk.message.GTNotificationMessage;
 import com.igexin.sdk.message.GTTransmitMessage;
 import com.mxingo.driver.MyApplication;
 import com.mxingo.driver.module.base.data.UserInfoPreferences;
@@ -79,6 +80,16 @@ public class PushIntentService extends GTIntentService {
 
     @Override
     public void onReceiveCommandResult(Context context, GTCmdMessage cmdMessage) {
+    }
+
+    @Override
+    public void onNotificationMessageArrived(Context context, GTNotificationMessage gtNotificationMessage) {
+
+    }
+
+    @Override
+    public void onNotificationMessageClicked(Context context, GTNotificationMessage gtNotificationMessage) {
+
     }
 
     private Handler handler = new Handler() {

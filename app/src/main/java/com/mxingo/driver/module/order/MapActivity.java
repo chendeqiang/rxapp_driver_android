@@ -131,7 +131,7 @@ public class MapActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         //百度地图
         SDKInitializer.initialize(getApplicationContext());
-        SDKInitializer.setCoordType(CoordType.GCJ02);
+        SDKInitializer.setCoordType(CoordType.BD09LL);
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
         ComponentHolder.getAppComponent().inject(this);

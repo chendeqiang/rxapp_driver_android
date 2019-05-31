@@ -126,7 +126,6 @@ class MyBillActivity : BaseActivity(), TabLayout.OnTabSelectedListener {
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
         tabAction = tab!!.position + 1
-        progress.show()
         adapter.clear()
         pageIndex = 0
         presenter.listBill(driverNo, pageIndex, pageCount)
@@ -152,17 +151,21 @@ class MyBillActivity : BaseActivity(), TabLayout.OnTabSelectedListener {
         if (listBill.rspCode == "00") {
             if (tabAction == 1) {
                 adapter.addAll(listBill.finishDriverOrderBill)
+                orderFooterView.refresh = listBill.finishDriverOrderBill.size >= pageCount
             }
             if (tabAction == 2) {
                 adapter.addAll(listBill.rewards)
+                orderFooterView.refresh = listBill.rewards.size >= pageCount
             }
             if (tabAction == 3) {
                 adapter.addAll(listBill.fine)
+                orderFooterView.refresh = listBill.fine.size >= pageCount
             }
             if (tabAction == 4) {
                 adapter.addAll(listBill.facePay)
+                orderFooterView.refresh = listBill.facePay.size >= pageCount
             }
-            orderFooterView.refresh = listBill.finishDriverOrderBill.size >= pageCount
+//            orderFooterView.refresh = listBill.finishDriverOrderBill.size >= pageCount
         } else {
             ShowToast.showCenter(this, listBill.rspDesc)
         }

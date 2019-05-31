@@ -13,6 +13,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
+    <!--8.0未知来源的应用权限 更新App-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+
     <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -63,7 +66,9 @@
         android:icon="@drawable/push"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <!--适配Android P   android:usesCleartextTraffic="true">-->
 
         <!-- umeng -->
         <meta-data
@@ -87,7 +92,7 @@
         <service
             android:name="com.baidu.trace.LBSTraceService"
             android:enabled="true"
-            android:exported="true"/>
+            android:process=":remote"/>
         <!-- end baidu -->
 
 
@@ -118,16 +123,20 @@
         <!-- android:value="XPnXeQLBWaAPXftenhF7JA" /> -->
 
         <service
-            android:name=".module.base.push.PushService"
+            android:name=".module.base.push.MyPushService"
             android:exported="true"
             android:label="PushService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
             android:process=":pushservice"/>
-        <service android:name=".module.base.push.PushIntentService"/>
+        <service
+            android:name=".module.base.push.PushIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
         <!-- 配置SDK核心服务 -->
         <service
             android:name="com.igexin.sdk.PushService"
             android:exported="true"
             android:label="NotificationCenter"
+            android:permission="android.permission.BIND_JOB_SERVICE"
             android:process=":pushservice">
             <intent-filter>
                 <action android:name="com.igexin.sdk.action.service.message"/>

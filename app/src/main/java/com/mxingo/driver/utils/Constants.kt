@@ -5,6 +5,8 @@ package com.mxingo.driver.utils
  */
 object Constants {
     const val permissionMain: Int = 1
+    const val REQUEST_PERMISSION_SDCARD_6_0: Int = 2
+    const val REQUEST_PERMISSION_SDCARD_8_0: Int = 3
     const val speechAppId = "595b2bbf"
 
     const val TITLE = "title"

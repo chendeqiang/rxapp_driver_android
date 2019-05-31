@@ -69,9 +69,11 @@ public class DownloadApp {
 
     private void loadView() {
         Intent intentDownload = new Intent(Intent.ACTION_VIEW);
-        intentDownload.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intentDownload.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intentDownload.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intentDownload.addCategory(Intent.CATEGORY_DEFAULT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intentDownload.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intentDownload.setDataAndType(uri, "application/vnd.android.package-archive");
         } else {
             intentDownload.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");

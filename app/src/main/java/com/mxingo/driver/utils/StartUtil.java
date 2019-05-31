@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.mxingo.driver.widget.ShowToast;
@@ -72,10 +73,27 @@ public class StartUtil {
     public static void startGaoDeMap(Context context, double lat, double log) {
         try {
             if (isInstallByread(gaodeMapPackage)) {
-                Intent intent = new Intent("android.intent.action.VIEW",
-                        Uri.parse("androidamap://navi?sourceApplication=积金专车司机端&lat=" + lat + "&lon=" + log + "&dev=0&style=2"));
-                intent.setPackage(gaodeMapPackage);
-                context.startActivity(intent); // 启动调用
+                if (lat != 0 && log != 0) {
+                    CoordinateConverter converter = new CoordinateConverter();
+                    // CoordType.GPS 待转换坐标类型
+                    converter.from(CoordinateConverter.CoordType.BD09LL);
+                    // sourceLatLng待转换坐标点 DPoint类型
+                    LatLng sourceLatLng = new LatLng(lat, log);
+                    converter.coord(sourceLatLng);
+                    // 执行转换操作
+                    LatLng desLatLng = converter.convert();
+                    Intent intent = new Intent("android.intent.action.VIEW",
+                            Uri.parse("androidamap://navi?sourceApplication=积金专车司机端&lat=" + desLatLng.latitude + "&lon=" + desLatLng.longitude + "&dev=0&style=2"));
+                    intent.setPackage(gaodeMapPackage);
+                    context.startActivity(intent); // 启动调用
+                } else {
+                    Toast.makeText(context, "地址错误", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+//                Intent intent = new Intent("android.intent.action.VIEW",
+//                        Uri.parse("androidamap://navi?sourceApplication=积金专车司机端&lat=" + lat + "&lon=" + log + "&dev=0&style=2"));
+//                intent.setPackage(gaodeMapPackage);
+//                context.startActivity(intent); // 启动调用
             } else {
                 ShowToast.showCenter(context, "您未安装高德地图app");
             }

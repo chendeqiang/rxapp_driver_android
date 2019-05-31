@@ -118,7 +118,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ComponentHolder.getAppComponent().inject(this);
         presenter.register(this);
 
-        progress = new MyProgress(this);
         gson = new Gson();
         EventBus.getDefault().register(this);
         MyTrace.getInstance().startTrace();
