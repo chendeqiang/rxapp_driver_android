@@ -146,6 +146,7 @@ public class MapActivity extends BaseActivity {
         flowNo = getIntent().getStringExtra(Constants.FLOW_NO);
         driverNo = getIntent().getStringExtra(Constants.DRIVER_NO);
         progress.show();
+
         presenter.qryOrder(orderNo);
         btnFinishOrder.setPosition(new SlippingButton.Position() {
             @Override
@@ -212,6 +213,8 @@ public class MapActivity extends BaseActivity {
 
     private void closeOrder(CloseOrderEntity data) {
         if (data.rspCode.equals("00")) {
+            //关闭鹰眼服务
+            MyTrace.getInstance().stopTrace();
             OrderInfoActivity.startOrderInfoActivity(MapActivity.this, orderNo, flowNo, driverNo);
             finish();
         } else {
@@ -223,13 +226,13 @@ public class MapActivity extends BaseActivity {
         if (orderEntity.rspCode.equals("00")) {
             order = orderEntity.order;
             timer.schedule(task, 1000, 60 * 1000);
-            if (order.orderStatus == OrderStatus.USING_TYPE) {
-                if (order.orderModel == OrderModel.POINT_TYPE) {
+            if (order.orderStatus == OrderStatus.USING_TYPE) {//开始行程
+                if (order.orderModel == OrderModel.POINT_TYPE) {//指派模式
                     tvOrderType.setText(OrderType.getKey(order.orderType));
-                } else {
+                } else {//抢单模式
                     tvOrderType.setText(OrderType.getKey(order.orderType) + "(" + CarLevel.getKey(order.carLevel) + ")");
                 }
-                if (OrderType.DAY_RENTER_TYPE == order.orderType) {
+                if (OrderType.DAY_RENTER_TYPE == order.orderType) {//日租
                     tvBookTime.setText(TextUtil.getFormatString(Long.valueOf(order.bookTime), order.bookDays, "MM月dd日"));
                     llEndAddress.setVisibility(View.GONE);
                     tvEstimate.setVisibility(View.GONE);

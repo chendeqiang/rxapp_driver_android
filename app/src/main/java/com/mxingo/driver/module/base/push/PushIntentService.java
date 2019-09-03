@@ -1,5 +1,6 @@
 package com.mxingo.driver.module.base.push;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -92,6 +93,7 @@ public class PushIntentService extends GTIntentService {
 
     }
 
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

@@ -1,5 +1,6 @@
 package com.mxingo.driver.module.take;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -402,6 +403,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -415,6 +417,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     } else {
                         pushStack.push(pushOrderEntity);
                     }
+
+                    //如果当前是订单播报状态，停止当前播报
+                    if (takeDialog.isShowing()){
+                        takeDialog.dismiss();
+                    }
+                    //开启新的播报
                     if (!takeDialog.isShowing()) {
                         takeDialog.show();
                         takeDialog.setPushData(pushStack);

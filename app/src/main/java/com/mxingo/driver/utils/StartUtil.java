@@ -23,7 +23,7 @@ import java.io.File;
  */
 
 public class StartUtil {
-
+    public static double pi = 3.1415926535897932384626 * 3000.0 / 180.0;
     public final static String baiduMapPackage = "com.baidu.BaiduMap";
     public final static String gaodeMapPackage = "com.autonavi.minimap";
 
@@ -36,6 +36,8 @@ public class StartUtil {
             }
             String toAddress = "intent://map/direction?origin=我的位置&destination=";
             if (toLat != 0 && toLon != 0) {
+
+
 //                CoordinateConverter converter = new CoordinateConverter();
 //                converter.from(CoordinateConverter.CoordType.COMMON);
 //                // sourceLatLng待转换坐标
@@ -43,6 +45,9 @@ public class StartUtil {
 //                converter.coord(sourceLatLng);
 //                LatLng desLatLng = converter.convert();
 //                toAddress += "" + desLatLng.latitude + "," + desLatLng.longitude;
+//
+//
+
                 toAddress += "" + toLat + "," + toLon;
 
             } else {
@@ -74,16 +79,27 @@ public class StartUtil {
         try {
             if (isInstallByread(gaodeMapPackage)) {
                 if (lat != 0 && log != 0) {
-                    CoordinateConverter converter = new CoordinateConverter();
-                    // CoordType.GPS 待转换坐标类型
-                    converter.from(CoordinateConverter.CoordType.BD09LL);
-                    // sourceLatLng待转换坐标点 DPoint类型
-                    LatLng sourceLatLng = new LatLng(lat, log);
-                    converter.coord(sourceLatLng);
-                    // 执行转换操作
-                    LatLng desLatLng = converter.convert();
+
+                    double x = log - 0.0065, y = lat - 0.006;
+                    double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * pi);
+                    double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * pi);
+                    double gg_log = z * Math.cos(theta);
+                    double gg_lat = z * Math.sin(theta);
+
+
+//                    CoordinateConverter converter = new CoordinateConverter();
+//                    //CoordType.GPS 待转换坐标类型
+//                    converter.from(CoordinateConverter.CoordType.BD09LL);
+//                    //sourceLatLng待转换坐标点 DPoint类型
+//                    LatLng sourceLatLng = new LatLng(lat, log);
+//                    converter.coord(sourceLatLng);
+//                    //执行转换操作
+//                    LatLng desLatLng = converter.convert();
+//                    Intent intent = new Intent("android.intent.action.VIEW",
+//                            Uri.parse("androidamap://navi?sourceApplication=积金专车司机端&lat=" + desLatLng.latitude + "&lon=" + desLatLng.longitude + "&dev=0&style=2"));
+
                     Intent intent = new Intent("android.intent.action.VIEW",
-                            Uri.parse("androidamap://navi?sourceApplication=积金专车司机端&lat=" + desLatLng.latitude + "&lon=" + desLatLng.longitude + "&dev=0&style=2"));
+                            Uri.parse("androidamap://navi?sourceApplication=积金专车司机端&lat=" + gg_lat + "&lon=" + gg_log + "&dev=0&style=2"));
                     intent.setPackage(gaodeMapPackage);
                     context.startActivity(intent); // 启动调用
                 } else {
