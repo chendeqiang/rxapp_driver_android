@@ -39,26 +39,26 @@ public class PushIntentService extends GTIntentService {
     public void onReceiveMessageData(Context context, GTTransmitMessage msg) {
         if (msg != null && msg.getPayload() != null) {
             String data = new String(msg.getPayload());
-            LogUtils.d("onReceiveMessageData:", data);
+//            LogUtils.d("onReceiveMessageData:", data);
             try {
                 JSONObject dataJson = new JSONObject(data);
                 int pushType = dataJson.getInt(Constants.PUSH_TYPE);
                 String lastActivity = MyApplication.currActivity;
-                LogUtils.d("lastActivity", lastActivity + "," + (MainActivity.class.getName().equals(lastActivity)));
+//                LogUtils.d("lastActivity", lastActivity + "," + (MainActivity.class.getName().equals(lastActivity)));
                 if (pushType == Constants.P_D_PUB) {
                     final Intent intent = new Intent();
                     intent.setAction(Constants.GETUI_ACTION);
                     intent.putExtra(Constants.PUSH_DATA, data);
                     intent.putExtra(Constants.PUSH_TYPE, pushType);
                     if (MainActivity.class.getName().equals(lastActivity)) {
-                        LogUtils.d("tag", "----------直传---------");
+//                        LogUtils.d("tag", "----------直传---------");
                         EventBus.getDefault().post(intent);
                     } else {
-                        LogUtils.d("tag", "----------间传---------");
+//                        LogUtils.d("tag", "----------间传---------");
                         context.startActivity(new Intent(context, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                         Message message = handler.obtainMessage();
                         message.obj = intent;
-                        handler.sendMessageDelayed(message, 1000);
+                        handler.sendMessage(message);
                     }
                 }
             } catch (JSONException e) {

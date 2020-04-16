@@ -1,6 +1,5 @@
 package com.mxingo.driver.module.base.http
 
-import android.util.Log
 import com.mxingo.driver.model.*
 import com.mxingo.driver.module.base.log.LogUtils
 import com.mxingo.driver.utils.TextUtil
@@ -145,6 +144,24 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
             }
         })
     }
+
+
+
+    fun reassignment(fleetid:String,orderNo:String){
+        manger.reassignment(fleetid,orderNo,object :Callback<ResultEntity>{
+            override fun onFailure(call: Call<ResultEntity>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<ResultEntity>, response: Response<ResultEntity>) {
+                LogUtils.d("reassignment", "" + response.body() + "")
+                if (response.body()!=null){
+                    mBs.post(response.body())
+                }
+            }
+        })
+    }
+
 
     fun repubOrder(orderNo: String, flowNo: String, driverNo: String) {
         manger.repubOrder(orderNo, flowNo, driverNo, object : Callback<CommEntity> {
@@ -554,6 +571,21 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
             override fun onResponse(call: Call<CurrentTimeEntity>, response: Response<CurrentTimeEntity>) {
                 if (response.body() != null) {
                     LogUtils.d("getCurrentTime", "" + response!!.body() + "")
+                    mBs.post(response.body())
+                }
+            }
+        })
+    }
+
+    fun getStsServer(){
+        manger.stsServer(object :Callback<StsEntity>{
+            override fun onFailure(call: Call<StsEntity>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<StsEntity>, response: Response<StsEntity>) {
+                if (response.body() != null) {
+                    LogUtils.d("getStsServer", "" + response!!.body() + "")
                     mBs.post(response.body())
                 }
             }

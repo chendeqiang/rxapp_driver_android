@@ -168,6 +168,7 @@
                 android:layout_height="1px"
                 android:background="@color/line_color"/>
 
+
             <Button
                 android:id="@+id/btn_sign"
                 android:layout_width="match_parent"
@@ -188,6 +189,14 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_18"
                 android:visibility="gone"/>
+
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/text_size_12"
+                android:layout_marginTop="@dimen/default_margin10"
+                android:text="任行约车司机端：预约单、接送机、接送站、非及时单"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

@@ -12,7 +12,7 @@ import com.igexin.sdk.PushService;
  */
 
 public class MyPushService extends PushService {
-//
+
 //    @Override
 //    public void onCreate() {
 //        super.onCreate();

@@ -279,6 +279,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         EventBus.getDefault().unregister(this);
         MyApplication.isMainActivityLive = false;
+        if (takeDialog!=null){
+            takeDialog.dismiss();
+        }
     }
 
     @Override
@@ -392,7 +395,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @org.greenrobot.eventbus.Subscribe
     public void getuiPush(Intent intent) {
         String pushDataStr = intent.getStringExtra(Constants.PUSH_DATA);
-        LogUtils.d("pushData main", pushDataStr + "");
+//        LogUtils.d("pushData main", pushDataStr + "");
         int pushType = intent.getIntExtra(Constants.PUSH_TYPE, 0);
         if (pushType == Constants.P_D_PUB) {
             Message msg = handler.obtainMessage();
@@ -416,11 +419,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         pushStack.push(pushOrderEntity);
                     } else {
                         pushStack.push(pushOrderEntity);
-                    }
-
-                    //如果当前是订单播报状态，停止当前播报
-                    if (takeDialog.isShowing()){
-                        takeDialog.dismiss();
                     }
                     //开启新的播报
                     if (!takeDialog.isShowing()) {

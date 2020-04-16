@@ -2,6 +2,8 @@ package com.mxingo.driver.module.base.map.trace;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -99,12 +101,15 @@ public class MyTrace {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+
+
+    @TargetApi(Build.VERSION_CODES.O)
     private Notification initNotification() {
         Notification.Builder builder = new Notification.Builder(context);
         Intent notificationIntent = new Intent(context, MainActivity.class);
 
         Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.push);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         // 设置PendingIntent
         builder.setContentIntent(PendingIntent.getActivity(context, 2, notificationIntent, 0))
@@ -114,10 +119,36 @@ public class MyTrace {
                 .setContentText("服务正在运行...") // 设置上下文内容
                 .setWhen(System.currentTimeMillis()); // 设置该通知发生的时间
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && null != notificationManager) {
+            NotificationChannel notificationChannel = new NotificationChannel("trace", "trace_channel", NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(notificationChannel);
+            builder.setChannelId("trace"); // Android OchannelId
+        }
+
         Notification notification = builder.build(); // 获取构建好的Notification
         notification.defaults = Notification.DEFAULT_SOUND; //设置为默认的声音
         return notification;
     }
+
+//    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+//    private Notification initNotification() {
+//        Notification.Builder builder = new Notification.Builder(context);
+//        Intent notificationIntent = new Intent(context, MainActivity.class);
+//
+//        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.push);
+//
+//        // 设置PendingIntent
+//        builder.setContentIntent(PendingIntent.getActivity(context, 2, notificationIntent, 0))
+//                .setLargeIcon(icon)  // 设置下拉列表中的图标(大图标)
+//                .setContentTitle("百度鹰眼") // 设置下拉列表里的标题
+//                .setSmallIcon(R.drawable.push) // 设置状态栏内的小图标
+//                .setContentText("服务正在运行...") // 设置上下文内容
+//                .setWhen(System.currentTimeMillis()); // 设置该通知发生的时间
+//
+//        Notification notification = builder.build(); // 获取构建好的Notification
+//        notification.defaults = Notification.DEFAULT_SOUND; //设置为默认的声音
+//        return notification;
+//    }
 
     private OnTraceListener traceListener = new OnTraceListener() {
         @Override

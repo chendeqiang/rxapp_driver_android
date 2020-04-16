@@ -11,6 +11,8 @@ object ApiConstants {
     const val version = "Rx-Vern"
 
 //    const val ip = "http://101.37.202.182:8018/"//测试
+//    const val ip = "http://47.99.63.211:8018/"
+//    const val ip = "http://112.124.27.106:8018/" //测试最新
     const val ip = "https://wycapi.mxingo.com:443/"//生产
 
 
@@ -20,6 +22,8 @@ object ApiConstants {
     const val online = "usr/driver/online"//上线
 
     const val offline = "usr/driver/offline"//下线
+
+    const val reassignment="usr/fleet/reassignment"//改派限制
     const val repubOrder = "usr/driver/repuborder"//改派订单
     const val takeOrder = "usr/driver/takeorder"//抢单
     const val quoteOrder = "usr/driver/quoteorder"//报价订单
@@ -46,4 +50,6 @@ object ApiConstants {
 
     const val driverBill = "usr/driver//driverbill"//司机账单
     const val getTime = "http://www.mxingo.com/appTime/getNow.shtml"
+
+    const val stsServer="http://118.31.16.123:7080"
 }

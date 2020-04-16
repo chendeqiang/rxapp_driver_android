@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary">
+
+    <ImageView
+        android:id="@+id/iv_back_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/default_margin10"
+        android:padding="@dimen/default_margin10"
+        android:src="@drawable/ic_whilte_arrow" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:lines="1"
+        android:text="订单详情"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_20" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_repub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/default_margin10"
+        android:padding="@dimen/default_margin10"
+        android:text="改派"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_20" />
+</RelativeLayout>

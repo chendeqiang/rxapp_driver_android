@@ -30,6 +30,12 @@ interface ApiService {
     @POST(ApiConstants.offline)
     fun offline(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<OfflineEntity>
 
+
+
+    @FormUrlEncoded
+    @POST(ApiConstants.reassignment)
+    fun reassignment(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>):Call<ResultEntity>
+
     @FormUrlEncoded
     @POST(ApiConstants.repubOrder)
     fun repubOrder(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<CommEntity>
@@ -110,4 +116,8 @@ interface ApiService {
 
     @GET(ApiConstants.getTime)
     fun getTime(): Call<CurrentTimeEntity>
+
+
+    @GET(ApiConstants.stsServer)
+    fun stsServer():Call<StsEntity>
 }

@@ -1,9 +1,11 @@
 package com.mxingo.driver.module.order;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +26,9 @@ import com.mxingo.driver.model.CloseOrderEntity;
 import com.mxingo.driver.model.CurrentTimeEntity;
 import com.mxingo.driver.model.OrderEntity;
 import com.mxingo.driver.model.QryOrderEntity;
+import com.mxingo.driver.model.StsEntity;
 import com.mxingo.driver.module.BaseActivity;
+import com.mxingo.driver.module.RecordingService;
 import com.mxingo.driver.module.base.data.UserInfoPreferences;
 import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.MyPresenter;
@@ -44,6 +48,7 @@ import com.mxingo.driver.widget.ShowToast;
 import com.mxingo.driver.widget.SlippingButton;
 import com.squareup.otto.Subscribe;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -108,6 +113,7 @@ public class MapActivity extends BaseActivity {
             handler.sendEmptyMessage(1);
         }
     };
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -180,39 +186,40 @@ public class MapActivity extends BaseActivity {
         String hour = useTimes.substring(0, useTimes.indexOf("小"));
         int min = Integer.parseInt(minute);
         int hours = Integer.parseInt(hour);
-//        LogUtils.d("diftime-------------------1", hour + "小时" + minute + "分");
-//        LogUtils.d("diftime-------------------2", times);
 
         int times2 = Integer.parseInt(times.substring(0, times.indexOf(".")));
-        if (times2 > 0) {
-            progress.dismiss();
-            final MessageDialog2 dialog = new MessageDialog2(this);
-            dialog.setMessageText("无法提前结束订单");
-            dialog.setOnOkClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
-        } else if (min < 10 && hours < 1) {
-            progress.dismiss();
-            final MessageDialog2 dialog = new MessageDialog2(this);
-            dialog.setMessageText("开始与结束间隔需大于10分钟");
-            dialog.setOnOkClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
-        } else {
+//        if (times2 > 0) {
+//            progress.dismiss();
+//            final MessageDialog2 dialog = new MessageDialog2(this);
+//            dialog.setMessageText("无法提前结束订单");
+//            dialog.setOnOkClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            dialog.show();
+//        } else if (min < 10 && hours < 1) {
+//            progress.dismiss();
+//            final MessageDialog2 dialog = new MessageDialog2(this);
+//            dialog.setMessageText("开始与结束间隔需大于10分钟");
+//            dialog.setOnOkClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            dialog.show();
+//        } else {
             presenter.closeOrder(orderNo, flowNo);
-        }
+//        }
     }
 
     private void closeOrder(CloseOrderEntity data) {
         if (data.rspCode.equals("00")) {
+            //关闭录音
+            Intent intent = new Intent(this, RecordingService.class);
+            stopService(intent);
             //关闭鹰眼服务
             MyTrace.getInstance().stopTrace();
             OrderInfoActivity.startOrderInfoActivity(MapActivity.this, orderNo, flowNo, driverNo);

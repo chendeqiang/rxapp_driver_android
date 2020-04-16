@@ -63,6 +63,17 @@ class MyManger(val apiService: ApiService) {
         apiService.offline(map, headers).enqueue(callback)
     }
 
+
+    fun reassignment(fleetid:String,orderNo:String,callback: retrofit2.Callback<ResultEntity>){
+        val map = TreeMap<String, Any>()
+        map.put("fleetid", fleetid)
+        map.put("orderNo", orderNo)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("reassignment 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.reassignment(map, headers).enqueue(callback)
+    }
+
     fun repubOrder(orderNo: String, flowNo: String, driverNo: String, callback: retrofit2.Callback<CommEntity>) {
         val map = TreeMap<String, Any>()
         map.put("orderNo", orderNo)
@@ -283,5 +294,9 @@ class MyManger(val apiService: ApiService) {
 
     fun getTime(callback: retrofit2.Callback<CurrentTimeEntity>) {
         apiService.getTime().enqueue(callback)
+    }
+
+    fun stsServer(callback: retrofit2.Callback<StsEntity>){
+        apiService.stsServer().enqueue(callback)
     }
 }

@@ -4,7 +4,7 @@ package com.mxingo.driver.module.order
  * Created by chendeqiang on 2017/11/7 11:06
  */
 enum class OrderSource {
-    XIECHENG(1, "携程"), PINGTAI(2, "平台自有"), TONGCHENG(3, "同城"), WECHAT(4, "微信"), SENGYI(5, "胜意"),
+    XIECHENG(1, "携程"), PINGTAI(2, "平台自有"), TONGCHENG(3, "同程"), WECHAT(4, "微信"), SENGYI(5, "胜意"),
     TUNIU(6, "途牛"), TAXI(7, "出租车"), FEIZHU(8, "飞猪"), CARTEAM(9, "车队自有"), TAOBAO(10, "淘宝店铺"), RENXING(11, "任行订单");
 
 

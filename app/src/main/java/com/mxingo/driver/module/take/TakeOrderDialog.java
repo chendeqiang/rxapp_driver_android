@@ -123,32 +123,39 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
         @Override
         public void onFinish() {
             getNext();
+            cancel();
+
         }
     };
 
     private void getNext() {
-        if (!pushData.isEmpty()) {
-            dismiss();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (!isShowing()) {
-                        show();
-                        isSpeak = true;
-                        llTakeOrder.setVisibility(View.GONE);
-                        PushOrderEntity data = pushData.pop();
-                        progress.show();
-                        presenter.qryOrder(data.order.orderNo);
-                    }
-                }
-            }, 1000);
-
-//            PushOrderEntity data = pushData.pop();
-//            presenter.qryOrder(data.order.orderNo);
-        } else {
-            dismiss();
-        }
+        speechSynthesizer.stop();
+        dismiss();
     }
+
+//    private void getNext() {
+//        if (!pushData.isEmpty()) {
+//            dismiss();
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (!isShowing()) {
+//                        show();
+//                        isSpeak = true;
+//                        llTakeOrder.setVisibility(View.GONE);
+//                        PushOrderEntity data = pushData.pop();
+//                        progress.show();
+//                        presenter.qryOrder(data.order.orderNo);
+//                    }
+//                }
+//            }, 1000);
+//
+////            PushOrderEntity data = pushData.pop();
+////            presenter.qryOrder(data.order.orderNo);
+//        } else {
+//            dismiss();
+//        }
+//    }
 
 
     public TakeOrderDialog(@NonNull Activity activity, String driverNo) {
@@ -167,6 +174,7 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
         etQuote.addTextChangedListener(this);
         speechSynthesizer = new MySpeechSynthesizer();
     }
+
 
     @Override
     public void dismiss() {

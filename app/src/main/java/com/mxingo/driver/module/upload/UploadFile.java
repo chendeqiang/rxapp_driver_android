@@ -14,9 +14,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-/**
- * Created by zhouwei on 2017/10/17.
- */
+
 
 public class UploadFile {
     UploadManager uploadManager = null;

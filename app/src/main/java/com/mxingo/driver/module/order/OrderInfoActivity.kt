@@ -4,22 +4,25 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.media.MediaRecorder
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
-import android.support.v7.widget.Toolbar
-import android.view.Menu
-import android.view.MenuItem
+import android.provider.Settings
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
+
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
+import com.mxingo.driver.Manifest
 import com.mxingo.driver.OrderModel
 import com.mxingo.driver.R
 import com.mxingo.driver.dialog.*
 import com.mxingo.driver.model.*
 import com.mxingo.driver.module.BaseActivity
-import com.mxingo.driver.module.base.data.UserInfoPreferences
+import com.mxingo.driver.module.RecordingService
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
 import com.mxingo.driver.module.base.log.LogUtils
@@ -36,6 +39,9 @@ import com.mxingo.driver.widget.MyProgress
 import com.mxingo.driver.widget.ShowToast
 import com.mxingo.driver.widget.SlippingButton
 import com.squareup.otto.Subscribe
+import java.io.File
+import java.io.IOException
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -72,15 +78,19 @@ class OrderInfoActivity : BaseActivity() {
     private lateinit var llFinish: LinearLayout
     private lateinit var tvFinishEstimate: TextView
     private lateinit var tvFinishTime: TextView
+    private lateinit var tvMsg: TextView
 
     private lateinit var tvOrderNo: TextView
     private lateinit var tvOrderFrom: TextView
+    private lateinit var tvRepub: TextView
+    private lateinit var ivBack: ImageView
 
 
     private lateinit var orderNo: String
     private lateinit var flowNo: String
-    private lateinit var actionChangeOrder: MenuItem
+    //    private lateinit var actionChangeOrder: MenuItem
     private lateinit var driverNo: String
+    private lateinit var fleetid: String
 
     @Inject
     lateinit var presenter: MyPresenter
@@ -88,13 +98,16 @@ class OrderInfoActivity : BaseActivity() {
     private lateinit var progress: MyProgress
 
 
+    lateinit  var mMediaRecorder:MediaRecorder
+    private lateinit var filePath:String
+
+
     companion object {
+        const val PERMISSION_RECORD_AUDIO=101
+
         @JvmStatic
         fun startOrderInfoActivity(activty: Activity, orderNo: String, flowNo: String, driverNo: String) {
-            activty.startActivityForResult(Intent(activty, OrderInfoActivity::class.java).
-                    putExtra(Constants.ORDER_NO, orderNo).
-                    putExtra(Constants.FLOW_NO, flowNo).
-                    putExtra(Constants.DRIVER_NO, driverNo), 1)
+            activty.startActivityForResult(Intent(activty, OrderInfoActivity::class.java).putExtra(Constants.ORDER_NO, orderNo).putExtra(Constants.FLOW_NO, flowNo).putExtra(Constants.DRIVER_NO, driverNo), 1)
         }
     }
 
@@ -111,15 +124,21 @@ class OrderInfoActivity : BaseActivity() {
         Handler().postDelayed({
             progress.show()
             presenter.qryOrder(orderNo)
-        }, 500)
+        }, 300)
 
         BaiduMapUtil.getInstance().registerLocationListener()
     }
 
 
     private fun initView() {
-        setToolbar(toolbar = findViewById(R.id.toolbar) as Toolbar)
-        (findViewById(R.id.tv_toolbar_title) as TextView).text = "订单详情"
+//        setToolbar(toolbar = findViewById(R.id.toolbar) as Toolbar)
+//        (findViewById(R.id.tv_toolbar_title) as TextView).text = "订单详情"
+        ivBack = findViewById(R.id.iv_back_info) as ImageView
+
+        ivBack.setOnClickListener {
+            finish()
+        }
+        tvRepub = findViewById(R.id.tv_repub) as TextView
 
         tvOrderType = findViewById(R.id.tv_order_type) as TextView
         tvBookTime = findViewById(R.id.tv_book_time) as TextView
@@ -158,6 +177,12 @@ class OrderInfoActivity : BaseActivity() {
         tvFinishTime = findViewById(R.id.tv_finish_time) as TextView
         tvOrderNo = findViewById(R.id.tv_order_no) as TextView
         tvOrderFrom = findViewById(R.id.tv_order_from_detail) as TextView
+        tvMsg = findViewById(R.id.tv_msg) as TextView
+
+
+        tvRepub.setOnClickListener {
+            presenter.reassignment(fleetid, orderNo)
+        }
     }
 
     private fun initListener(lon: Double, lat: Double, address: String) {
@@ -193,8 +218,29 @@ class OrderInfoActivity : BaseActivity() {
         }
 
         btnStartOrder.setPosition {
-            progress.show()
-            presenter.startOrder(orderNo, flowNo)
+            //progress.show()
+
+            //动态申请麦克风权限
+            if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED){
+                presenter.startOrder(orderNo, flowNo)
+            }else{
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.RECORD_AUDIO)){
+                    val message = MessageDialog(this)
+                    message.setMessageText("您的权限申请失败，请前往应用信息打开录音权限")
+                    message.setOnOkClickListener {
+                        val packageURI = Uri.parse("package:" + this@OrderInfoActivity.packageName)
+                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI)
+                        startActivity(intent)
+                        message.dismiss()
+                    }
+                    message.show()
+                }else{
+                    ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO),PERMISSION_RECORD_AUDIO)
+                }
+            }
+
+
+            //presenter.startOrder(orderNo, flowNo)
         }
 
         btnReach.setOnClickListener {
@@ -202,8 +248,6 @@ class OrderInfoActivity : BaseActivity() {
             val bookTime = tvBookTime.text.toString().substring(0, 16)
             val leftTime = TimeUtil.getTimeDifferenceHour(curTime, bookTime)
             val left = Integer.parseInt(leftTime.substring(0, leftTime.indexOf(".")))
-//            LogUtils.d("----------", left.toString())
-//            LogUtils.d("----------", leftTime.substring(0, leftTime.length-1))
 
             if (left < 2) {
                 val dialog = MessageDialog(this)
@@ -238,49 +282,17 @@ class OrderInfoActivity : BaseActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.order_info, menu)
-        actionChangeOrder = menu.findItem(R.id.action_change_order)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_change_order) {
-            progress.show()
-            presenter.getCurrentTime()
-//            val curTime = TimeUtil.getNowTime()
-//            val endTime = tvBookTime.text.toString().substring(0, 15)
-//            val times = TimeUtil.getTimeDifference(curTime, endTime)
-//            val times1 = times.substring(0, times.indexOf("小"))
-//            val times2 = Integer.parseInt(times1)
-//            if (times2 < 2) {
-//                val dialog = UnRepubDialog(this)
-//                dialog.setOnYesClickListener {
-//                    dialog.dismiss()
-//                }
-//                dialog.show()
-//            } else {
-//                val dialog = RepubDialog(this)
-//                dialog.setOnCancelClickListener {
-//                    dialog.dismiss()
-//                }
-//                dialog.setOnOkClickListener {
-//                    dialog.dismiss()
-//                    progress.show()
-//                    presenter.repubOrder(orderNo, flowNo, driverNo)
-//                }
-//                dialog.show()
-//            }
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         presenter.unregister(this)
         BaiduMapUtil.getInstance().unregisterLocationListener()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_RECORD_AUDIO && grantResults[0] == 0) {
+            presenter.startOrder(orderNo, flowNo)
+        }
     }
 
     @Subscribe
@@ -288,6 +300,21 @@ class OrderInfoActivity : BaseActivity() {
         if (any::class == QryOrderEntity::class) {
             val data: QryOrderEntity = any as QryOrderEntity
             if (data.rspCode.equals("00")) {
+                //Conf_Reassignmentstatus=0 不显示按钮,Conf_Reassignmentstatus=1 显示按钮
+                if (data.Conf_Reassignmentstatus.equals("0")||data.order.orderStatus>=OrderStatus.DRIVERARRIVE_TYPE||data.order.orderStatus==OrderStatus.CANCELORDER_TYPE) {
+                    tvRepub.visibility = View.GONE
+                } else {
+                    tvRepub.visibility = View.VISIBLE
+                }
+
+                //Conf_Reassignmentstatus_Msg 显示可改派时间 次字段可能为空
+                if (!TextUtil.isEmpty(data.Conf_Reassignmentstatus_Msg)) {
+                    tvMsg.visibility = View.VISIBLE
+                    tvMsg.text = data.Conf_Reassignmentstatus_Msg
+                } else {
+                    tvMsg.visibility = View.GONE
+                }
+                fleetid = data.order.orgId
                 setData(data.order)
             } else {
                 ShowToast.showCenter(this, data.rspDesc)
@@ -306,6 +333,14 @@ class OrderInfoActivity : BaseActivity() {
             progress.dismiss()
             val data = any as StartOrderEntity
             if (data.rspCode.equals("00")) {
+                //开始录音
+                var intent = Intent(this, RecordingService::class.java)
+                intent.putExtra("orderNo",orderNo)
+                var folder = File(Environment.getExternalStorageDirectory().absolutePath+"/SoundRecorder")
+            if (!folder.exists()) {
+                folder.mkdir()
+            }
+                startService(intent)
                 MapActivity.startMapActivity(this, orderNo, flowNo, driverNo)
                 finish()
             } else {
@@ -316,10 +351,25 @@ class OrderInfoActivity : BaseActivity() {
             progress.dismiss()
             val data = any as CommEntity
             if (data.rspCode.equals("00")) {
-                ShowToast.showCenter(this, "改派成功")
+                ShowToast.showCenter(this, data.rspDesc)
                 finish()
             } else {
                 ShowToast.showCenter(this, data.rspDesc)
+            }
+        } else if (any::class == ResultEntity::class) {//改派限制
+            //progress.dismiss()
+            val data = any as ResultEntity
+            if (data.rspCode.equals("00")) {
+                progress.show()
+                presenter.repubOrder(orderNo, flowNo, driverNo)
+            } else {
+                //ShowToast.showCenter(this, data.rspDesc)
+                val dialog = MessageDialog2(this)
+                dialog.setMessageText(data.rspDesc)
+                dialog.setOnOkClickListener {
+                    dialog.dismiss()
+                }
+                dialog.show()
             }
         } else if (any::class == CurrentTimeEntity::class) {
             progress.dismiss()
@@ -409,7 +459,7 @@ class OrderInfoActivity : BaseActivity() {
             tvEstimate.text = "本次行程，约${orderInfo.planMileage / 100 / 10.0}公里"
             tvEstimate.visibility = View.VISIBLE
             btnReach.visibility = View.VISIBLE
-            actionChangeOrder.isVisible = true
+//            actionChangeOrder.isVisible = true
             tvOrderStatus.text = OrderStatus.getKey(orderInfo.orderStatus)
         } else if (orderInfo.orderStatus == OrderStatus.CANCELORDER_TYPE) {  //取消订单
             btnNavigation.visibility = View.GONE
@@ -423,7 +473,7 @@ class OrderInfoActivity : BaseActivity() {
             btnNavigation.visibility = View.GONE
             btnTrace.visibility = View.GONE
             btnStartOrder.visibility = View.VISIBLE
-            actionChangeOrder.isVisible = false
+//            actionChangeOrder.isVisible = false
             btnReach.visibility = View.GONE
             btnStartOrder.setHint("向右滑动开始用车")
             tvOrderStatus.text = OrderStatus.getKey(orderInfo.orderStatus)

@@ -107,4 +107,6 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
 
+    <string name="default_file_name">My_Recording</string>
+
 </resources>

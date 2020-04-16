@@ -13,6 +13,16 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
+
+
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+
     <!--8.0未知来源的应用权限 更新App-->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
@@ -174,6 +184,10 @@
         <service
             android:name="com.igexin.download.DownloadService"
             android:process=":pushservice"/>
+
+
+        <service android:name=".module.RecordingService"/>
+
 
         <receiver android:name="com.igexin.download.DownloadReceiver">
             <intent-filter>

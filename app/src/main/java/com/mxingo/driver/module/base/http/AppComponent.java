@@ -8,6 +8,7 @@ import com.mxingo.driver.module.MyBillActivity;
 import com.mxingo.driver.module.NoticeActivity;
 import com.mxingo.driver.module.NoticeInfoActivity;
 import com.mxingo.driver.module.DriverRegisterActivity;
+import com.mxingo.driver.module.RecordingService;
 import com.mxingo.driver.module.SettingActivity;
 import com.mxingo.driver.module.base.map.route.SearchRouteActivity;
 import com.mxingo.driver.module.order.MapActivity;
@@ -62,4 +63,6 @@ public interface AppComponent {
     void inject(DriverRegisterActivity activity);
 
     void inject(CarRegisterActivity activity);
+
+    void inject(RecordingService service);
 }
