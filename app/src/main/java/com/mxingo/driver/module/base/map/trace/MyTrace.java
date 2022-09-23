@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 
+import com.baidu.location.LocationClient;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.trace.LBSTraceClient;
@@ -31,6 +32,7 @@ import com.baidu.trace.model.StatusCodes;
 import com.baidu.trace.model.TransportMode;
 import com.mxingo.driver.MyApplication;
 import com.mxingo.driver.R;
+import com.mxingo.driver.module.base.data.MyModulePreference;
 import com.mxingo.driver.module.base.data.UserInfoPreferences;
 import com.mxingo.driver.module.base.log.LogUtils;
 import com.mxingo.driver.module.take.MainActivity;
@@ -40,9 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * Created by zhouwei on 2016/11/3.
- */
 
 public class MyTrace {
     private static MyTrace myTrace;
@@ -95,6 +94,7 @@ public class MyTrace {
         if (trace == null) {
             // 初始化轨迹服务
             trace = new Trace(serviceId, UserInfoPreferences.getInstance().getMobile(), true);
+//            trace = new Trace(serviceId, MyModulePreference.getInstance().getMobile(), true);
             trace.setNotification(initNotification());
         }
 
@@ -113,10 +113,10 @@ public class MyTrace {
 
         // 设置PendingIntent
         builder.setContentIntent(PendingIntent.getActivity(context, 2, notificationIntent, 0))
-                .setLargeIcon(icon)  // 设置下拉列表中的图标(大图标)
-                .setContentTitle("百度鹰眼") // 设置下拉列表里的标题
+                //.setLargeIcon(icon)  // 设置下拉列表中的图标(大图标)
+                //.setContentTitle("百度鹰眼") // 设置下拉列表里的标题
                 .setSmallIcon(R.drawable.push) // 设置状态栏内的小图标
-                .setContentText("服务正在运行...") // 设置上下文内容
+                .setContentText("百度鹰眼服务已开启") // 设置上下文内容
                 .setWhen(System.currentTimeMillis()); // 设置该通知发生的时间
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && null != notificationManager) {
@@ -155,29 +155,29 @@ public class MyTrace {
         public void onBindServiceCallback(int i, String s) {
             LogUtils.d("onBindServiceCallback", String.format("errorNo:%d, message:%s ", i, s));
         }
-
+        // 开启服务回调
         @Override
         public void onStartTraceCallback(int i, String s) {
             LogUtils.d("onStartTraceCallback", String.format("errorNo:%d, message:%s ", i, s));
             client.startGather(traceListener);
         }
-
+        // 停止服务回调
         @Override
         public void onStopTraceCallback(int i, String s) {
             LogUtils.d("onStopTraceSuccess", String.format("errorNo:%d, message:%s ", i, s));
             client.stopGather(traceListener);
         }
-
+        // 开启采集回调
         @Override
         public void onStartGatherCallback(int i, String s) {
             LogUtils.d("onStartGatherCallback", String.format("errorNo:%d, message:%s ", i, s));
         }
-
+        // 停止采集回调
         @Override
         public void onStopGatherCallback(int i, String s) {
             LogUtils.d("onStopGatherCallback", String.format("errorNo:%d, message:%s ", i, s));
         }
-
+        // 推送回调
         @Override
         public void onPushCallback(byte b, PushMessage pushMessage) {
             LogUtils.d("onPushCallback", String.format("messageType:%d, messageContent:%s ", b, pushMessage.getMessage()));

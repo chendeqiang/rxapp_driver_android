@@ -3,12 +3,12 @@ package com.mxingo.driver.module.order
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.*
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.tabs.TabLayout
 import com.mxingo.driver.R
 import com.mxingo.driver.model.CurrentTimeEntity
 import com.mxingo.driver.model.ListDriverOrderEntity
@@ -16,6 +16,7 @@ import com.mxingo.driver.model.OrderEntity
 import com.mxingo.driver.model.QryOrderEntity
 import com.mxingo.driver.module.BaseActivity
 import com.mxingo.driver.module.LoginActivity
+import com.mxingo.driver.module.base.data.MyModulePreference
 import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
@@ -66,7 +67,7 @@ class MyOrderActivity : BaseActivity(), View.OnClickListener, AbsListView.OnScro
         ComponentHolder.appComponent!!.inject(this)
         presenter.register(this)
         progress = MyProgress(this)
-        driverNo = intent.getStringExtra(Constants.DRIVER_NO)
+        driverNo = intent.getStringExtra(Constants.DRIVER_NO) as String
         initView()
 
     }
@@ -90,7 +91,8 @@ class MyOrderActivity : BaseActivity(), View.OnClickListener, AbsListView.OnScro
                 findViewById(R.id.btn_send_plane) as MyTagButton,
                 findViewById(R.id.btn_take_train) as MyTagButton,
                 findViewById(R.id.btn_send_train) as MyTagButton,
-                findViewById(R.id.btn_day_renter) as MyTagButton)
+                findViewById(R.id.btn_day_renter) as MyTagButton,
+                findViewById(R.id.btn_d_d) as MyTagButton)
 
         adapter = MyOrderAdapter(this, arrayListOf())
         lvOrders.adapter = adapter
@@ -139,7 +141,11 @@ class MyOrderActivity : BaseActivity(), View.OnClickListener, AbsListView.OnScro
         pageIndex = 0
         adapter.clear()
         progress.show()
-        presenter.listDriverOrder(driverNo, flowStatus, orderType, pageIndex, pageCount)
+        if (orderType==6){
+            presenter.listDriverOrder(driverNo, flowStatus, 100, pageIndex, pageCount)
+        }else{
+            presenter.listDriverOrder(driverNo, flowStatus, orderType, pageIndex, pageCount)
+        }
     }
 
     override fun onStart() {
@@ -191,6 +197,8 @@ class MyOrderActivity : BaseActivity(), View.OnClickListener, AbsListView.OnScro
             } else if (data.rspCode.equals("101")) {
                 ShowToast.showCenter(this, "TOKEN失效，请重新登陆")
                 UserInfoPreferences.getInstance().clear()
+//                MyModulePreference.getInstance().driverNo=""
+//                MyModulePreference.getInstance().token=""
                 LoginActivity.startLoginActivity(this)
                 finish()
             }

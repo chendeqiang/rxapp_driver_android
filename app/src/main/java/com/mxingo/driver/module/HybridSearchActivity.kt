@@ -5,8 +5,8 @@ import android.content.Intent
 import android.net.http.SslError
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.webkit.*
+import androidx.annotation.RequiresApi
 import com.mxingo.driver.R
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter

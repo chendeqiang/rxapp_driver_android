@@ -3,11 +3,11 @@ package com.mxingo.driver.module.base.map.route;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
-
+import com.baidu.location.LocationClient;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.common.BaiduMapSDKException;
 import com.baidu.mapapi.map.MapView;
 import com.mxingo.driver.R;
 import com.mxingo.driver.model.CloseOrderEntity;
@@ -23,6 +23,7 @@ import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -53,8 +54,12 @@ public class SearchRouteActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //百度地图
-        SDKInitializer.initialize(this);
+        SDKInitializer.setAgreePrivacy(getApplicationContext(), true);
+
+        // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
+        SDKInitializer.initialize(getApplicationContext());
         SDKInitializer.setCoordType(CoordType.BD09LL);
         setContentView(R.layout.activity_search_route);
         ButterKnife.bind(this);
@@ -69,8 +74,8 @@ public class SearchRouteActivity extends BaseActivity {
         driverNo = getIntent().getStringExtra(Constants.DRIVER_NO);
         progress.show();
         presenter.qryOrder(orderNo);
-        mLat = BaiduMapUtil.getInstance().getLat();
-        mLon = BaiduMapUtil.getInstance().getLon();
+//        mLat = BaiduMapUtil.getInstance().getLat();
+//        mLon = BaiduMapUtil.getInstance().getLon();
     }
 
     @Subscribe

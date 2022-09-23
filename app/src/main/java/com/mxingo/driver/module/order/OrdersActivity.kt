@@ -3,18 +3,19 @@ package com.mxingo.driver.module.order
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.Toolbar
 import android.widget.AbsListView
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mxingo.driver.R
 import com.mxingo.driver.model.ListOrderEntity
 import com.mxingo.driver.model.OrderEntity
 import com.mxingo.driver.module.BaseActivity
 import com.mxingo.driver.module.LoginActivity
+import com.mxingo.driver.module.base.data.MyModulePreference
 import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
@@ -54,7 +55,7 @@ class OrdersActivity : BaseActivity(), AbsListView.OnScrollListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_orders)
-        driverNo = intent.getStringExtra(Constants.DRIVER_NO)
+        driverNo = intent.getStringExtra(Constants.DRIVER_NO) as String
         ComponentHolder.appComponent!!.inject(this)
         progress = MyProgress(this)
         presenter.register(this)
@@ -100,7 +101,7 @@ class OrdersActivity : BaseActivity(), AbsListView.OnScrollListener {
         super.onStart()
         pageIndex = 0
         orderAdapter.clear()
-        progress.show()
+//        progress.show()
         presenter.listOrder(driverNo, pageIndex, pageCount)
     }
 
@@ -135,6 +136,8 @@ class OrdersActivity : BaseActivity(), AbsListView.OnScrollListener {
             } else if (listOrder.rspCode.equals("101")) {
                 ShowToast.showCenter(this, "TOKEN失效，请重新登陆")
                 UserInfoPreferences.getInstance().clear()
+//                MyModulePreference.getInstance().driverNo =""
+//                MyModulePreference.getInstance().token =""
                 LoginActivity.startLoginActivity(this)
                 finish()
             }

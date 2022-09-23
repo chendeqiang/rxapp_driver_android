@@ -3,10 +3,12 @@ package com.mxingo.driver.module
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
 import com.mxingo.driver.R
+import com.mxingo.driver.dialog.MessageDialog2
 import com.mxingo.driver.model.CheckVersionEntity
 import com.mxingo.driver.model.CommEntity
 import com.mxingo.driver.model.DriverInfoEntity
@@ -24,6 +26,7 @@ import com.mxingo.driver.widget.ShowToast
 import com.squareup.otto.Subscribe
 import javax.inject.Inject
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class SettingActivity : BaseActivity() {
 
     private lateinit var tvCarType: TextView
@@ -33,6 +36,10 @@ class SettingActivity : BaseActivity() {
     lateinit var presenter: MyPresenter
     private lateinit var driverNo: String
     private lateinit var progress: MyProgress
+
+    private lateinit var rlCheckVersion:RelativeLayout
+    private lateinit var rlPrivacyPolicy:RelativeLayout
+    private lateinit var rlCancelUser:RelativeLayout
 
     companion object {
         @JvmStatic
@@ -64,6 +71,12 @@ class SettingActivity : BaseActivity() {
 
         mySwitch = findViewById(R.id.my_switch) as MySwitch
 
+        rlCheckVersion =findViewById(R.id.rl_check_version) as RelativeLayout
+
+        rlPrivacyPolicy=findViewById(R.id.rl_privacy_policy) as RelativeLayout
+
+        rlCancelUser = findViewById(R.id.rl_cancel_user) as RelativeLayout
+
         tvCheckVersion = findViewById(R.id.tv_check_version) as TextView
 
         mySwitch.setResult { isSwitch ->
@@ -80,9 +93,22 @@ class SettingActivity : BaseActivity() {
 
         tvCheckVersion.text = "v_" + VersionInfo.getVersionName()
 
-        findViewById(R.id.rl_check_version).setOnClickListener {
+        rlCheckVersion.setOnClickListener {
             progress.show()
             presenter.checkVersion(Constants.RX_DRIVER_APP)
+        }
+
+        rlCancelUser.setOnClickListener {
+            val dialog = MessageDialog2(this)
+            dialog.setMessageText("账号更正、删除、注销请联系车队处理")
+            dialog.setOnOkClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
+        }
+
+        rlPrivacyPolicy.setOnClickListener {
+            WebViewActivity.startWebViewActivity(this,"隐私政策","http://www.mxingo.com/mxnet/app/yinsi.html");
         }
     }
 

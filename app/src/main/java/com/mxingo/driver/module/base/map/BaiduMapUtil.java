@@ -1,5 +1,6 @@
 package com.mxingo.driver.module.base.map;
 
+import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -18,14 +19,11 @@ import com.mxingo.driver.MyApplication;
 import com.mxingo.driver.R;
 import com.mxingo.driver.utils.TextUtil;
 
-/**
- * Created by zhouwei on 16/9/30.
- */
 
 public class BaiduMapUtil {
 
     private LocationClient mLocClient;
-    private BDLocationListener myListener;
+    private BDAbstractLocationListener myListener;
     private LocationClientOption option;
     private ACache aCache;
     private BaiduMap baiduMap;
@@ -44,6 +42,7 @@ public class BaiduMapUtil {
 
 
     public BaiduMapUtil() {
+        LocationClient.setAgreePrivacy(true);
         initBaidu();
     }
 
@@ -74,13 +73,17 @@ public class BaiduMapUtil {
 
     private void initBaidu() {
         if (mLocClient == null) {
-            mLocClient = new LocationClient(MyApplication.application);
+            try {
+                mLocClient = new LocationClient(MyApplication.application);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if (aCache == null) {
             aCache = ACache.get(MyApplication.application);
         }
         if (myListener == null) {
-            myListener = new BDLocationListener() {
+            myListener = new BDAbstractLocationListener() {
                 @Override
                 public void onReceiveLocation(BDLocation bdLocation) {
                     if (bdLocation == null) {

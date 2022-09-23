@@ -1,16 +1,18 @@
 package com.mxingo.driver.widget;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
 import com.mxingo.driver.R;
+
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 
 /**
  * Created by zhouwei on 2017/7/4.
  */
 
-public class MyTagButton extends android.support.v7.widget.AppCompatButton {
+public class MyTagButton extends AppCompatButton {
     public MyTagButton(Context context) {
         super(context);
     }

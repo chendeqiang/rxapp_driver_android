@@ -9,9 +9,9 @@
                 tools:context="com.mxingo.driver.module.take.MainActivity"
                 tools:showIn="@layout/app_bar_main">
 
-    <RelativeLayout
-        android:id="@+id/rl_notice"
-        android:layout_width="150dp"
+    <LinearLayout
+        android:id="@+id/ll_antiepidemic"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/activity_horizontal_margin"
@@ -23,20 +23,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:src="@drawable/ic_notice"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/item_margin"
-            android:layout_marginRight="@dimen/default_height"
-            android:text="公告"
+            android:text="防疫上报"
             android:textColor="@color/text_color_black_gray"
             android:textSize="@dimen/text_size_16"/>
-    </RelativeLayout>
+    </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
@@ -45,6 +42,36 @@
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:src="@drawable/ic_home_bg"/>
+
+
+    <FrameLayout
+        android:visibility="visible"
+        android:layout_above="@+id/btn_online"
+        android:id="@+id/fi_call"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            app:elevation="3dp"
+            app:backgroundTint="#FF2121"
+            app:fabSize="normal"
+            app:borderWidth="10dp"
+            android:layout_margin="12dp"
+            app:layout_anchorGravity="bottom|end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_size_14"
+            android:layout_gravity="center"
+            android:text="报警"
+            android:elevation="7dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
 
     <Button
         android:id="@+id/btn_online"

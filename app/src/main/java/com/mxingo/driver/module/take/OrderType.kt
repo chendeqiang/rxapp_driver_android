@@ -1,10 +1,7 @@
 package com.mxingo.driver.module.take
 
-/**
- * Created by zhouwei on 2017/7/10.
- */
 enum class OrderType{
-    TAKE_PLANE(1, "接机"), SEND_PLANE(2, "送机"),  TAKE_TRAIN(3, "接站"), SEND_TRAIN(4, "送站"), DAY_RENTER(5, "日租");
+    TAKE_PLANE(1, "接机"), SEND_PLANE(2, "送机"),  TAKE_TRAIN(3, "接站"), SEND_TRAIN(4, "送站"), DAY_RENTER(5, "日租"),DIAN_DUI_DIAN(100,"点对点");
 
     private var value: Int
     private  var key: String
@@ -27,5 +24,6 @@ enum class OrderType{
         const val TAKE_TRAIN_TYPE = 3
         const val SEND_TRAIN_TYPE = 4
         const val DAY_RENTER_TYPE = 5
+        const val DIAN_DUI_DIAN = 100
     }
 }

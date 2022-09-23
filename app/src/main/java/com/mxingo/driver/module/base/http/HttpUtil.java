@@ -2,15 +2,14 @@ package com.mxingo.driver.module.base.http;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.mxingo.driver.MyApplication;
 import com.mxingo.driver.widget.ShowToast;
 
-/**
- * Created by zhouwei on 2017/6/22.
- */
 
 public class HttpUtil {
     private static final int NETTYPE_WIFI = 0x01;
@@ -20,11 +19,21 @@ public class HttpUtil {
     public static boolean checkNetwork(Context context) {
         if (MyApplication.application.getClass() == MyApplication.class) {
             ConnectivityManager conn = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo net = conn.getActiveNetworkInfo();
-            if (net != null && net.isConnected()) {
-                return true;
+            if(Build.VERSION.SDK_INT>=24) {
+                NetworkCapabilities networkCapabilities = conn.getNetworkCapabilities(conn.getActiveNetwork());
+                if (networkCapabilities!=null){
+                    return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+                }else {
+                    ShowToast.showCenter(context, "当前网络不可用");
+                }
+            }else {
+                NetworkInfo net = conn.getActiveNetworkInfo();
+                if (net != null && net.isConnected()) {
+                    return true;
+                }else {
+                    ShowToast.showCenter(context, "当前网络不可用");
+                }
             }
-            ShowToast.showCenter(context, "当前网络不可用");
         }
         return false;
     }

@@ -16,9 +16,7 @@ import com.mxingo.driver.utils.TextUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by zhouwei on 2017/7/3.
- */
+
 
 public class SlippingButton extends RelativeLayout {
     @BindView(R.id.btn_slipping)
@@ -89,9 +87,10 @@ public class SlippingButton extends RelativeLayout {
                 break;
             }
             case MotionEvent.ACTION_UP: {
-                if (!isOver) {
-                    startPosition();
-                }
+//                if (!isOver) {
+//                    startPosition();
+//                }
+                startPosition();
                 break;
             }
             case MotionEvent.ACTION_CANCEL: {

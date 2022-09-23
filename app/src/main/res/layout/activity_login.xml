@@ -2,6 +2,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:orientation="vertical"
                 tools:context="com.mxingo.driver.module.LoginActivity">
 
 
@@ -111,7 +112,7 @@
 
                 <Button
                     android:id="@+id/btn_get_vcode"
-                    android:layout_width="80dp"
+                    android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -169,15 +170,98 @@
                 android:background="@color/line_color"/>
 
 
+
+            <LinearLayout
+                android:layout_marginTop="50dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <CheckBox
+                    android:id="@+id/ck_agreement"
+                    android:layout_gravity="center_vertical"
+                    android:buttonTint="@color/text_color_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/text_size_14"
+                        android:text="阅读并同意"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/tv_user_agreement"
+                        android:textSize="@dimen/text_size_14"
+                        android:textColor="@color/colorButtonBg"
+                        android:text="《用户服务协议》"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/text_size_14"
+                        android:text="和"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/tv_privacy_policy"
+                        android:textSize="@dimen/text_size_14"
+                        android:textColor="@color/colorButtonBg"
+                        android:text="《隐私政策》"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
             <Button
                 android:id="@+id/btn_sign"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_height"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/colorButtonBg"
                 android:text="@string/btn_login"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_18"/>
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/default_margin10"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textSize="@dimen/text_size_14"
+                    android:text="点击登录表示您同意"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_user_agreement1"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/colorButtonBg"
+                    android:text="《用户协议》"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="@dimen/text_size_14"
+                    android:text="和"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_privacy_policy1"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/colorButtonBg"
+                    android:text="《隐私政策》"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+
 
             <Button
                 android:id="@+id/btn_register"
@@ -191,6 +275,7 @@
                 android:visibility="gone"/>
 
             <TextView
+                android:visibility="gone"
                 android:layout_gravity="center_horizontal"
                 android:textSize="@dimen/text_size_12"
                 android:layout_marginTop="@dimen/default_margin10"

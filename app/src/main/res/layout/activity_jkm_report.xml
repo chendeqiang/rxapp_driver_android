@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/kprogresshud_grey_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/action_bar" />
+
+    <LinearLayout
+        android:id="@+id/ll_report"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_22"
+            android:textColor="@color/cardview_dark_background"
+            android:text="健康码"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="@dimen/text_size_18"
+            android:text="请上传健康码信息"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="@dimen/text_size_22"
+                android:text="*"
+                android:textColor="@color/design_default_color_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textStyle="bold"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="@dimen/text_size_22"
+                android:text="请上传凭证"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_jkm_add"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_add"
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:padding="15dp"
+        android:text="@string/true_commitment"
+        android:layout_above="@+id/ll_report2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/ll_report2"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <Button
+            android:id="@+id/btn_jkm"
+            android:layout_margin="20dp"
+            android:layout_gravity="center_horizontal"
+            android:hint="确认信息无误，点击提交"
+            android:background="@drawable/btn_gray_round"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

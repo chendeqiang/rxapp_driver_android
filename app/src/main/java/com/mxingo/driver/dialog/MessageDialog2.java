@@ -3,17 +3,16 @@ package com.mxingo.driver.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 import com.mxingo.driver.R;
 import com.mxingo.driver.utils.TextUtil;
 
-/**
- * Created by zhouwei on 2017/7/13.
- */
+import androidx.annotation.NonNull;
+
 
 public class MessageDialog2 extends Dialog {
     private TextView msgText;

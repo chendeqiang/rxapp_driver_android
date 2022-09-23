@@ -6,17 +6,16 @@ import android.content.SharedPreferences;
 import com.mxingo.driver.MyApplication;
 
 
-/**
- * Created by zhouwei on 16/1/7.
- */
 public class UserInfoPreferences {
     private static UserInfoPreferences preference = null;
     private SharedPreferences sharedPreference;
     private String packageName = "";
 
+    private final String ISFRISTSTART = "isFristStart";
     private final String MOBILE = "mobile"; //手机号
     private final String DEVTOKEN = "devToken";//cid
     private final String DRIVERNN = "driverNo";
+    private final String ORDERNN = "orderNo";
     private final String LECHTOKEN = "token";
     private final String CAR_TEAM = "car_team";
     private final String START_TIME = "start_time";//开始行程时间
@@ -37,6 +36,16 @@ public class UserInfoPreferences {
         sharedPreference = context.getSharedPreferences(packageName, context.MODE_MULTI_PROCESS);
     }
 
+    public Boolean isFristStart(){
+        return sharedPreference.getBoolean(ISFRISTSTART,true);
+    }
+
+
+    public void setNotFristStart(){
+        SharedPreferences.Editor edit = sharedPreference.edit();
+        edit.putBoolean(ISFRISTSTART,false);
+        edit.apply();
+    }
     public String getDriverNo() {
         return sharedPreference.getString(DRIVERNN, "");
     }
@@ -47,6 +56,17 @@ public class UserInfoPreferences {
         edit.putString(DRIVERNN, driverNo);
         edit.apply();
     }
+
+    public String getOrderNo(){
+        return sharedPreference.getString(ORDERNN, "");
+    }
+
+    public void setOrderNo(String orderNo){
+        SharedPreferences.Editor edit = sharedPreference.edit();
+        edit.putString(ORDERNN,orderNo);
+        edit.apply();
+    }
+
 
     public String getMobile() {
         return sharedPreference.getString(MOBILE, "");

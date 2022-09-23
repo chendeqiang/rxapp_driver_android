@@ -3,12 +3,13 @@ package com.mxingo.driver.module.take
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.*
+import androidx.appcompat.widget.Toolbar
+import com.baidu.location.LocationClient
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.mxingo.driver.OrderModel
 import com.mxingo.driver.R
@@ -81,7 +82,7 @@ class TakeOrderActivity : BaseActivity(), TextWatcher {
         initView()
 
         orderEntity = intent.getSerializableExtra(Constants.ACTIVITY_DATA) as OrderEntity
-        driverNo = intent.getStringExtra(Constants.DRIVER_NO)
+        driverNo = intent.getStringExtra(Constants.DRIVER_NO) as String
         progress.show()
         presenter.qryOrder(orderEntity.orderNo)
 
@@ -138,7 +139,7 @@ class TakeOrderActivity : BaseActivity(), TextWatcher {
         tvFee.text = "¥ " + String.format("%.2f",order.orderAmount.toDouble() / 100) + " 元"
         tvOrderNo.text = "订单号: " + order.orderNo
         tvPlanMilleage.text = "${order.planMileage / 100 / 10.0}公里"
-        if (OrderType.SEND_PLANE_TYPE == order.orderType || OrderType.TAKE_PLANE_TYPE == order.orderType) {
+        if (OrderType.SEND_PLANE_TYPE == order.orderType || OrderType.TAKE_PLANE_TYPE == order.orderType ) {
             tvFlightHint.text = "航班:"
             imgFlight.setImageResource(R.drawable.ic_plane)
             llEndAddress.visibility = View.VISIBLE
@@ -148,7 +149,12 @@ class TakeOrderActivity : BaseActivity(), TextWatcher {
             imgFlight.setImageResource(R.drawable.ic_train)
             llEndAddress.visibility = View.VISIBLE
             llAddress.visibility = View.GONE
-        } else {
+        }else if (OrderType.DIAN_DUI_DIAN==order.orderType){
+            llFlight.visibility = View.GONE
+            llEndAddress.visibility = View.VISIBLE
+            llAddress.visibility = View.GONE
+        }
+        else {
             llEndAddress.visibility = View.GONE
             llFlight.visibility = View.GONE
             llStartAddress.visibility = View.GONE

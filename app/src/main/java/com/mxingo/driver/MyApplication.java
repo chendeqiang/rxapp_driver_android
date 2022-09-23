@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.common.BaiduMapSDKException;
 import com.iflytek.cloud.Setting;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
@@ -12,18 +13,11 @@ import com.mxingo.driver.module.base.http.AppComponent;
 import com.mxingo.driver.module.base.http.AppModule;
 import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.DaggerAppComponent;
-import com.mxingo.driver.module.base.push.MyPushService;
-import com.mxingo.driver.module.base.push.PushIntentService;
-
 import com.mxingo.driver.utils.Constants;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 
-
-/**
- * Created by zhouwei on 2017/6/22.
- */
 
 public class MyApplication extends Application {
 
@@ -41,17 +35,23 @@ public class MyApplication extends Application {
         bus = new Bus();
         bus.register(this);
 
-
     }
 
     @Subscribe
     public void startApp(Object o) {
+
         //个推初始化
-        PushManager.getInstance().initialize(this.getApplicationContext(), MyPushService.class);
-        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), PushIntentService.class);
+        PushManager.getInstance().initialize(this.getApplicationContext());
 
         //百度地图
-        SDKInitializer.initialize(getApplicationContext());
+        // 是否同意隐私政策，默认为false
+        SDKInitializer.setAgreePrivacy(getApplicationContext(), true);
+        try {
+            // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
+            SDKInitializer.initialize(getApplicationContext());
+        } catch (BaiduMapSDKException e) {
+
+        }
         SDKInitializer.setCoordType(CoordType.BD09LL);
 
         //讯飞语音

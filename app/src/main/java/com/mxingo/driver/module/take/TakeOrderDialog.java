@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -38,13 +37,10 @@ import java.util.Stack;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-/**
- * Created by zhouwei on 2017/6/22.
- */
 
 public class TakeOrderDialog extends Dialog implements TextWatcher {
 
@@ -276,7 +272,13 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
             llStartAddress.setVisibility(View.VISIBLE);
             llAddress.setVisibility(View.GONE);
             tvBookTime.setText(TextUtil.getFormatWeek(Long.valueOf(order.bookTime)));
-        } else {
+        } else if (order.orderType== OrderType.DIAN_DUI_DIAN){
+            llEndAddress.setVisibility(View.VISIBLE);
+            llFlight.setVisibility(View.GONE);
+            llStartAddress.setVisibility(View.VISIBLE);
+            llAddress.setVisibility(View.GONE);
+            tvBookTime.setText(TextUtil.getFormatWeek(Long.valueOf(order.bookTime)));
+        }else {
             llEndAddress.setVisibility(View.GONE);
             llFlight.setVisibility(View.GONE);
             llStartAddress.setVisibility(View.GONE);

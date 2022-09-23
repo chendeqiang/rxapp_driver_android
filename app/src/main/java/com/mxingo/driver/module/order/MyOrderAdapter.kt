@@ -1,13 +1,13 @@
 package com.mxingo.driver.module.order
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.mxingo.driver.R
 import com.mxingo.driver.model.ListDriverOrderEntity
 import com.mxingo.driver.module.take.CarLevel
@@ -15,9 +15,7 @@ import com.mxingo.driver.module.take.OrderType
 import com.mxingo.driver.utils.TextUtil
 import java.text.SimpleDateFormat
 
-/**
- * Created by zhouwei on 2017/6/29.
- */
+
 class MyOrderAdapter() : BaseAdapter() {
 
     private lateinit var context: Context
@@ -62,7 +60,7 @@ class MyOrderAdapter() : BaseAdapter() {
         holder.tvOrderNo.text = order.orderNo
         holder.tvOrderType.text = OrderType.getKey(order.orderType) + "(" + CarLevel.getKey(order.carLevel) + ")"
         holder.tvBookTime.text = sdfMoth.format(order.bookTime.toLong()) + " (" + TextUtil.getWeekDay(order.bookTime.toLong()) + ") " + sdfDay.format(order.bookTime.toLong())
-        if (order.orderType == OrderType.DAY_RENTER_TYPE) {
+        if (order.orderType == OrderType.DAY_RENTER_TYPE) {//日租
             holder.llBusiness.visibility = View.VISIBLE
             holder.llNoBusiness.visibility = View.GONE
             holder.tvAddress.text = order.startAddr

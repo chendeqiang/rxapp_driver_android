@@ -1,25 +1,18 @@
 package com.mxingo.driver.module.base.download;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mxingo.driver.R;
 import com.mxingo.driver.module.BaseActivity;
 import com.mxingo.driver.utils.Constants;
-import com.mxingo.driver.widget.ShowToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +26,20 @@ public class UpdateVersionActivity extends BaseActivity {
     Button btnUpdateIdOk;
     @BindView(R.id.btn_update_id_cancel)
     Button btnUpdateIdCancel;
+    @BindView(R.id.tv_update_title)
+    TextView tvUpdateTitle;
+    @BindView(R.id.tv_ing)
+    TextView tvIng;
+    @BindView(R.id.sll_info)
+    ScrollView sllInfo;
+    @BindView(R.id.ll_btn_update)
+    LinearLayout llBtnUpdate;
+    @BindView(R.id.ll_show_progress)
+    LinearLayout llShowProgress;
+    @BindView(R.id.ll_info_new)
+    LinearLayout llInfoNew;
+
+
     private VersionEntity versionEntity;
 
     public static void startUpdateVersionActivity(Context context, VersionEntity versionEntity) {
@@ -52,25 +59,17 @@ public class UpdateVersionActivity extends BaseActivity {
         btnUpdateIdOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ActivityCompat.checkSelfPermission(UpdateVersionActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        checkInstallPermission();
-                    } else {
-                        new DownloadApp(versionEntity).startDownload();
-                    }
-
-                } else {
-                    ActivityCompat.requestPermissions(UpdateVersionActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUEST_PERMISSION_SDCARD_6_0);
-                }
-                if (!versionEntity.isMustUpdate) {
-                    finish();
-                }
+                llInfoNew.setVisibility(View.GONE);
+                llShowProgress.setVisibility(View.VISIBLE);
+                new UpdateService(getApplicationContext(), versionEntity).downloadAPK();
             }
         });
 
         if (versionEntity.isMustUpdate) {
             btnUpdateIdCancel.setVisibility(View.GONE);
         }
+
+
         btnUpdateIdCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,51 +81,10 @@ public class UpdateVersionActivity extends BaseActivity {
 
     }
 
-    /**
-     * 检查8.0权限
-     */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void checkInstallPermission() {
-        boolean b = UpdateVersionActivity.this.getPackageManager().canRequestPackageInstalls();
-        if (b) {
-            new DownloadApp(versionEntity).startDownload();
-        } else {
-            callPermission();
-        }
-    }
-
-    private void callPermission() {
-        Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        new DownloadApp(versionEntity).startDownload();
-        return;
-    }
-
     @Override
     public void onBackPressed() {
         if (!versionEntity.isMustUpdate) {
             super.onBackPressed();
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == Constants.REQUEST_PERMISSION_SDCARD_6_0) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    checkInstallPermission();
-                } else {
-                    //有权限去下载
-                    new DownloadApp(versionEntity).startDownload();
-                }
-            }
-        } else if (requestCode == Constants.REQUEST_PERMISSION_SDCARD_8_0) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                new DownloadApp(versionEntity).startDownload();
-            }
         }
     }
 }

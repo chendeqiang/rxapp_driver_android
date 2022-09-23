@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:background="@color/activity_bg"
-                                                 tools:context="com.mxingo.driver.module.order.OrdersActivity">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    tools:context="com.mxingo.driver.module.order.OrdersActivity">
 
-    <include layout="@layout/action_bar"/>
+    <include layout="@layout/action_bar" />
 
 
     <RelativeLayout
@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v4.widget.SwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/srl_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -26,9 +26,9 @@
                 android:layout_height="match_parent"
                 android:divider="@color/activity_bg"
                 android:dividerHeight="@dimen/item_margin"
-                android:listSelector="@android:color/transparent"/>
+                android:listSelector="@android:color/transparent" />
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <LinearLayout
             android:id="@+id/ll_empty"
@@ -41,7 +41,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_empty_orders"/>
+                android:src="@drawable/ic_empty_orders" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
                 android:layout_marginTop="@dimen/item_margin"
                 android:text="尚未有公告哦~"
                 android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_size_16" />
         </LinearLayout>
     </RelativeLayout>
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

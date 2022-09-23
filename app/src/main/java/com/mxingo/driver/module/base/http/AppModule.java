@@ -2,14 +2,11 @@ package com.mxingo.driver.module.base.http;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
+//import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import com.squareup.otto.Bus;
-
 import java.util.concurrent.TimeUnit;
-
 import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -21,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
- * Created by zhouwei on 2017/6/22.
+ * Created by chendeqiang on 2017/6/22.
  */
 @Module
 public class AppModule {
@@ -33,69 +30,65 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public OkHttpClient provideOkHttpClient() {
-        OkHttpClient okhttpClient = new OkHttpClient.Builder()
+    OkHttpClient provideOkHttpClient() {
+        return new OkHttpClient.Builder()
                 .retryOnConnectionFailure(true)
                 .readTimeout(15, TimeUnit.SECONDS)
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .build();
-        return okhttpClient;
     }
 
     @Provides
     @Singleton
-    public CallAdapter.Factory provideCallAdapter() {
-        CallAdapter.Factory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
-        return rxJavaCallAdapterFactory;
+    CallAdapter.Factory provideCallAdapter() {
+        return RxJavaCallAdapterFactory.create();
     }
 
     @Provides
     @Singleton
-    public Converter.Factory provideConverter() {
-        Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
-        return gsonConverterFactory;
+    Converter.Factory provideConverter() {
+        return GsonConverterFactory.create();
     }
 
 
     @Provides
     @Singleton
-    public Retrofit provideRetrofit(OkHttpClient okhttpClient, Converter.Factory gsonConverterFactory, CallAdapter.Factory rxJavaCallAdapterFactory) {
-        Retrofit retrofit = new Retrofit.Builder()
+    Retrofit provideRetrofit(OkHttpClient okhttpClient, Converter.Factory gsonConverterFactory, CallAdapter.Factory rxJavaCallAdapterFactory) {
+        return new Retrofit.Builder()
                 .client(okhttpClient)
                 .baseUrl(ApiConstants.ip)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(gsonConverterFactory)
                 .addCallAdapterFactory(rxJavaCallAdapterFactory)
                 .build();
-        return retrofit;
     }
 
     @Provides
     @Singleton
-    public ApiService provideApiService(Retrofit retrofit) {
+    ApiService provideApiService(Retrofit retrofit) {
         return retrofit.create(ApiService.class);
     }
 
     @Provides
     @Singleton
-    public SharedPreferences provideSharedPreferences(Context context) {
+    SharedPreferences provideSharedPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
 
     @Provides
-    public MyManger provideMyManger(ApiService service) {
+    MyManger provideMyManger(ApiService service) {
         return new MyManger(service);
     }
 
     @Provides
-    public MyPresenter provideMyPresenter(MyManger myManger) {
+    MyPresenter provideMyPresenter(MyManger myManger) {
         return new MyPresenter(new Bus(), myManger);
     }
 
 
     @Provides
-    public Context provideContext() {
+    Context provideContext() {
         return mContext;
     }
 }

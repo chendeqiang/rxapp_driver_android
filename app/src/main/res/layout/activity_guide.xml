@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#5E5E5E"
+    tools:context=".module.GuideActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="485dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="任行约车司机端用户协议及隐私政策"
+            android:textColor="#141414"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_marginTop="5dp"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="185dp">
+
+            <TextView
+                android:lineSpacingExtra="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F8F8FF"
+                android:padding="15dp"
+                android:text="@string/user_agreement"
+                android:textSize="16sp" />
+        </ScrollView>
+
+        <TextView
+            android:layout_marginTop="@dimen/default_margin"
+            android:id="@+id/tv_user_agreements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="《用户服务协议》"
+            android:textColor="@color/colorButtonBg"
+            android:textSize="@dimen/text_size_16" />
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:id="@+id/tv_privacy_policys"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/colorButtonBg"
+            android:text="《隐私政策》"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/bt_agree"
+            android:textSize="@dimen/text_size_22"
+            android:textColor="@color/bottom_tab_bg"
+            android:background="@color/text_color_blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="同意" />
+
+        <Button
+            android:id="@+id/bt_notagree"
+            android:background="@color/bottom_tab_bg"
+            android:textColor="@color/text_color_blue"
+            android:textSize="@dimen/text_size_22"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="不同意" />
+
+    </LinearLayout>
+
+</RelativeLayout>

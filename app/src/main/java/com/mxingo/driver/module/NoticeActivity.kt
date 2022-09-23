@@ -3,13 +3,13 @@ package com.mxingo.driver.module
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.Toolbar
 import android.widget.AbsListView
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mxingo.driver.R
 import com.mxingo.driver.model.ListNoticeEntity
 import com.mxingo.driver.model.NoticeEntity

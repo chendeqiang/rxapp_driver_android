@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.http.SslError
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.webkit.SslErrorHandler
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.mxingo.driver.R
 import com.mxingo.driver.module.base.log.LogUtils
 import com.mxingo.driver.utils.Constants
@@ -36,9 +36,9 @@ class WebViewActivity : BaseActivity() {
         setContentView(R.layout.activity_web_view)
         wv = findViewById(R.id.wv) as WebView
 
-        url = intent.getStringExtra(Constants.URL)
+        url = intent.getStringExtra(Constants.URL) as String
 
-        title = intent.getStringExtra(Constants.TITLE)
+        title = intent.getStringExtra(Constants.TITLE) as String
         LogUtils.d("TAG", title + "," + url)
 
         setToolbar(toolbar = findViewById(R.id.toolbar) as Toolbar)

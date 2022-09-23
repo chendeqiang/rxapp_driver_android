@@ -8,9 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-/**
- * Created by zhouwei on 2017/6/22.
- */
+
 class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
 
     fun register(any: Any) {
@@ -377,6 +375,89 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
                 })
     }
 
+
+    fun listCarPoolOrder(driverNo: String, status: Int, pageIndex: Int, pageCount: Int) {
+        manger.listCarPoolOrder(driverNo, status, pageIndex, pageCount,
+                object : Callback<ListCarPoolOrderEntity> {
+                    override fun onResponse(call: Call<ListCarPoolOrderEntity>, response: Response<ListCarPoolOrderEntity>) {
+                        LogUtils.d("listCarPoolOrder", "" + response.body() + "")
+                        if (response.body() != null) {
+                            mBs.post(response.body())
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ListCarPoolOrderEntity>, t: Throwable) {
+                        val data = ListCarPoolOrderEntity()
+                        data.rspCode = "1000"
+                        data.rspDesc = "网络连接失败"
+                        mBs.post(data)
+                        t.printStackTrace()
+                    }
+                })
+    }
+
+
+
+    fun carpoolOrderInfo(cmainid: String) {
+        manger.carpoolOrderInfo(cmainid,
+                object : Callback<CpOrderInfoEntity> {
+                    override fun onResponse(call: Call<CpOrderInfoEntity>, response: Response<CpOrderInfoEntity>) {
+                        LogUtils.d("carpoolOrderInfo", "" + response.body() + "")
+                        if (response.body() != null) {
+                            mBs.post(response.body())
+                        }
+                    }
+
+                    override fun onFailure(call: Call<CpOrderInfoEntity>, t: Throwable) {
+                        val data = CpOrderInfoEntity()
+                        data.rspCode = "1000"
+                        data.rspDesc = "网络连接失败"
+                        mBs.post(data)
+                        t.printStackTrace()
+                    }
+                })
+    }
+
+    fun dpStatusChange(ccode: String,state: String) {
+        manger.dpStatusChange(ccode,state,
+                object : Callback<DpStatusChangeEntity> {
+                    override fun onResponse(call: Call<DpStatusChangeEntity>, response: Response<DpStatusChangeEntity>) {
+                        LogUtils.d("dpStatusChange", "" + response.body() + "")
+                        if (response.body() != null) {
+                            mBs.post(response.body())
+                        }
+                    }
+
+                    override fun onFailure(call: Call<DpStatusChangeEntity>, t: Throwable) {
+                        val data = DpStatusChangeEntity()
+                        data.rspCode = "1000"
+                        data.rspDesc = "网络连接失败"
+                        mBs.post(data)
+                        t.printStackTrace()
+                    }
+                })
+    }
+
+    fun orderStatusChange(ccode: String,orderStatus: Int) {
+        manger.orderStatusChange(ccode,orderStatus,
+                object : Callback<OrderStatusChangeEntity> {
+                    override fun onResponse(call: Call<OrderStatusChangeEntity>, response: Response<OrderStatusChangeEntity>) {
+                        LogUtils.d("orderStatusChange", "" + response.body() + "")
+                        if (response.body() != null) {
+                            mBs.post(response.body())
+                        }
+                    }
+
+                    override fun onFailure(call: Call<OrderStatusChangeEntity>, t: Throwable) {
+                        val data = OrderStatusChangeEntity()
+                        data.rspCode = "1000"
+                        data.rspDesc = "网络连接失败"
+                        mBs.post(data)
+                        t.printStackTrace()
+                    }
+                })
+    }
+
     fun listBill(driverNo: String, pageIndex: Int, pageCount: Int) {
         manger.listBill(driverNo, pageIndex, pageCount, object : Callback<ListBillEntity> {
             override fun onFailure(call: Call<ListBillEntity>, t: Throwable) {
@@ -394,6 +475,29 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
                 }
             }
         })
+    }
+
+
+
+
+    fun driverStart(orderNo: String, driverNo: String) {
+        manger.driverStart(orderNo, driverNo,
+                object : Callback<DriverStartEntity> {
+                    override fun onResponse(call: Call<DriverStartEntity>, response: Response<DriverStartEntity>) {
+                        LogUtils.d("driverStart", "" + response.body() + "")
+                        if (response.body() != null) {
+                            mBs.post(response.body())
+                        }
+                    }
+
+                    override fun onFailure(call: Call<DriverStartEntity>, t: Throwable) {
+                        val data = DriverStartEntity()
+                        data.rspCode = "1000"
+                        data.rspDesc = "网络连接失败"
+                        mBs.post(data)
+                        t.printStackTrace()
+                    }
+                })
     }
 
     fun startOrder(orderNo: String, flowNo: String) {
@@ -496,8 +600,8 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
 
 
     fun checkInfo(driverNo: String, name: String, mobile: String, carBrand: String, carNo: String, carLevel: Int,
-                  imgIdface: String, imgIdback: String, imgDriverlicense: String, imgVehiclelicense: String,
-                  imgInsurance: String) {
+                   imgIdface: String, imgIdback: String, imgDriverlicense: String, imgVehiclelicense: String,
+                   imgInsurance: String) {
 
         manger.checkInfo(driverNo, name, mobile, carBrand, carNo, carLevel, imgIdface, imgIdback, imgDriverlicense,
                 imgVehiclelicense, imgInsurance, object : Callback<CommEntity> {
@@ -511,6 +615,49 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
 
             override fun onResponse(call: Call<CommEntity>?, response: Response<CommEntity>?) {
                 LogUtils.d("checkInfo", "" + response!!.body() + "")
+                if (response.body() != null) {
+                    mBs.post(response.body())
+                }
+
+            }
+
+        })
+    }
+
+
+    fun hsUpload(driverNo: String, img_hs: String) {
+        manger.hsUpload(driverNo, img_hs, object : Callback<HesuanResultEntity> {
+            override fun onFailure(call: Call<HesuanResultEntity>?, t: Throwable) {
+                val data = HesuanResultEntity()
+                data.rspCode = "1000"
+                data.rspDesc = "网络连接失败"
+                mBs.post(data)
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<HesuanResultEntity>?, response: Response<HesuanResultEntity>?) {
+                LogUtils.d("hsUpload", "" + response!!.body() + "")
+                if (response.body() != null) {
+                    mBs.post(response.body())
+                }
+
+            }
+
+        })
+    }
+
+    fun jkmUpload(driverNo: String, img_jk: String) {
+        manger.jkmUpload(driverNo, img_jk, object : Callback<HesuanResultEntity> {
+            override fun onFailure(call: Call<HesuanResultEntity>?, t: Throwable) {
+                val data = HesuanResultEntity()
+                data.rspCode = "1000"
+                data.rspDesc = "网络连接失败"
+                mBs.post(data)
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<HesuanResultEntity>?, response: Response<HesuanResultEntity>?) {
+                LogUtils.d("jkmUpload", "" + response!!.body() + "")
                 if (response.body() != null) {
                     mBs.post(response.body())
                 }
@@ -570,7 +717,7 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
 
             override fun onResponse(call: Call<CurrentTimeEntity>, response: Response<CurrentTimeEntity>) {
                 if (response.body() != null) {
-                    LogUtils.d("getCurrentTime", "" + response!!.body() + "")
+                    LogUtils.d("getCurrentTime", "" + response.body() + "")
                     mBs.post(response.body())
                 }
             }
@@ -585,7 +732,7 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
 
             override fun onResponse(call: Call<StsEntity>, response: Response<StsEntity>) {
                 if (response.body() != null) {
-                    LogUtils.d("getStsServer", "" + response!!.body() + "")
+                    LogUtils.d("getStsServer", "" + response.body() + "")
                     mBs.post(response.body())
                 }
             }

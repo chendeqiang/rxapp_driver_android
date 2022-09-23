@@ -513,22 +513,31 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
                 android:background="@color/colorButtonBg"
-                android:text="就位"
+                android:text="到达上车地点"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_16"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_start"
+                android:layout_width="300dp"
+                android:layout_height="@dimen/default_height"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorButtonBg"
+                android:text="出发去接乘客"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16"
                 android:visibility="gone" />
 
             <ImageView
+                android:layout_gravity="center_horizontal"
                 android:id="@+id/img_finish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="1dp"
                 android:src="@drawable/ic_order_finish"
                 android:visibility="gone" />
 
         </LinearLayout>
     </ScrollView>
-
-
 </LinearLayout>

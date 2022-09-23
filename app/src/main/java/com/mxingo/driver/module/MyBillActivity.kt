@@ -3,10 +3,10 @@ package com.mxingo.driver.module
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
 import android.widget.*
+import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.tabs.TabLayout
 import com.mxingo.driver.R
 import com.mxingo.driver.model.BillEntity
 import com.mxingo.driver.model.ListBillEntity
@@ -21,6 +21,7 @@ import com.squareup.otto.Subscribe
 import javax.inject.Inject
 
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 /**
  * Created by chendeqiang on 2017/11/21 14:06
  */

@@ -5,9 +5,7 @@ import retrofit2.Call
 import retrofit2.http.*
 import java.util.*
 
-/**
- * Created by zhouwei on 2017/6/22.
- */
+
 interface ApiService {
 
     @FormUrlEncoded
@@ -78,6 +76,26 @@ interface ApiService {
     fun listDriverOrder(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<ListDriverOrderEntity>
 
     @FormUrlEncoded
+    @POST(ApiConstants.listCarPool)
+    fun listCarPool(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<ListCarPoolOrderEntity>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.carpoolOrderInfo)
+    fun carpoolOrderInfo(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<CpOrderInfoEntity>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.dpStatusChange)
+    fun dpStatusChange(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<DpStatusChangeEntity>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.orderStatusChange)
+    fun orderStatusChange(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<OrderStatusChangeEntity>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.driverStart)
+    fun driverStart(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<DriverStartEntity>
+
+    @FormUrlEncoded
     @POST(ApiConstants.startOrder)
     fun startOrder(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<StartOrderEntity>
 
@@ -100,6 +118,14 @@ interface ApiService {
     @FormUrlEncoded
     @POST(ApiConstants.checkInfo)
     fun checkInfo(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<CommEntity>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.hsUpload)
+    fun hsUpload(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<HesuanResultEntity>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.jkmUpload)
+    fun jkmUpload(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<HesuanResultEntity>
 
     @FormUrlEncoded
     @POST(ApiConstants.getQiNiuToken)

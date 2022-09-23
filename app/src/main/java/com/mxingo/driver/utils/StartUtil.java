@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,6 +15,8 @@ import com.baidu.mapapi.utils.CoordinateConverter;
 import com.mxingo.driver.widget.ShowToast;
 
 import java.io.File;
+
+import androidx.core.app.ActivityCompat;
 
 
 /**
@@ -60,7 +61,8 @@ public class StartUtil {
             }
             toAddress += "&mode=driving#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end";
             Log.d("address", toAddress);
-            intentNavigate = Intent.getIntent(toAddress);
+            //intentNavigate = Intent.getIntent(toAddress);
+            intentNavigate = Intent.parseUri(toAddress,0);
             context.startActivity(intentNavigate);
         } catch (Exception e) {
             ShowToast.showCenter(context, "您未安装百度地图app");

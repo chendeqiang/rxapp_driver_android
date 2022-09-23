@@ -15,9 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 
-/**
- * Created by sihailin on 15/8/9.
- */
+
 public class BitmapUtil {
 
     public static byte[] bitmap2Bytes(Bitmap bm) {

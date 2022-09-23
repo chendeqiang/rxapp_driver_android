@@ -2,12 +2,10 @@ package com.mxingo.driver.utils;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import com.mxingo.driver.MyApplication;
 
-/**
- * Created by zhouwei on 15/11/3.
- */
 public class VersionInfo {
 
     public static String getVersionName() {
@@ -27,7 +25,12 @@ public class VersionInfo {
         try {
             PackageManager packageManager = MyApplication.application.getPackageManager();
             PackageInfo info = packageManager.getPackageInfo(MyApplication.application.getPackageName(), 0);
-            getVersionCode = info.versionCode;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+                getVersionCode = (int) info.getLongVersionCode();
+            }else {
+                getVersionCode = info.versionCode;
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

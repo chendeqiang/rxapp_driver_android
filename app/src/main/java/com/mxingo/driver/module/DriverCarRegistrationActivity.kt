@@ -1,6 +1,8 @@
 package com.mxingo.driver.module
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -13,13 +15,17 @@ import android.os.Environment
 import android.os.Handler
 import android.provider.MediaStore
 import android.provider.Settings
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.FileProvider
-import android.support.v7.widget.Toolbar
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.*
+import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.mxingo.driver.R
 import com.mxingo.driver.dialog.MessageDialog
@@ -28,6 +34,7 @@ import com.mxingo.driver.model.CommEntity
 import com.mxingo.driver.model.DriverInfoEntity
 import com.mxingo.driver.model.GetCheckInfo
 import com.mxingo.driver.model.QiNiuTokenEntity
+import com.mxingo.driver.module.base.data.MyModulePreference
 import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
@@ -45,6 +52,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
+@TargetApi(Build.VERSION_CODES.CUPCAKE)
 class DriverCarRegistrationActivity : BaseActivity() {
 
     private lateinit var tvDriverName: TextView
@@ -54,6 +62,8 @@ class DriverCarRegistrationActivity : BaseActivity() {
     private lateinit var tvCarType: TextView
     private lateinit var tvStatus: TextView
     private lateinit var imgLicence: ImageView
+    private lateinit var btnSubmit:Button
+    private lateinit var rlMain:RelativeLayout
 
 
     private lateinit var driverInfo: DriverInfoEntity
@@ -137,6 +147,8 @@ class DriverCarRegistrationActivity : BaseActivity() {
         tvCarType = findViewById(R.id.tv_car_type) as TextView
         tvMobile = findViewById(R.id.tv_mobile) as TextView
         tvStatus = findViewById(R.id.tv_status) as TextView
+        btnSubmit =findViewById(R.id.btn_submit) as Button
+        rlMain =findViewById(R.id.rl_main) as RelativeLayout
 
         imgLicence = findViewById(R.id.img_licence) as ImageView
         Glide.with(this).load(urlLicence).into(imgLicence)
@@ -152,7 +164,7 @@ class DriverCarRegistrationActivity : BaseActivity() {
                 findViewById(R.id.img_insurance) as ImageView)
 
 
-        findViewById(R.id.btn_submit).setOnClickListener {
+        btnSubmit.setOnClickListener {
             if (bitFront == null) {
                 ShowToast.showCenter(this, "请选择身份证正面照")
                 return@setOnClickListener
@@ -227,8 +239,9 @@ class DriverCarRegistrationActivity : BaseActivity() {
             tvDriverName.text = driverInfo.driver.cname
             tvCarType.text = CarLevel.getKey(driverInfo.carLevel)
             tvMobile.text = UserInfoPreferences.getInstance().mobile
+            //tvMobile.text = MyModulePreference.getInstance().mobile
 
-            progress.show()
+                    progress.show()
             presenter.getCheckInfo(driverInfo.driver.cuuid)
         }
     }
@@ -262,7 +275,7 @@ class DriverCarRegistrationActivity : BaseActivity() {
                 tvStatus.text = DriverCheckInfoStatus.getDesc(data.driverCheckInfo.status)
                 status = data.driverCheckInfo.status
                 if (data.driverCheckInfo.status in (0..1)) {
-                    findViewById(R.id.btn_submit).visibility = View.GONE
+                    btnSubmit.visibility = View.GONE
                 }
                 urlFront = Constants.pictureIp + data.driverCheckInfo.imgIdface
                 urlBack = Constants.pictureIp + data.driverCheckInfo.imgIdback
@@ -276,7 +289,7 @@ class DriverCarRegistrationActivity : BaseActivity() {
                 Glide.with(this).load(urlDriving + "?${Constants.pictureSmall}").into(imgUpload[3])
                 Glide.with(this).load(urlInsurance + "?${Constants.pictureSmall}").into(imgUpload[4])
             }
-            findViewById(R.id.rl_main).visibility = View.VISIBLE
+            rlMain.visibility = View.VISIBLE
         } else {
             ShowToast.showCenter(this, data.rspDesc)
         }
@@ -297,6 +310,8 @@ class DriverCarRegistrationActivity : BaseActivity() {
 
     private fun showImageDialog() {
         val dialog = SelectImageTypeDialog(this)
+
+        //打开系统相册
         dialog.setOnAlbumClickListener {
             val intent = Intent("android.intent.action.PICK")
             intent.type = "image/*"
@@ -304,7 +319,7 @@ class DriverCarRegistrationActivity : BaseActivity() {
         }
 
         dialog.setOnCameraClickListener {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            if (checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 startCamera()
             } else {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
@@ -329,12 +344,12 @@ class DriverCarRegistrationActivity : BaseActivity() {
 
     private fun startCamera() {
         if (cameraFile == null) {
-            cameraFile = File(Environment.getExternalStorageDirectory(), getPhotoFileName())
+            cameraFile = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), getPhotoFileName())
         }
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         // 指定调用相机拍照后照片的储存路径
         cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
+        //适配Android 7.0文件权限，通过FileProvider
         if (Build.VERSION.SDK_INT >= 24) {
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this, this.packageName + ".fileprovider", cameraFile!!))
         } else {
@@ -345,6 +360,7 @@ class DriverCarRegistrationActivity : BaseActivity() {
     }
 
     // 使用系统当前日期加以调整作为照片的名称
+    @SuppressLint("SimpleDateFormat")
     private fun getPhotoFileName(): String {
         val date = Date(System.currentTimeMillis())
         val dateFormat = SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss")
@@ -398,7 +414,6 @@ class DriverCarRegistrationActivity : BaseActivity() {
             }
         }
     }
-
     private val handler = Handler(Handler.Callback {
         if (it.what == 1) {
             imgTmp.setImageBitmap(BitmapUtil.compressUri(this, outputUri, CROP, CROP))

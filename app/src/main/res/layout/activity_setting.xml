@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mxingo.driver.module.SettingActivity">
-
-    <include layout="@layout/action_bar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,6 +45,88 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/default_margin"
                 android:text="v_1.0.0"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_16" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line_color" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_privacy_policy"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_height">
+
+
+            <ImageView
+                android:id="@+id/img_use_rule"
+                android:layout_width="@dimen/ic_height"
+                android:layout_height="@dimen/ic_height"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:src="@drawable/ic_rule" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/item_margin"
+                android:layout_toRightOf="@+id/img_use_rule"
+                android:text="隐私政策"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/default_margin"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_16" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line_color" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_cancel_user"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_height">
+
+
+            <ImageView
+                android:id="@+id/img_user_cancel"
+                android:layout_width="@dimen/ic_height"
+                android:layout_height="@dimen/ic_height"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:src="@drawable/ic_cancel_user"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/item_margin"
+                android:layout_toRightOf="@+id/img_user_cancel"
+                android:text="账号注销"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/default_margin"
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/text_size_16" />
 
@@ -107,10 +187,10 @@
                 android:id="@+id/img_broadcast"
                 android:layout_width="@dimen/ic_height"
                 android:layout_height="@dimen/ic_height"
-                android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/textView2"
-                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="20dp"
+                android:layout_marginLeft="@dimen/default_margin"
                 android:src="@drawable/ic_broadcast" />
 
             <TextView
@@ -124,6 +204,12 @@
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/text_size_16" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line_color" />
+
             <com.mxingo.driver.widget.MySwitch
                 android:id="@+id/my_switch"
                 android:layout_width="wrap_content"
@@ -131,23 +217,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/default_margin" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_alignParentBottom="true"
-                android:background="@color/line_color" />
         </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/default_margin"
-            android:layout_marginRight="@dimen/default_margin"
-            android:layout_marginTop="@dimen/item_margin"
-            android:text="订单播报: 符合条件的新订单进入订单池，发送订单消息通知，进行播报，提醒接单。"
-            android:textColor="@color/text_color_gray"
-            android:textSize="@dimen/text_size_14" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -163,6 +233,18 @@
                 android:textColor="@color/text_color_gray" />
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginTop="@dimen/item_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:text="订单播报: 符合条件的新订单进入订单池，发送订单消息通知，进行播报，提醒接单。"
+            android:textColor="@color/text_color_gray"
+            android:textSize="@dimen/text_size_14" />
+
     </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+    <include layout="@layout/action_bar" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

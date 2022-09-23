@@ -1,9 +1,7 @@
 package com.mxingo.driver.module.order
 
 import android.app.Activity
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.net.Uri
@@ -11,22 +9,25 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.provider.Settings
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 
 import android.view.View
 import android.widget.*
-import com.mxingo.driver.Manifest
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.baidu.location.LocationClient
 import com.mxingo.driver.OrderModel
 import com.mxingo.driver.R
 import com.mxingo.driver.dialog.*
 import com.mxingo.driver.model.*
 import com.mxingo.driver.module.BaseActivity
 import com.mxingo.driver.module.RecordingService
+import com.mxingo.driver.module.base.data.MyModulePreference
+import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
 import com.mxingo.driver.module.base.log.LogUtils
 import com.mxingo.driver.module.base.map.BaiduMapUtil
+import com.mxingo.driver.module.base.map.trace.MyTrace
 import com.mxingo.driver.module.take.CarLevel
 import com.mxingo.driver.module.take.OrderStatus
 import com.mxingo.driver.module.take.OrderType
@@ -64,6 +65,8 @@ class OrderInfoActivity : BaseActivity() {
     private lateinit var tvRemark: TextView
     private lateinit var tvEstimate: TextView
     private lateinit var btnReach: Button
+
+    private lateinit var btnStart: Button
     private lateinit var btnStartOrder: SlippingButton
     private lateinit var llEndAddress: LinearLayout
     private lateinit var llStartAddress: LinearLayout
@@ -85,6 +88,8 @@ class OrderInfoActivity : BaseActivity() {
     private lateinit var tvRepub: TextView
     private lateinit var ivBack: ImageView
 
+    private lateinit var btnCopy: Button
+
 
     private lateinit var orderNo: String
     private lateinit var flowNo: String
@@ -98,12 +103,12 @@ class OrderInfoActivity : BaseActivity() {
     private lateinit var progress: MyProgress
 
 
-    lateinit  var mMediaRecorder:MediaRecorder
-    private lateinit var filePath:String
+    lateinit var mMediaRecorder: MediaRecorder
+    private lateinit var filePath: String
 
 
     companion object {
-        const val PERMISSION_RECORD_AUDIO=101
+        const val PERMISSION_RECORD_AUDIO = 101
 
         @JvmStatic
         fun startOrderInfoActivity(activty: Activity, orderNo: String, flowNo: String, driverNo: String) {
@@ -113,18 +118,26 @@ class OrderInfoActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        LocationClient.setAgreePrivacy(true)
         setContentView(R.layout.activity_order_info)
         ComponentHolder.appComponent!!.inject(this)
         presenter.register(this)
         progress = MyProgress(this)
         initView()
-        orderNo = intent.getStringExtra(Constants.ORDER_NO)
-        flowNo = intent.getStringExtra(Constants.FLOW_NO)
-        driverNo = intent.getStringExtra(Constants.DRIVER_NO)
+
+        orderNo = intent.getStringExtra(Constants.ORDER_NO) as String
+        flowNo = intent.getStringExtra(Constants.FLOW_NO) as String
+        driverNo = intent.getStringExtra(Constants.DRIVER_NO) as String
+
         Handler().postDelayed({
             progress.show()
             presenter.qryOrder(orderNo)
         }, 300)
+
+//        if (orderNo.equals(UserInfoPreferences.getInstance().orderNo)){
+//            btnStart.visibility =View.GONE
+//        }
 
         BaiduMapUtil.getInstance().registerLocationListener()
     }
@@ -159,6 +172,8 @@ class OrderInfoActivity : BaseActivity() {
 
         tvEstimate = findViewById(R.id.tv_estimate) as TextView
         btnReach = findViewById(R.id.btn_reach) as Button
+
+        btnStart = findViewById(R.id.btn_start) as Button
         btnStartOrder = findViewById(R.id.btn_start_order) as SlippingButton
 
         llEndAddress = findViewById(R.id.ll_end_address) as LinearLayout
@@ -178,6 +193,8 @@ class OrderInfoActivity : BaseActivity() {
         tvOrderNo = findViewById(R.id.tv_order_no) as TextView
         tvOrderFrom = findViewById(R.id.tv_order_from_detail) as TextView
         tvMsg = findViewById(R.id.tv_msg) as TextView
+
+        btnCopy = findViewById(R.id.btn_copy) as Button
 
 
         tvRepub.setOnClickListener {
@@ -221,10 +238,10 @@ class OrderInfoActivity : BaseActivity() {
             //progress.show()
 
             //动态申请麦克风权限
-            if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
                 presenter.startOrder(orderNo, flowNo)
-            }else{
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.RECORD_AUDIO)){
+            } else {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.RECORD_AUDIO)) {
                     val message = MessageDialog(this)
                     message.setMessageText("您的权限申请失败，请前往应用信息打开录音权限")
                     message.setOnOkClickListener {
@@ -233,14 +250,14 @@ class OrderInfoActivity : BaseActivity() {
                         startActivity(intent)
                         message.dismiss()
                     }
+                    message.setOnCancelClickListener {
+                        message.dismiss()
+                    }
                     message.show()
-                }else{
-                    ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO),PERMISSION_RECORD_AUDIO)
+                } else {
+                    ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), PERMISSION_RECORD_AUDIO)
                 }
             }
-
-
-            //presenter.startOrder(orderNo, flowNo)
         }
 
         btnReach.setOnClickListener {
@@ -275,10 +292,33 @@ class OrderInfoActivity : BaseActivity() {
             MapActivity.startMapActivity(this, orderNo, flowNo, driverNo)
         }
 
-        findViewById(R.id.btn_copy).setOnClickListener {
-            val clipboardManager = (this.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as ClipboardManager)
-            clipboardManager.primaryClip = ClipData.newPlainText(null, tvOrderNo.text)
+        btnCopy.setOnClickListener {
+            val clipboardManager = (this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
+            clipboardManager.setPrimaryClip(ClipData.newPlainText(null, tvOrderNo.text))
+            //clipboardManager.primaryClip = ClipData.newPlainText(null, tvOrderNo.text)
             ShowToast.showCenter(this, "复制成功")
+        }
+
+        //司机点击-出发去接乘客-网络请求-
+        btnStart.setOnClickListener {
+            val curTime = TimeUtil.getNowTime()
+            val bookTime = tvBookTime.text.toString().substring(0, 16)
+            val leftTime = TimeUtil.getTimeDifferenceHour(curTime, bookTime)
+            val left = Integer.parseInt(leftTime.substring(0, leftTime.indexOf(".")))
+            if (left>5){
+                val dialog = MessageDialog(this)
+                dialog.setMessageText("距离用车时间较长，确定现在出发吗?")
+                dialog.setOnCancelClickListener {
+                    dialog.dismiss()
+                }
+                dialog.setOnOkClickListener {
+                    dialog.dismiss()
+                    presenter.driverStart(orderNo, driverNo)
+                }
+                dialog.show()
+            }else{
+                presenter.driverStart(orderNo, driverNo)
+            }
         }
     }
 
@@ -301,7 +341,7 @@ class OrderInfoActivity : BaseActivity() {
             val data: QryOrderEntity = any as QryOrderEntity
             if (data.rspCode.equals("00")) {
                 //Conf_Reassignmentstatus=0 不显示按钮,Conf_Reassignmentstatus=1 显示按钮
-                if (data.Conf_Reassignmentstatus.equals("0")||data.order.orderStatus>=OrderStatus.DRIVERARRIVE_TYPE||data.order.orderStatus==OrderStatus.CANCELORDER_TYPE) {
+                if (data.Conf_Reassignmentstatus.equals("0") || data.order.orderStatus >= OrderStatus.DRIVERARRIVE_TYPE || data.order.orderStatus == OrderStatus.CANCELORDER_TYPE) {
                     tvRepub.visibility = View.GONE
                 } else {
                     tvRepub.visibility = View.VISIBLE
@@ -333,13 +373,14 @@ class OrderInfoActivity : BaseActivity() {
             progress.dismiss()
             val data = any as StartOrderEntity
             if (data.rspCode.equals("00")) {
+
                 //开始录音
                 var intent = Intent(this, RecordingService::class.java)
-                intent.putExtra("orderNo",orderNo)
-                var folder = File(Environment.getExternalStorageDirectory().absolutePath+"/SoundRecorder")
-            if (!folder.exists()) {
-                folder.mkdir()
-            }
+                intent.putExtra("orderNo", orderNo)
+                //var folder = File(Environment.getExternalStorageDirectory().absolutePath + "/SoundRecorder")
+//                if (!folder.exists()) {
+//                    //folder.mkdir()
+//                }
                 startService(intent)
                 MapActivity.startMapActivity(this, orderNo, flowNo, driverNo)
                 finish()
@@ -347,7 +388,19 @@ class OrderInfoActivity : BaseActivity() {
                 ShowToast.showCenter(this, data.rspDesc)
             }
 
-        } else if (any::class == CommEntity::class) {
+        }else if (any::class == DriverStartEntity::class) {
+            progress.dismiss()
+            val data = any as DriverStartEntity
+            if (data.rspCode.equals("00")){
+                UserInfoPreferences.getInstance().orderNo = orderNo
+                btnStart.visibility =View.GONE
+                btnReach.visibility = View.VISIBLE
+                //开启鹰眼服务上传轨迹
+                MyTrace.getInstance().startTrace()
+            }else{
+                ShowToast.showCenter(this, data.rspDesc)
+            }
+        }else if (any::class == CommEntity::class) {
             progress.dismiss()
             val data = any as CommEntity
             if (data.rspCode.equals("00")) {
@@ -361,7 +414,7 @@ class OrderInfoActivity : BaseActivity() {
             val data = any as ResultEntity
             if (data.rspCode.equals("00")) {
                 progress.show()
-                presenter.repubOrder(orderNo, flowNo, driverNo)
+                presenter.getCurrentTime()
             } else {
                 //ShowToast.showCenter(this, data.rspDesc)
                 val dialog = MessageDialog2(this)
@@ -418,7 +471,14 @@ class OrderInfoActivity : BaseActivity() {
             llFlight.visibility = View.VISIBLE
             llAddress.visibility = View.GONE
             tvBookTime.text = TextUtil.getFormatWeek2(orderInfo.bookTime.toLong())
-        } else {
+        } else if (orderInfo.orderType== OrderType.DIAN_DUI_DIAN){
+            llEndAddress.visibility = View.VISIBLE
+            llStartAddress.visibility = View.VISIBLE
+            llFlight.visibility = View.GONE
+            llAddress.visibility = View.GONE
+            tvBookTime.text = TextUtil.getFormatWeek2(orderInfo.bookTime.toLong())
+        }
+        else {
             llEndAddress.visibility = View.GONE
             llStartAddress.visibility = View.GONE
             llFlight.visibility = View.GONE
@@ -452,13 +512,22 @@ class OrderInfoActivity : BaseActivity() {
         } else {
             tvRemark.text = ""
         }
+
+
         initListener(orderInfo.startLon, orderInfo.startLat, orderInfo.startAddr)
+
         if (orderInfo.orderStatus == OrderStatus.TAKEORDER_TYPE) {   //接单成功
             btnNavigation.visibility = View.VISIBLE
             btnTrace.visibility = View.GONE
             tvEstimate.text = "本次行程，约${orderInfo.planMileage / 100 / 10.0}公里"
             tvEstimate.visibility = View.VISIBLE
-            btnReach.visibility = View.VISIBLE
+            //增加按钮-出发去接乘客
+            if (orderNo.equals(UserInfoPreferences.getInstance().orderNo)){
+                btnStart.visibility =View.GONE
+                btnReach.visibility =View.VISIBLE
+            }else{
+                btnStart.visibility = View.VISIBLE
+            }
 //            actionChangeOrder.isVisible = true
             tvOrderStatus.text = OrderStatus.getKey(orderInfo.orderStatus)
         } else if (orderInfo.orderStatus == OrderStatus.CANCELORDER_TYPE) {  //取消订单

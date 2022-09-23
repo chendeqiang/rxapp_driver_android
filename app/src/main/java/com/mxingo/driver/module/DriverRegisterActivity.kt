@@ -1,6 +1,7 @@
 package com.mxingo.driver.module
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -13,11 +14,11 @@ import android.os.Environment
 import android.os.Handler
 import android.provider.MediaStore
 import android.provider.Settings
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.FileProvider
-import android.support.v7.widget.Toolbar
 import android.widget.*
+import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import cn.qqtheme.framework.picker.DatePicker
 import com.mxingo.driver.R
 import com.mxingo.driver.dialog.MessageDialog
@@ -58,6 +59,7 @@ class DriverRegisterActivity : BaseActivity() {
     private lateinit var rlDrivingModel: RelativeLayout
     private lateinit var rlEndDate: RelativeLayout
     private lateinit var btnNextRegister: Button
+    //btn_next_register
 
     private var bitFront: Bitmap? = null
     private var bitBack: Bitmap? = null
@@ -155,7 +157,7 @@ class DriverRegisterActivity : BaseActivity() {
                 findViewById(R.id.img_driver_front) as ImageView,
                 findViewById(R.id.img_driver_back) as ImageView)
 
-        findViewById(R.id.btn_next_register).setOnClickListener {
+        btnNextRegister.setOnClickListener {
 
             CarRegisterActivity.startCarRegisterActivity(this)
 
@@ -286,7 +288,7 @@ class DriverRegisterActivity : BaseActivity() {
 
     private fun startCamera() {
         if (cameraFile == null) {
-            cameraFile = File(Environment.getExternalStorageDirectory(), getPhotoFileName())
+            cameraFile = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), getPhotoFileName())
         }
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         // 指定调用相机拍照后照片的储存路径
@@ -300,6 +302,7 @@ class DriverRegisterActivity : BaseActivity() {
         startActivityForResult(cameraIntent, DriverCarRegistrationActivity.START_CAMERA)
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun getPhotoFileName(): String {
         val date = Date(System.currentTimeMillis())
         val dateFormat = SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss")

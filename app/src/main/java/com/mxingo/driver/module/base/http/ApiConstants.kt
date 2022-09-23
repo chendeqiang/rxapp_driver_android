@@ -1,18 +1,13 @@
 package com.mxingo.driver.module.base.http
 
-/**
- * Created by zhouwei on 2017/6/22.
- */
+
 object ApiConstants {
 
 
     const val sign = "Rx-Sign"
     const val token = "Rx-Token"
     const val version = "Rx-Vern"
-
-//    const val ip = "http://101.37.202.182:8018/"//测试
-//    const val ip = "http://47.99.63.211:8018/"
-//    const val ip = "http://112.124.27.106:8018/" //测试最新
+//    const val ip = "http://112.124.27.106:8018/" //测试
     const val ip = "https://wycapi.mxingo.com:443/"//生产
 
 
@@ -36,11 +31,11 @@ object ApiConstants {
     const val qryOrder = "usr/driver/qryorder"//获取订单信息
     const val listOrder = "usr/driver/listorder"//获取订单池列表
     const val listDriverOrder = "usr/driver/listdriverorder"//获取司机服务订单列表
+    const val driverStart = "usr/driver/driverstart"//司机点击出发去接乘客
     const val startOrder = "usr/driver/startorder"//开始行程
     const val closeOrder = "usr/driver/closeorder"//结束订单
     const val arrive = "usr/driver/arrive"//司机到达指定位置
     const val checkVersion = "comm/checkversion"//检查更新
-
 
     const val checkInfo = "usr/driver/checkinfo"//网约车司机信息校验
     const val getCheckInfo = "usr/driver/getcheckinfo"//网约车司机信息获取
@@ -52,4 +47,13 @@ object ApiConstants {
     const val getTime = "http://www.mxingo.com/appTime/getNow.shtml"
 
     const val stsServer="http://118.31.16.123:7080"
+
+    const val listCarPool="driver/pc/dplist"//拼车行程
+    const val carpoolOrderInfo="driver/pc/dplistdetail"//行程详情
+    const val dpStatusChange="driver/pc/dpstatuschange"//行程状态更新
+    const val orderStatusChange="driver/pc/orderstatuschange"//订单状态更新
+
+    const val jkmUpload = "usr/driver/jkupload" //健康码上传
+    const val hsUpload = "usr/driver/hsupload" //核酸上传
+
 }

@@ -1,7 +1,6 @@
 package com.mxingo.driver.widget;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -12,6 +11,7 @@ import com.mxingo.driver.utils.DisplayUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import cn.qqtheme.framework.picker.WheelPicker;
 import cn.qqtheme.framework.widget.WheelView;
 

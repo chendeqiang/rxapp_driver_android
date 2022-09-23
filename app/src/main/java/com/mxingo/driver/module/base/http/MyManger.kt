@@ -2,12 +2,8 @@ package com.mxingo.driver.module.base.http
 
 import com.mxingo.driver.model.*
 import com.mxingo.driver.module.base.log.LogUtils
-import retrofit2.Callback
 import java.util.*
 
-/**
- * Created by zhouwei on 2017/6/22.
- */
 class MyManger(val apiService: ApiService) {
 
     fun getVcode(mobile: String, callback: retrofit2.Callback<CommEntity>) {
@@ -194,6 +190,52 @@ class MyManger(val apiService: ApiService) {
 
     }
 
+    fun listCarPoolOrder(driverNo: String, status: Int, pageIndex: Int, pageCount: Int, callback: retrofit2.Callback<ListCarPoolOrderEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("driverNo", driverNo)
+        map.put("status", status)
+        map.put("pageIndex", pageIndex)
+        map.put("pageCount", pageCount)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("listCarPoolOrder 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.listCarPool(map, headers).enqueue(callback)
+
+    }
+
+    fun carpoolOrderInfo(cmainid: String, callback: retrofit2.Callback<CpOrderInfoEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("cmainid", cmainid)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("carpoolOrderInfo 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.carpoolOrderInfo(map, headers).enqueue(callback)
+
+    }
+
+
+    fun dpStatusChange(ccode: String,state: String, callback: retrofit2.Callback<DpStatusChangeEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("ccode", ccode)
+        map.put("state", state)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("dpStatusChange 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.dpStatusChange(map, headers).enqueue(callback)
+
+    }
+
+    fun orderStatusChange(ccode: String,orderStatus: Int, callback: retrofit2.Callback<OrderStatusChangeEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("ccode", ccode)
+        map.put("orderStatus", orderStatus)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("dpStatusChange 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.orderStatusChange(map, headers).enqueue(callback)
+
+    }
+
     fun listBill(driverNo: String, pageIndex: Int, pageCount: Int, callback: retrofit2.Callback<ListBillEntity>) {
         val map = TreeMap<String, Any>()
         map.put("driverNo", driverNo)
@@ -203,6 +245,17 @@ class MyManger(val apiService: ApiService) {
         LogUtils.d("listBill 参数", map.toString())
         LogUtils.d("headers", headers.toString())
         apiService.listBill(map, headers).enqueue(callback)
+    }
+
+    fun driverStart(orderNo: String, driverNo: String, callback: retrofit2.Callback<DriverStartEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("orderNo", orderNo)
+        map.put("driverNo", driverNo)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("startOrder 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.driverStart(map, headers).enqueue(callback)
+
     }
 
     fun startOrder(orderNo: String, flowNo: String, callback: retrofit2.Callback<StartOrderEntity>) {
@@ -282,6 +335,28 @@ class MyManger(val apiService: ApiService) {
         LogUtils.d("headers", headers.toString())
         apiService.checkInfo(map, headers).enqueue(callback)
     }
+
+
+    fun hsUpload(driverNo: String, img_hs: String, callback: retrofit2.Callback<HesuanResultEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("driverNo", driverNo)
+        map.put("img_hs", img_hs)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("hsUpload 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.hsUpload(map, headers).enqueue(callback)
+    }
+
+    fun jkmUpload(driverNo: String, img_jk: String, callback: retrofit2.Callback<HesuanResultEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("driverNo", driverNo)
+        map.put("img_jk", img_jk)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("jkmUpload 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.jkmUpload(map, headers).enqueue(callback)
+    }
+
 
     fun getQiNiuToken(callback: retrofit2.Callback<QiNiuTokenEntity>) {
         val map = TreeMap<String, Any>()

@@ -2,7 +2,6 @@ package com.mxingo.driver.module
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.widget.Toolbar
 import android.widget.TextView
 import com.mxingo.driver.R
 import com.mxingo.driver.model.NoticeEntity
@@ -13,6 +12,7 @@ import com.mxingo.driver.widget.MyProgress
 import javax.inject.Inject
 import android.os.*
 import android.webkit.WebView
+import androidx.appcompat.widget.Toolbar
 
 
 /**

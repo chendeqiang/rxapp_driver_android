@@ -8,6 +8,7 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_info_new"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -22,13 +23,13 @@
             android:layout_height="40dp">
 
             <TextView
+                android:id="@+id/tv_update_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/update_title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/text_color_black" />
-
 
         </RelativeLayout>
 
@@ -41,6 +42,7 @@
         <!-- Content -->
 
         <ScrollView
+            android:id="@+id/sll_info"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -56,8 +58,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
                     android:focusable="true"
                     android:textColor="@color/text_color_black" />
             </LinearLayout>
@@ -66,6 +68,7 @@
         <!-- OK&Cancel Button -->
 
         <LinearLayout
+            android:id="@+id/ll_btn_update"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
@@ -74,8 +77,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_gold_round"
@@ -90,8 +93,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_gold_box"
@@ -102,6 +105,28 @@
                 android:textColor="@color/text_color_black" />
 
         </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_show_progress"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/btn_white_round_5"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/item_margin">
+
+        <TextView
+            android:layout_marginTop="@dimen/default_margin10"
+            android:id="@+id/tv_ing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/text_color_blue"
+            android:text="正在下载..." />
+
     </LinearLayout>
 
 </RelativeLayout>

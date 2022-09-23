@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_order"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_height"
@@ -24,21 +24,21 @@
             app:tabSelectedTextColor="@color/colorButtonBg"
             app:tabTextColor="@color/text_color_black">
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="未完成" />
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="已完成" />
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="已取消" />
-        </android.support.design.widget.TabLayout>
+        </com.google.android.material.tabs.TabLayout>
 
         <View
             android:layout_width="match_parent"
@@ -114,9 +114,20 @@
                     android:layout_width="50dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="@dimen/default_margin"
-                    android:layout_marginRight="@dimen/default_margin"
                     android:background="@drawable/btn_order_type_default"
                     android:text="日租"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="@dimen/text_size_12" />
+
+
+                <com.mxingo.driver.widget.MyTagButton
+                    android:id="@+id/btn_d_d"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginRight="@dimen/default_margin"
+                    android:background="@drawable/btn_order_type_default"
+                    android:text="点对点"
                     android:textColor="@color/text_color_gray"
                     android:textSize="@dimen/text_size_12" />
 
@@ -127,7 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v4.widget.SwipeRefreshLayout
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/srl_refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -140,7 +151,7 @@
                     android:divider="@color/activity_bg"
                     android:dividerHeight="@dimen/item_margin"
                     android:scrollbars="none" />
-            </android.support.v4.widget.SwipeRefreshLayout>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <LinearLayout
                 android:id="@+id/ll_empty"
@@ -168,4 +179,4 @@
     </LinearLayout>
 
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

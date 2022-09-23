@@ -138,6 +138,38 @@
         android:background="@color/line_color"/>
 
     <LinearLayout
+        android:gravity="center_vertical"
+        android:id="@+id/ll_carpool_order"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_item_height"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:src="@drawable/ic_pc_orders"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:drawableRight="@drawable/ic_gree_arrow"
+            android:paddingRight="@dimen/default_margin"
+            android:text="拼车订单"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/text_size_16"/>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_color"/>
+
+
+    <LinearLayout
         android:id="@+id/ll_my_bill"
         android:layout_width="match_parent"
         android:layout_height="@dimen/nav_item_height"

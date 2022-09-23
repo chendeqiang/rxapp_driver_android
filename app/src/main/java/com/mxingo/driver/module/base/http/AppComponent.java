@@ -2,7 +2,10 @@ package com.mxingo.driver.module.base.http;
 
 import com.mxingo.driver.module.CarRegisterActivity;
 import com.mxingo.driver.module.DriverCarRegistrationActivity;
+import com.mxingo.driver.module.GuideActivity;
+import com.mxingo.driver.module.HesuanReportActivity;
 import com.mxingo.driver.module.HybridSearchActivity;
+import com.mxingo.driver.module.JkmReportActivity;
 import com.mxingo.driver.module.LoginActivity;
 import com.mxingo.driver.module.MyBillActivity;
 import com.mxingo.driver.module.NoticeActivity;
@@ -11,6 +14,9 @@ import com.mxingo.driver.module.DriverRegisterActivity;
 import com.mxingo.driver.module.RecordingService;
 import com.mxingo.driver.module.SettingActivity;
 import com.mxingo.driver.module.base.map.route.SearchRouteActivity;
+import com.mxingo.driver.module.order.CarPoolInfoActivity;
+import com.mxingo.driver.module.order.CarPoolOrderInfoActivity;
+import com.mxingo.driver.module.order.CarpoolOrderActivity;
 import com.mxingo.driver.module.order.MapActivity;
 import com.mxingo.driver.module.order.MyOrderActivity;
 import com.mxingo.driver.module.order.OrderInfoActivity;
@@ -23,9 +29,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-/**
- * Created by zhouwei on 2017/6/22.
- */
+
 
 @Component(modules = {AppModule.class})
 @Singleton
@@ -43,6 +47,12 @@ public interface AppComponent {
     void inject(TakeOrderActivity activity);
 
     void inject(MyOrderActivity activity);
+
+    void inject(CarpoolOrderActivity activity);
+
+    void inject(CarPoolOrderInfoActivity activity);
+
+    void inject(CarPoolInfoActivity activity);
 
     void inject(MapActivity activity);
 
@@ -65,4 +75,10 @@ public interface AppComponent {
     void inject(CarRegisterActivity activity);
 
     void inject(RecordingService service);
+
+    void inject(GuideActivity activity);
+
+    void  inject(HesuanReportActivity activity);
+
+    void  inject(JkmReportActivity activity);
 }

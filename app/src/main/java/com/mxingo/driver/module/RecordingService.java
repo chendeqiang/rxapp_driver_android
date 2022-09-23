@@ -1,11 +1,14 @@
 package com.mxingo.driver.module;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
@@ -18,9 +21,11 @@ import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
+import com.mxingo.driver.R;
 import com.mxingo.driver.model.StsEntity;
 import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.MyPresenter;
+import com.mxingo.driver.module.take.MainActivity;
 import com.squareup.otto.Subscribe;
 
 import java.io.File;
@@ -30,10 +35,16 @@ import java.util.TimerTask;
 
 import javax.inject.Inject;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+
 import static org.greenrobot.eventbus.EventBus.TAG;
 
 public class RecordingService extends Service {
     private static RecordingService recordingService;
+    private NotificationManager notificationManager;
+    private String CHANNEL_ID = "renxing_noti_Recorder";
+    private String notificationName = "renxing_Recorder";
     private static final String LOG_TAG = "RecordingService";
     private String mFileName;
     private String mFilePath;
@@ -64,6 +75,26 @@ public class RecordingService extends Service {
         ComponentHolder.getAppComponent().inject(this);
         presenter.register(this);
         super.onCreate();
+        notificationManager = getSystemService(NotificationManager.class);
+        //创建NotificationChannel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, notificationName, NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+        }
+        startForeground(1, getNotification());
+    }
+
+    private Notification getNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.push) // 设置状态栏内的小图标
+                .setContentText("录音服务已开启") // 设置上下文内容
+                .setWhen(System.currentTimeMillis())// 设置该通知发生的时间
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setChannelId(CHANNEL_ID);
+        }
+        Notification notification = builder.build();
+        return notification;
     }
 
     @Override
@@ -92,32 +123,46 @@ public class RecordingService extends Service {
         mRecorder.setAudioSamplingRate(44100);
         mRecorder.setAudioEncodingBitRate(192000);
 
+
         try {
             mRecorder.prepare();
             mRecorder.start();
             Log.i(LOG_TAG, "开始录音-------");
             mStartingTimeMillis = System.currentTimeMillis();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
+            Log.e(LOG_TAG, "prepare() failed" + e.getMessage());
         }
     }
 
     public void setFileNameAndPath() {
-        int count = 0;
-        File f;
 
-        do {
-            count++;
-            //mFileName = R.string.default_file_name + "_" + System.currentTimeMillis() + ".amr";
-            mFileName = orderNo + ".amr";
-            mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-            mFilePath += "/SoundRecorder/" + mFileName;
-            f = new File(mFilePath);
-        } while (f.exists() && !f.isDirectory());
+        //在自身目录下创建文件夹
+        File recorderFile = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+
+        String recorderFilePath = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_MUSIC).getAbsolutePath();
+
+        File file = new File(recorderFilePath + File.separator + orderNo + ".amr");
+
+        mFileName = orderNo + ".amr";
+        mFilePath = recorderFilePath + File.separator + orderNo + ".amr";
+
+//        int count = 0;
+//        File f;
+//
+//        do {
+//            count++;
+//            //mFileName = R.string.default_file_name + "_" + System.currentTimeMillis() + ".amr";
+//            mFileName = orderNo + ".amr";
+//            //mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+//            //mFilePath += "/SoundRecorder/" + mFileName;
+//            f = new File(mFilePath);
+//
+//        } while (f.exists() && !f.isDirectory());
     }
 
     @Override
     public void onDestroy() {
+        stopForeground(true);
         if (mRecorder != null) {
             stopRecording();
         }
@@ -130,11 +175,11 @@ public class RecordingService extends Service {
         mRecorder.release();
         Log.i(LOG_TAG, "结束录音-------");
         //保存录音文件的信息
-        getSharedPreferences("sp_name_audio", MODE_PRIVATE)
-                .edit()
-                .putString("audio_path", mFilePath)
-                .putLong("elpased", mElapsedMillis)
-                .apply();
+//        getSharedPreferences("sp_name_audio", MODE_PRIVATE)
+//                .edit()
+//                .putString("audio_path", mFilePath)
+//                .putLong("elpased", mElapsedMillis)
+//                .apply();
 
         new Thread(new Runnable() {
             @Override
@@ -157,9 +202,9 @@ public class RecordingService extends Service {
     public void loadData(Object object) {
         if (object.getClass() == StsEntity.class) {
             StsEntity stsEntity = (StsEntity) object;
-            accessKeyId=stsEntity.AccessKeyId;
-            accessKeySecret=stsEntity.AccessKeySecret;
-            securityToken=stsEntity.SecurityToken;
+            accessKeyId = stsEntity.AccessKeyId;
+            accessKeySecret = stsEntity.AccessKeySecret;
+            securityToken = stsEntity.SecurityToken;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -192,7 +237,7 @@ public class RecordingService extends Service {
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
                 Log.i(TAG, "onSuccess: 上传成功-------");
                 //删除本地录音文件
-                File file =new File(mFilePath);
+                File file = new File(mFilePath);
                 file.delete();
                 System.gc();
                 Log.i(LOG_TAG, "文件删除-------");

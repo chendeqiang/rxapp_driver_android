@@ -8,15 +8,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.location.LocationClient;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.common.BaiduMapSDKException;
 import com.baidu.mapapi.map.MapView;
 import com.mxingo.driver.OrderModel;
 import com.mxingo.driver.R;
@@ -29,6 +30,7 @@ import com.mxingo.driver.model.QryOrderEntity;
 import com.mxingo.driver.model.StsEntity;
 import com.mxingo.driver.module.BaseActivity;
 import com.mxingo.driver.module.RecordingService;
+import com.mxingo.driver.module.base.data.MyModulePreference;
 import com.mxingo.driver.module.base.data.UserInfoPreferences;
 import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.MyPresenter;
@@ -55,6 +57,7 @@ import java.util.TimerTask;
 
 import javax.inject.Inject;
 
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -136,7 +139,14 @@ public class MapActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //百度地图
-        SDKInitializer.initialize(getApplicationContext());
+        SDKInitializer.setAgreePrivacy(getApplicationContext(), true);
+
+        // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
+        try {
+            SDKInitializer.initialize(getApplicationContext());
+        }catch (BaiduMapSDKException e){
+
+        }
         SDKInitializer.setCoordType(CoordType.BD09LL);
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
@@ -188,31 +198,31 @@ public class MapActivity extends BaseActivity {
         int hours = Integer.parseInt(hour);
 
         int times2 = Integer.parseInt(times.substring(0, times.indexOf(".")));
-//        if (times2 > 0) {
-//            progress.dismiss();
-//            final MessageDialog2 dialog = new MessageDialog2(this);
-//            dialog.setMessageText("无法提前结束订单");
-//            dialog.setOnOkClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    dialog.dismiss();
-//                }
-//            });
-//            dialog.show();
-//        } else if (min < 10 && hours < 1) {
-//            progress.dismiss();
-//            final MessageDialog2 dialog = new MessageDialog2(this);
-//            dialog.setMessageText("开始与结束间隔需大于10分钟");
-//            dialog.setOnOkClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    dialog.dismiss();
-//                }
-//            });
-//            dialog.show();
-//        } else {
+        if (times2 > 0) {
+            progress.dismiss();
+            final MessageDialog2 dialog = new MessageDialog2(this);
+            dialog.setMessageText("无法提前结束订单");
+            dialog.setOnOkClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        } else if (min < 10 && hours < 1) {
+            progress.dismiss();
+            final MessageDialog2 dialog = new MessageDialog2(this);
+            dialog.setMessageText("开始与结束间隔需大于10分钟");
+            dialog.setOnOkClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        } else {
             presenter.closeOrder(orderNo, flowNo);
-//        }
+        }
     }
 
     private void closeOrder(CloseOrderEntity data) {
@@ -246,7 +256,7 @@ public class MapActivity extends BaseActivity {
                 } else {
                     tvBookTime.setText(TextUtil.getFormatWeek(Long.valueOf(order.bookTime)));
                     tvEndAddress.setText(order.endAddr);
-                    MyTrace.getInstance().startTrace();
+                    //MyTrace.getInstance().startTrace();
                 }
                 tvStartAddress.setText(order.startAddr);
 

@@ -1,7 +1,9 @@
 package com.mxingo.driver.utils;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.os.Build;
 import android.telephony.TelephonyManager;
 
 import com.baidu.mapapi.model.LatLng;
@@ -13,9 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by zhouwei on 2017/7/4.
- */
 
 public class CommonUtil {
     private static DecimalFormat df = new DecimalFormat("######0.00");
@@ -205,10 +204,17 @@ public class CommonUtil {
      * @param context
      * @return
      */
+    @SuppressLint("MissingPermission")
     public static String getImei(Context context) {
         String imei;
         try {
-            imei = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
+                imei = tm.getImei();
+            }else {
+                imei = tm.getDeviceId();
+            }
+
         } catch (Exception e) {
             imei = "myTrace";
         }

@@ -20,6 +20,9 @@ object Constants {
     const val DRIVER_NO = "driver_no"
     const val DRIVER_INFO = "driver_info"
 
+    const val CMAINID="cmainid"
+    const val CCODE="ccode"
+
     const val P_D_PUB = 10000 // 派单/报价推送
     const val P_D_CANCEL = 10001 // 取消订单推送
     const val P_D_POINT = 10002 // 指派订单推送
@@ -33,5 +36,6 @@ object Constants {
     const val RX_VERSION = "rx_version"
 
     const val pictureSmall = "imageView2/0/w/100/h/100/q/75|imageslim"
-    const val pictureIp = "http://oxwbws6ys.bkt.clouddn.com/"
+//    const val pictureIp = "http://oxwbws6ys.bkt.clouddn.com/"
+    const val pictureIp = "http://rxdriver.mxingo.com/"
 }
