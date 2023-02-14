@@ -601,10 +601,10 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
 
     fun checkInfo(driverNo: String, name: String, mobile: String, carBrand: String, carNo: String, carLevel: Int,
                    imgIdface: String, imgIdback: String, imgDriverlicense: String, imgVehiclelicense: String,
-                   imgInsurance: String) {
+                   imgInsurance: String,img_wycdriver:String,img_wyccar:String) {
 
         manger.checkInfo(driverNo, name, mobile, carBrand, carNo, carLevel, imgIdface, imgIdback, imgDriverlicense,
-                imgVehiclelicense, imgInsurance, object : Callback<CommEntity> {
+                imgVehiclelicense, imgInsurance,img_wycdriver,img_wyccar, object : Callback<CommEntity> {
             override fun onFailure(call: Call<CommEntity>?, t: Throwable) {
                 val data = CommEntity()
                 data.rspCode = "1000"

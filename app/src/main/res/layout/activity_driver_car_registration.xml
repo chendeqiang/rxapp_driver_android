@@ -218,35 +218,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_below="@+id/rl_status">
-
-
-                        <RelativeLayout
-                            android:visibility="gone"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
-
-                            <ImageView
-                                android:id="@+id/img_licence"
-                                android:layout_width="match_parent"
-                                android:layout_height="70dp"
-                                android:layout_above="@+id/tv_id_licence"
-                                android:layout_marginBottom="@dimen/item_margin"
-                                android:src="@drawable/ic_add" />
-
-                            <TextView
-                                android:id="@+id/tv_id_licence"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:singleLine="true"
-                                android:text="网约车证"
-                                android:textColor="@color/text_color_black"
-                                android:textSize="@dimen/text_size_14" />
-                        </RelativeLayout>
-
-
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -299,6 +270,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_id2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/ll_id"
@@ -312,9 +284,9 @@
                             android:background="@color/line_color" />
 
                         <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:layout_below="@+id/rl_status">
+                            android:layout_height="100dp">
 
                             <RelativeLayout
                                 android:layout_width="0dp"
@@ -393,6 +365,80 @@
                         </LinearLayout>
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ll_id2"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_marginTop="@dimen/item_margin"
+                            android:layout_marginBottom="@dimen/item_margin"
+                            android:background="@color/line_color" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp">
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/img_driver_wyc"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="70dp"
+                                    android:layout_above="@+id/tv_driver_wyc"
+                                    android:layout_marginBottom="@dimen/item_margin"
+                                    android:src="@drawable/ic_add" />
+
+                                <TextView
+                                    android:id="@+id/tv_driver_wyc"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:text="网约车人证"
+                                    android:textColor="@color/text_color_black"
+                                    android:textSize="@dimen/text_size_14" />
+                            </RelativeLayout>
+
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="@dimen/item_margin"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/img_car_wyc"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="70dp"
+                                    android:layout_above="@+id/tv_car_wyc"
+                                    android:layout_marginBottom="@dimen/item_margin"
+                                    android:src="@drawable/ic_add" />
+
+                                <TextView
+                                    android:id="@+id/tv_car_wyc"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:text="网约车车证"
+                                    android:textColor="@color/text_color_black"
+                                    android:textSize="@dimen/text_size_14" />
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
 
                 </RelativeLayout>
 

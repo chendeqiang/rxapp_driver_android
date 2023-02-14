@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import com.baidu.trace.LBSTraceClient
+import com.mxingo.driver.MyApplication
 import com.mxingo.driver.R
 import com.mxingo.driver.dialog.MessageDialog2
 import com.mxingo.driver.module.base.data.UserInfoPreferences
@@ -55,7 +57,8 @@ class GuideActivity :BaseActivity() {
 
         btnAgree.setOnClickListener {
             UserInfoPreferences.getInstance().setNotFristStart()
-            startActivity(Intent(this,StartPageActivity::class.java))
+            MyApplication.bus.post(Any())
+            startActivity(Intent(this,LoginActivity::class.java))
             finish()
         }
     }

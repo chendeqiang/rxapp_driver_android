@@ -5,18 +5,16 @@ import android.app.Application;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.common.BaiduMapSDKException;
-import com.iflytek.cloud.Setting;
-import com.iflytek.cloud.SpeechConstant;
-import com.iflytek.cloud.SpeechUtility;
+import com.baidu.trace.LBSTraceClient;
 import com.igexin.sdk.PushManager;
 import com.mxingo.driver.module.base.http.AppComponent;
 import com.mxingo.driver.module.base.http.AppModule;
 import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.DaggerAppComponent;
-import com.mxingo.driver.utils.Constants;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 
 public class MyApplication extends Application {
@@ -29,6 +27,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //UMConfigure.setLogEnabled(true);
+        UMConfigure.preInit(getApplicationContext(),"595dd4039f06fd77fd0004e3","Channel ID");
         AppComponent appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
         ComponentHolder.setAppComponent(appComponent);
         application = this;
@@ -39,6 +39,8 @@ public class MyApplication extends Application {
 
     @Subscribe
     public void startApp(Object o) {
+
+        LBSTraceClient.setAgreePrivacy(getApplicationContext(),true);
 
         //个推初始化
         PushManager.getInstance().initialize(this.getApplicationContext());
@@ -55,10 +57,12 @@ public class MyApplication extends Application {
         SDKInitializer.setCoordType(CoordType.BD09LL);
 
         //讯飞语音
-        Setting.setShowLog(false);
-        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=" + Constants.speechAppId);
+//        Setting.setShowLog(false);
+//        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=" + Constants.speechAppId);
 
         //umeng
+        UMConfigure.init(getApplicationContext(),UMConfigure.DEVICE_TYPE_PHONE,"");
+        UMConfigure.setEncryptEnabled(true);
         MobclickAgent.setDebugMode(false);
         MobclickAgent.setCatchUncaughtExceptions(true);
         MobclickAgent.enableEncrypt(true);//6.0.0版本及以后

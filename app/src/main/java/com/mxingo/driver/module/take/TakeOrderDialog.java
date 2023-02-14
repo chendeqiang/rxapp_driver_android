@@ -24,7 +24,8 @@ import com.mxingo.driver.model.QryOrderEntity;
 import com.mxingo.driver.model.TakeOrderEntity;
 import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.MyPresenter;
-import com.mxingo.driver.module.base.speech.MySpeechSynthesizer;
+//import com.mxingo.driver.module.base.speech.MySpeechSynthesizer;
+import com.mxingo.driver.module.base.speech.MySpeechUtils;
 import com.mxingo.driver.module.order.OrderInfoActivity;
 import com.mxingo.driver.module.order.OrderSource;
 import com.mxingo.driver.utils.TextUtil;
@@ -107,7 +108,8 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
     private Stack<PushOrderEntity> pushData;
     private OrderEntity orderEntity;
     private SimpleDateFormat sdf = new SimpleDateFormat("MM月dd号 HH:mm");
-    private MySpeechSynthesizer speechSynthesizer;
+    //private MySpeechSynthesizer speechSynthesizer;
+    private MySpeechUtils mySpeechUtils;
     private MyProgress progress;
     private boolean isSpeak = false;
     private CountDownTimer timer = new CountDownTimer(60000, 1000) {
@@ -125,7 +127,8 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
     };
 
     private void getNext() {
-        speechSynthesizer.stop();
+        //speechSynthesizer.stop();
+        mySpeechUtils.stopSpeaking();
         dismiss();
     }
 
@@ -168,7 +171,8 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
         setCanceledOnTouchOutside(false);
         progress = new MyProgress(activity);
         etQuote.addTextChangedListener(this);
-        speechSynthesizer = new MySpeechSynthesizer();
+        //speechSynthesizer = new MySpeechSynthesizer();
+        mySpeechUtils =new MySpeechUtils();
     }
 
 
@@ -313,9 +317,10 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
         if (isSpeak) {
             isSpeak = false;
             if (order.orderType != OrderType.DAY_RENTER_TYPE) {
-                speechSynthesizer.startSpeaking(OrderModel.getKey(order.orderModel) + "从" + order.startAddr + "到" + order.endAddr);
+                //speechSynthesizer.startSpeaking(OrderModel.getKey(order.orderModel) + "从" + order.startAddr + "到" + order.endAddr);
+                mySpeechUtils.startSpeaking(OrderModel.getKey(order.orderModel) + "从" + order.startAddr + "到" + order.endAddr);
             } else {
-                speechSynthesizer.startSpeaking(OrderModel.getKey(order.orderModel) + "地址:" + order.startAddr + "时间:" + tvBookTime.getText().toString());
+                mySpeechUtils.startSpeaking(OrderModel.getKey(order.orderModel) + "地址:" + order.startAddr + "时间:" + tvBookTime.getText().toString());
             }
         }
     }

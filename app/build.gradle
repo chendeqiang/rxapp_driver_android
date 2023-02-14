@@ -18,10 +18,10 @@ android {
     buildToolsVersion '29.0.3'
     defaultConfig {
         applicationId "com.mxingo.driver"
-        minSdkVersion 24
+        minSdkVersion 25
         targetSdkVersion 29
         versionCode increasedVersionCode()
-        versionName "1.6.0"
+        versionName "1.7.2"
         flavorDimensions "versionCode"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -129,7 +129,7 @@ dependencies {
     //implementation 'com.squareup.okio:okio:2.2.2'
     implementation 'com.qiniu:qiniu-android-sdk:7.5.0'
     implementation 'com.qiniu:happy-dns:0.2.13'
-    implementation 'com.umeng.analytics:analytics:6.1.4'
+    //implementation 'com.umeng.analytics:analytics:6.1.4'
     implementation 'com.kaopiz:kprogresshud:1.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
@@ -156,9 +156,15 @@ dependencies {
     kapt 'androidx.annotation:annotation:1.1.0'
     implementation 'com.aliyun.dpa:oss-android-sdk:2.9.3'
     implementation files('libs/GetuiSDK2.14.1.0.jar')
-
     implementation 'net.grandcentrix.tray:tray:0.12.0'
     implementation files('libs/BaiduLBS_Android.jar')
     implementation files('libs/Msc.jar')
+    implementation files('libs/BaiduTraceSDK_v3_1_11.jar')
+
+    // 友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
+    implementation  'com.umeng.umsdk:common:9.5.2'// (必选)
+    implementation  'com.umeng.umsdk:asms:1.6.3'// 必选
+    implementation  'com.umeng.umsdk:abtest:1.0.1'//使用U-App中ABTest能力，可选
+    implementation 'com.umeng.umsdk:apm:1.7.0'// U-APM产品包依赖(必选)
 }
 

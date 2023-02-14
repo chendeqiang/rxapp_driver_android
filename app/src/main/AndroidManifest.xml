@@ -6,21 +6,15 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="android.permission.DEVICE_POWER" />
-    <!-- 连接网络权限，用于执行云端语音能力 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
-
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
 
@@ -70,6 +64,13 @@
         android:protectionLevel="normal" />
 
     <uses-permission android:name="android.permission.READ_PROFILE" />
+
+<!--    为兼容Android11系统手机，我们需要在应用程序AndroidManifest.xml文件中增加如下声明：-->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE"/>
+        </intent>
+    </queries>
 
     <application
         android:name=".MyApplication"
@@ -123,17 +124,6 @@
             android:name="PUSH_APPSECRET"
             android:value="8OKkZGiruR7ov0j1wjh5q7" />
 
-        <!-- 测试 -->
-        <!-- <meta-data -->
-        <!-- android:name="PUSH_APPID" -->
-        <!-- android:value="6j5FeS2kQw8vd7piLYyl25" /> -->
-        <!-- <meta-data -->
-        <!-- android:name="PUSH_APPKEY" -->
-        <!-- android:value="LHETVLVEJJ6t46BWCcCTk3" /> -->
-        <!-- <meta-data -->
-        <!-- android:name="PUSH_APPSECRET" -->
-        <!-- android:value="XPnXeQLBWaAPXftenhF7JA" /> -->
-
         <service
             android:name=".module.base.push.MyPushService"
             android:exported="true"
@@ -154,6 +144,7 @@
                 <action android:name="com.igexin.sdk.action.service.message" />
             </intent-filter>
         </service>
+
 
         <receiver android:name="com.igexin.sdk.PushReceiver">
             <intent-filter>
@@ -239,9 +230,15 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="um.595dd4039f06fd77fd0004e3" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".module.LoginActivity"

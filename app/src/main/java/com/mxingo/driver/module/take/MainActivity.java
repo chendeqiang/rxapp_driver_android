@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.trace.LBSTraceClient;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -41,7 +42,8 @@ import com.mxingo.driver.module.base.download.UpdateVersionActivity;
 import com.mxingo.driver.module.base.download.VersionEntity;
 import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.MyPresenter;
-import com.mxingo.driver.module.base.speech.MySpeechSynthesizer;
+//import com.mxingo.driver.module.base.speech.MySpeechSynthesizer;
+import com.mxingo.driver.module.base.speech.MySpeechUtils;
 import com.mxingo.driver.module.order.CarpoolOrderActivity;
 import com.mxingo.driver.module.order.MyOrderActivity;
 import com.mxingo.driver.module.order.OrdersActivity;
@@ -96,7 +98,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView tvName;
     private TextView tvMobile;
     private TextView tvRecvNum;
-    private MySpeechSynthesizer speechSynthesizer;
+    //private MySpeechSynthesizer speechSynthesizer;
+    private MySpeechUtils speechUtils;
     private TakeOrderDialog takeDialog = null;
 
     private String driverNo;
@@ -118,12 +121,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         PushManager.getInstance().initialize(getApplicationContext());
 
-
         progress = new MyProgress(this);
         driverNo = UserInfoPreferences.getInstance().getDriverNo();
         initView();
 
-        speechSynthesizer = new MySpeechSynthesizer();
+        //speechSynthesizer = new MySpeechSynthesizer();
+        speechUtils = new MySpeechUtils();
         takeDialog = new TakeOrderDialog(this, driverNo);
 
         ComponentHolder.getAppComponent().inject(this);
@@ -322,6 +325,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (takeDialog != null) {
             takeDialog.dismiss();
         }
+        speechUtils.destroy();
     }
 
     @Override
@@ -376,7 +380,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         OnlineEntity data = (OnlineEntity) o;
         if (data.rspCode.equals("00")) {
             onlineView();
-            speechSynthesizer.startSpeaking("上线接单啦");
+            //speechSynthesizer.startSpeaking("上线接单啦");
+            speechUtils.startSpeaking("上线接单啦");
         } else if (data.rspCode.equals("101")) {
             ShowToast.showCenter(this, "TOKEN失效，请重新登陆");
             UserInfoPreferences.getInstance().clear();
@@ -401,7 +406,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         OfflineEntity data = (OfflineEntity) o;
         if (data.rspCode.equals("00")) {
             offlineView();
-            speechSynthesizer.startSpeaking("停止接单啦");
+            //speechSynthesizer.startSpeaking("停止接单啦");
+            speechUtils.startSpeaking("停止接单啦");
         } else if (data.rspCode.equals("101")) {
             ShowToast.showCenter(this, "TOKEN失效，请重新登陆");
             UserInfoPreferences.getInstance().clear();

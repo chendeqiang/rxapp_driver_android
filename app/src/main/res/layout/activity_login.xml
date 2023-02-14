@@ -172,7 +172,7 @@
 
 
             <LinearLayout
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="40dp">
@@ -206,6 +206,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
+                        android:lines="1"
                         android:layout_gravity="center_vertical"
                         android:id="@+id/tv_privacy_policy"
                         android:textSize="@dimen/text_size_14"
@@ -225,6 +226,16 @@
                 android:text="@string/btn_login"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_18"/>
+
+            <TextView
+                android:id="@+id/tv_register"
+                android:layout_marginTop="@dimen/default_margin10"
+                android:layout_gravity="right"
+                android:textSize="@dimen/text_size_18"
+                android:textColor="@color/text_color_black"
+                android:text="新用户注册"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
 
             <LinearLayout

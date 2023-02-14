@@ -2,6 +2,7 @@ package com.mxingo.driver.module
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.TextUtils
@@ -14,14 +15,12 @@ import com.mxingo.driver.R
 import com.mxingo.driver.model.CommEntity
 import com.mxingo.driver.model.LoginEntity
 import com.mxingo.driver.module.WebViewActivity.Companion.startWebViewActivity
-import com.mxingo.driver.module.base.data.MyModulePreference
 import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
 import com.mxingo.driver.module.base.log.LogUtils
 import com.mxingo.driver.module.take.MainActivity
 import com.mxingo.driver.utils.DevInfo
-
 import com.mxingo.driver.utils.TextUtil
 import com.mxingo.driver.widget.MyProgress
 import com.mxingo.driver.widget.ShowToast
@@ -39,7 +38,9 @@ class LoginActivity : BaseActivity() {
     private lateinit var progress: MyProgress
     private lateinit var ckAgreement: CheckBox
     private lateinit var tvUserAgreement:TextView
+    private lateinit var tvRegister:TextView
     private lateinit var tvPrivacyPolicy:TextView
+    private lateinit var logEntity:LoginEntity
 
     private var countDown: CountDownTimer = MyCountDownTimer()
 
@@ -89,6 +90,8 @@ class LoginActivity : BaseActivity() {
         tvUserAgreement =findViewById(R.id.tv_user_agreement) as TextView
         tvPrivacyPolicy =findViewById(R.id.tv_privacy_policy) as TextView
 
+        tvRegister =findViewById(R.id.tv_register) as TextView
+
 //        if (!TextUtils.isEmpty(UserInfoPreferences.getInstance().driverNo)) {
 //            MainActivity.startMainActivity(this)
 //            finish()
@@ -104,6 +107,15 @@ class LoginActivity : BaseActivity() {
         if (!TextUtils.isEmpty(UserInfoPreferences.getInstance().driverNo)) {
             MainActivity.startMainActivity(this)
             finish()
+        }
+
+        tvRegister.setOnClickListener {
+            val intent = Intent()
+            intent.action = "android.intent.action.VIEW"
+            val content_url: Uri = Uri.parse("http://192.168.0.24:8080/MyPlatform/pullbill/adddriver.shtml") //此处填链接
+
+            intent.data = content_url
+            startActivity(intent)
         }
 
         tvUserAgreement.setOnClickListener {
@@ -134,11 +146,13 @@ class LoginActivity : BaseActivity() {
             }
         }
         btnGetVCode.setOnClickListener {
-            countDown.start()
-            btnGetVCode.isClickable = false
-            btnGetVCode.setBackgroundResource(R.drawable.btn_gray_box)
-            btnGetVCode.setTextColor(ContextCompat.getColor(this, R.color.text_color_gray))
-            presenter.getVcode(etPhone.text.toString())
+            if (etPhone.text.isNotEmpty()){
+                countDown.start()
+                btnGetVCode.isClickable = false
+                btnGetVCode.setBackgroundResource(R.drawable.btn_gray_box)
+                btnGetVCode.setTextColor(ContextCompat.getColor(this, R.color.text_color_gray))
+                presenter.getVcode(etPhone.text.toString())
+            }
         }
         etCarTeam.append(UserInfoPreferences.getInstance().carTeam)
         etPhone.append(UserInfoPreferences.getInstance().mobile)
@@ -148,7 +162,13 @@ class LoginActivity : BaseActivity() {
     @Subscribe
     fun loadData(any: Any) {
         if (any::class == LoginEntity::class) {
-            login(any)
+            logEntity= any as LoginEntity
+            if (logEntity.rspCode.equals("00")){
+                login(any)
+            }else{
+                progress.dismiss()
+                ShowToast.showCenter(this,logEntity.rspDesc)
+            }
         } else if (any::class == CommEntity::class) {
             getVcode(any)
         }

@@ -15,7 +15,6 @@ object ApiConstants {
     const val login = "usr/driver/login"//登录
     const val logout = "usr/driver/logout"//修改密码
     const val online = "usr/driver/online"//上线
-
     const val offline = "usr/driver/offline"//下线
 
     const val reassignment="usr/fleet/reassignment"//改派限制
@@ -24,10 +23,9 @@ object ApiConstants {
     const val quoteOrder = "usr/driver/quoteorder"//报价订单
     const val latestMyQuote = "usr/driver/latestmyquote"//查看最新报价
     const val startPush = "usr/driver/startpush"//开启订单推送
-
     const val closePush = "usr/driver/closepush"//关闭订单推送
-    const val getInfo = "usr/driver/getinfo"//获取个人信息
 
+    const val getInfo = "usr/driver/getinfo"//获取个人信息
     const val qryOrder = "usr/driver/qryorder"//获取订单信息
     const val listOrder = "usr/driver/listorder"//获取订单池列表
     const val listDriverOrder = "usr/driver/listdriverorder"//获取司机服务订单列表

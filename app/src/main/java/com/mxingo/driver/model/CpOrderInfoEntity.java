@@ -120,12 +120,12 @@ public class CpOrderInfoEntity {
         public String cuuid;
         public String driverid;
         public String drivername;
-        public int driverprice;
+        public double driverprice;
         public String elat;
         public String elng;
         public int num;
         public int ordermodel;
-        public int orderprice;
+        public double orderprice;
         public int orderstatus;
         public int ordertype;
         public String orgid;
@@ -136,7 +136,7 @@ public class CpOrderInfoEntity {
         public String platenumber;
         public String pname;
         public String remark;
-        public int renxingprice;
+        public double renxingprice;
         public String slat;
         public String slng;
         public String tccode;

@@ -66,6 +66,8 @@ public class GetCheckInfo {
         public String imgIdface;
         public String imgInsurance;
         public String imgVehiclelicense;
+        public String img_wycdriver;
+        public String img_wyccar;
         public String mobile;
         public String name;
         public int status;
@@ -83,6 +85,8 @@ public class GetCheckInfo {
                     ", imgIdface='" + imgIdface + '\'' +
                     ", imgInsurance='" + imgInsurance + '\'' +
                     ", imgVehiclelicense='" + imgVehiclelicense + '\'' +
+                    ", img_wycdriver='" + img_wycdriver + '\'' +
+                    ", img_wyccar='" + img_wyccar + '\'' +
                     ", mobile='" + mobile + '\'' +
                     ", name='" + name + '\'' +
                     ", status=" + status +

@@ -61,7 +61,6 @@ class DriverCarRegistrationActivity : BaseActivity() {
     private lateinit var tvCarNo: TextView
     private lateinit var tvCarType: TextView
     private lateinit var tvStatus: TextView
-    private lateinit var imgLicence: ImageView
     private lateinit var btnSubmit:Button
     private lateinit var rlMain:RelativeLayout
 
@@ -73,6 +72,8 @@ class DriverCarRegistrationActivity : BaseActivity() {
     private var bitDriver: Bitmap? = null
     private var bitDriving: Bitmap? = null
     private var bitInsurance: Bitmap? = null
+    private var bitDriverWyc: Bitmap? = null
+    private var bitCarWyc: Bitmap? = null
 
     private lateinit var imgTmp: ImageView
 
@@ -83,22 +84,24 @@ class DriverCarRegistrationActivity : BaseActivity() {
     private var imgDriverUri: Uri? = null
     private var imgDrivingUri: Uri? = null
     private var imgInsuranceUri: Uri? = null
-
+    private var imgDriverWycUri: Uri? = null
+    private var imgCarWycUri: Uri? = null
 
     private var keyFront: String = ""
     private var keyBack: String = ""
     private var keyDriver: String = ""
     private var keyDriving: String = ""
     private var keyInsurance: String = ""
-
+    private var keyDriverWyc: String = ""
+    private var keyCarWyc: String = ""
 
     private var urlFront: String = ""
     private var urlBack: String = ""
     private var urlDriver: String = ""
     private var urlDriving: String = ""
     private var urlInsurance: String = ""
-
-    private var urlLicence: String = "http://oo6ia0hqz.bkt.clouddn.com/16062d8b-667e-47bd-89d8-feed9202629d.jpg"
+    private var urlDriverWyc: String = ""
+    private var urlCarWyc: String = ""
 
     private var cameraFile: File? = null
     private var outputUri: Uri? = null
@@ -150,18 +153,13 @@ class DriverCarRegistrationActivity : BaseActivity() {
         btnSubmit =findViewById(R.id.btn_submit) as Button
         rlMain =findViewById(R.id.rl_main) as RelativeLayout
 
-        imgLicence = findViewById(R.id.img_licence) as ImageView
-        Glide.with(this).load(urlLicence).into(imgLicence)
-        imgLicence.setOnClickListener {
-            ImageActivity.startImageActivity(this, null, urlLicence, 0, REQUEST_IMAGE)
-        }
-
-
         imgUpload = arrayOf(findViewById(R.id.img_front) as ImageView,
                 findViewById(R.id.img_back) as ImageView,
                 findViewById(R.id.img_driver) as ImageView,
                 findViewById(R.id.img_driving) as ImageView,
-                findViewById(R.id.img_insurance) as ImageView)
+                findViewById(R.id.img_insurance) as ImageView,
+                findViewById(R.id.img_driver_wyc) as ImageView,
+                findViewById(R.id.img_car_wyc) as ImageView)
 
 
         btnSubmit.setOnClickListener {
@@ -183,6 +181,14 @@ class DriverCarRegistrationActivity : BaseActivity() {
             }
             if (bitInsurance == null) {
                 ShowToast.showCenter(this, "请选择保险单")
+                return@setOnClickListener
+            }
+            if (bitDriverWyc == null) {
+                ShowToast.showCenter(this, "请选择网约车人证")
+                return@setOnClickListener
+            }
+            if (bitCarWyc == null) {
+                ShowToast.showCenter(this, "请选择网约车车证")
                 return@setOnClickListener
             }
             progress.show()
@@ -235,6 +241,22 @@ class DriverCarRegistrationActivity : BaseActivity() {
                 ImageActivity.startImageActivity(this, imgInsuranceUri, urlInsurance, 4, REQUEST_IMAGE)
             }
         }
+        imgUpload[5].setOnClickListener {
+            if (bitDriverWyc == null && (status == DriverCheckInfoStatus.UNSUBMIT.status || status == DriverCheckInfoStatus.CANTPASS.status)) {
+                imgTmp = imgUpload[5]
+                showImageDialog()
+            } else {
+                ImageActivity.startImageActivity(this, imgDriverWycUri, urlDriverWyc, 5, REQUEST_IMAGE)
+            }
+        }
+        imgUpload[6].setOnClickListener {
+            if (bitCarWyc == null && (status == DriverCheckInfoStatus.UNSUBMIT.status || status == DriverCheckInfoStatus.CANTPASS.status)) {
+                imgTmp = imgUpload[6]
+                showImageDialog()
+            } else {
+                ImageActivity.startImageActivity(this, imgCarWycUri, urlCarWyc, 6, REQUEST_IMAGE)
+            }
+        }
         if (intent.getSerializableExtra(Constants.DRIVER_INFO) != null) {
             tvDriverName.text = driverInfo.driver.cname
             tvCarType.text = CarLevel.getKey(driverInfo.carLevel)
@@ -282,12 +304,16 @@ class DriverCarRegistrationActivity : BaseActivity() {
                 urlDriver = Constants.pictureIp + data.driverCheckInfo.imgDriverlicense
                 urlDriving = Constants.pictureIp + data.driverCheckInfo.imgVehiclelicense
                 urlInsurance = Constants.pictureIp + data.driverCheckInfo.imgInsurance
+                urlDriverWyc =Constants.pictureIp + data.driverCheckInfo.img_wycdriver
+                urlCarWyc =Constants.pictureIp + data.driverCheckInfo.img_wyccar
 
                 Glide.with(this).load(urlFront + "?${Constants.pictureSmall}").into(imgUpload[0])
                 Glide.with(this).load(urlBack + "?${Constants.pictureSmall}").into(imgUpload[1])
                 Glide.with(this).load(urlDriver + "?${Constants.pictureSmall}").into(imgUpload[2])
                 Glide.with(this).load(urlDriving + "?${Constants.pictureSmall}").into(imgUpload[3])
                 Glide.with(this).load(urlInsurance + "?${Constants.pictureSmall}").into(imgUpload[4])
+                Glide.with(this).load(urlDriverWyc + "?${Constants.pictureSmall}").into(imgUpload[5])
+                Glide.with(this).load(urlCarWyc + "?${Constants.pictureSmall}").into(imgUpload[6])
             }
             rlMain.visibility = View.VISIBLE
         } else {
@@ -412,6 +438,14 @@ class DriverCarRegistrationActivity : BaseActivity() {
                 bitInsurance = null
                 imgInsuranceUri = null
             }
+            5 -> {
+                bitDriverWyc = null
+                imgDriverWycUri = null
+            }
+            6 -> {
+                bitCarWyc = null
+                imgCarWycUri = null
+            }
         }
     }
     private val handler = Handler(Handler.Callback {
@@ -441,6 +475,16 @@ class DriverCarRegistrationActivity : BaseActivity() {
                     bitInsurance = BitmapUtil.compressUri(this, outputUri, 720, 1080)
                     imgInsuranceUri = outputUri
                 }
+
+                imgUpload[5] -> {
+                    bitDriverWyc = BitmapUtil.compressUri(this, outputUri, 720, 1080)
+                    imgDriverWycUri = outputUri
+                }
+
+                imgUpload[6] -> {
+                    bitCarWyc = BitmapUtil.compressUri(this, outputUri, 720, 1080)
+                    imgCarWycUri = outputUri
+                }
             }
         } else if (it.what == 2) {
             progress.setLabel("上传中")
@@ -463,14 +507,22 @@ class DriverCarRegistrationActivity : BaseActivity() {
             progress.setDetailsLabel("保险单上传中...")
             keyInsurance = getKey()
             upload(bitInsurance!!, keyInsurance, token, 4)
-        } else if (it.what == 7) {
+        }else if (it.what == 7){
+            progress.setDetailsLabel("网约车人证上传中...")
+            keyDriverWyc = getKey()
+            upload(bitDriverWyc!!, keyDriverWyc, token, 5)
+        }else if (it.what == 8){
+            progress.setDetailsLabel("网约车车证上传中...")
+            keyCarWyc = getKey()
+            upload(bitCarWyc!!, keyCarWyc, token, 6)
+        }else if (it.what == 9) {
             progress.dismiss()
             ShowToast.showCenter(this, "上传完成")
             progress.setLabel("请稍等")
             progress.setDetailsLabel("请求中")
             presenter.checkInfo(driverInfo.driver.cuuid, tvDriverName.text.toString(), tvMobile.text.toString(), tvCarBrand.text.toString(),
-                    tvCarNo.text.toString(), driverInfo.carLevel, keyFront, keyBack, keyDriver, keyDriving, keyInsurance)
-        } else if (it.what == 8) {
+                    tvCarNo.text.toString(), driverInfo.carLevel, keyFront, keyBack, keyDriver, keyDriving, keyInsurance,keyDriverWyc,keyCarWyc)
+        } else if (it.what == 10) {
             progress.dismiss()
         }
         true
@@ -497,7 +549,7 @@ class DriverCarRegistrationActivity : BaseActivity() {
         }
 
         override fun uploadFail() {
-            this@DriverCarRegistrationActivity.handler.sendEmptyMessage(8)
+            this@DriverCarRegistrationActivity.handler.sendEmptyMessage(10)
         }
 
         override fun uploadProgress(percent: Double) {

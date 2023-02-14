@@ -65,6 +65,8 @@
 
 
                 <LinearLayout
+                    android:visibility="invisible"
+                    android:id="@+id/ll_user2"
                     android:layout_marginTop="@dimen/default_margin"
                     android:layout_marginLeft="@dimen/default_margin"
                     android:layout_toRightOf="@id/ll_user1"
@@ -91,6 +93,70 @@
                         android:layout_height="wrap_content"
                         android:text="接驾中" />
                 </LinearLayout>
+
+
+                <LinearLayout
+                    android:visibility="invisible"
+                    android:id="@+id/ll_user3"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_toRightOf="@id/ll_user2"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/btn_user3"
+                        android:layout_gravity="center_horizontal"
+                        android:lines="2"
+                        android:textColorHint="@color/white"
+                        android:hint="尾号8839"
+                        android:background="@drawable/round_button_2"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"/>
+                    <TextView
+                        android:visibility="invisible"
+                        android:id="@+id/tv_status_user3"
+                        android:textSize="@dimen/text_size_14"
+                        android:textColor="@color/cardview_dark_background"
+                        android:layout_marginTop="-3dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="接驾中" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:visibility="invisible"
+                    android:id="@+id/ll_user4"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_toRightOf="@id/ll_user3"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/btn_user4"
+                        android:layout_gravity="center_horizontal"
+                        android:lines="2"
+                        android:textColorHint="@color/white"
+                        android:hint="尾号8839"
+                        android:background="@drawable/round_button"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"/>
+                    <TextView
+                        android:visibility="invisible"
+                        android:id="@+id/tv_status_user4"
+                        android:textSize="@dimen/text_size_14"
+                        android:textColor="@color/cardview_dark_background"
+                        android:layout_marginTop="-3dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="接驾中" />
+                </LinearLayout>
+
+
 
                 <ImageView
                     android:id="@+id/iv_start_nav"
@@ -124,21 +190,7 @@
                     android:text="08-19 17:36"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
-                <TextView
-                    android:textColor="@color/cardview_dark_background"
-                    android:layout_marginLeft="@dimen/default_margin10"
-                    android:layout_gravity="center_vertical"
-                    android:text="城际拼车｜2人"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/tv_user_cost"
-                    android:textColor="@color/cardview_dark_background"
-                    android:layout_marginLeft="@dimen/default_margin10"
-                    android:layout_gravity="center_vertical"
-                    android:text="¥300"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+
                 <ImageView
                     android:id="@+id/iv_connect"
                     android:layout_marginLeft="@dimen/default_margin10"
@@ -162,6 +214,7 @@
                     android:layout_height="16dp"/>
 
                 <TextView
+                    android:maxLines="1"
                     android:textStyle="bold"
                     android:id="@+id/tv_startdd"
                     android:layout_marginLeft="@dimen/default_margin10"
@@ -186,6 +239,7 @@
                     android:layout_height="16dp"/>
 
                 <TextView
+                    android:maxLines="1"
                     android:textStyle="bold"
                     android:id="@+id/tv_endd"
                     android:layout_marginLeft="@dimen/default_margin10"
@@ -211,6 +265,7 @@
                     android:layout_height="13dp"/>
 
                 <TextView
+                    android:maxLines="1"
                     android:textColor="@color/cardview_dark_background"
                     android:id="@+id/tv_msg"
                     android:layout_marginLeft="@dimen/default_margin10"

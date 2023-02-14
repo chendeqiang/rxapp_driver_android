@@ -44,6 +44,7 @@ import java.util.List;
 
 
 public class MyTrace {
+
     private static MyTrace myTrace;
 
     /**
@@ -55,7 +56,6 @@ public class MyTrace {
      * 轨迹服务客户端
      */
     private LBSTraceClient client = null;
-
     /**
      * 鹰眼服务ID，开发者创建的鹰眼服务对应的服务ID
      */
@@ -83,9 +83,24 @@ public class MyTrace {
 
     public void initValue(Context context) {
         this.context = context;
-        if (client == null) {
-            // 初始化轨迹服务客户端
-            client = new LBSTraceClient(context);
+//        if (client == null) {
+//            // 初始化轨迹服务客户端
+//            try {
+//                client = new LBSTraceClient(context);
+//            } catch (Exception e) {
+//                e.getMessage();
+//            }
+//            // 设置定位模式
+//            client.setLocationMode(LocationMode.High_Accuracy);
+//            client.setInterval(gatherInterval, packInterval);
+//            client.setProtocolType(ProtocolType.HTTPS);
+//        }
+        try {
+                client = new LBSTraceClient(context);
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        if (client!=null){
             // 设置定位模式
             client.setLocationMode(LocationMode.High_Accuracy);
             client.setInterval(gatherInterval, packInterval);
@@ -229,28 +244,30 @@ public class MyTrace {
         request.setProcessOption(processOption);
         request.setProcessed(true);
         request.setSupplementMode(SupplementMode.driving);
-        client.queryHistoryTrack(request, new OnTrackListener() {
-            @Override
-            public void onHistoryTrackCallback(HistoryTrackResponse historyTrackResponse) {
-                super.onHistoryTrackCallback(historyTrackResponse);
-                LogUtils.d("historyTrackResponse", historyTrackResponse.toString());
-                int total = historyTrackResponse.getTotal();
-                List<LatLng> trackPoints = new ArrayList<>();
-                if (StatusCodes.SUCCESS == historyTrackResponse.getStatus() && 0 != total) {
-                    List<TrackPoint> points = historyTrackResponse.getTrackPoints();
-                    if (null != points) {
+        if (client!=null){
+            client.queryHistoryTrack(request, new OnTrackListener() {
+                @Override
+                public void onHistoryTrackCallback(HistoryTrackResponse historyTrackResponse) {
+                    super.onHistoryTrackCallback(historyTrackResponse);
+                    LogUtils.d("historyTrackResponse", historyTrackResponse.toString());
+                    int total = historyTrackResponse.getTotal();
+                    List<LatLng> trackPoints = new ArrayList<>();
+                    if (StatusCodes.SUCCESS == historyTrackResponse.getStatus() && 0 != total) {
+                        List<TrackPoint> points = historyTrackResponse.getTrackPoints();
+                        if (null != points) {
 
-                        for (TrackPoint trackPoint : points) {
-                            if (!CommonUtil.isZeroPoint(trackPoint.getLocation().getLatitude(),
-                                    trackPoint.getLocation().getLongitude())) {
-                                trackPoints.add(MapUtil.convertTrace2Map(trackPoint.getLocation()));
+                            for (TrackPoint trackPoint : points) {
+                                if (!CommonUtil.isZeroPoint(trackPoint.getLocation().getLatitude(),
+                                        trackPoint.getLocation().getLongitude())) {
+                                    trackPoints.add(MapUtil.convertTrace2Map(trackPoint.getLocation()));
+                                }
                             }
                         }
                     }
+                    MapUtil.getInstance().drawHistoryTrack(trackPoints, SortType.asc);
                 }
-                MapUtil.getInstance().drawHistoryTrack(trackPoints, SortType.asc);
-            }
-        });
+            });
+        }
     }
 
 

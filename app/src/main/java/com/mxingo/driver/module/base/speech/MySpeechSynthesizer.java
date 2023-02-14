@@ -14,9 +14,7 @@ import com.mxingo.driver.utils.TextUtil;
 
 import java.io.File;
 
-/**
- * Created by zhouwei on 2016/11/4.
- */
+
 
 public class MySpeechSynthesizer {
     private SpeechSynthesizer mTts;
@@ -92,31 +90,38 @@ public class MySpeechSynthesizer {
     private SynthesizerListener mSynListener = new SynthesizerListener() {
         //会话结束回调接口，没有错误时，error为null
         public void onCompleted(SpeechError error) {
+            //LogUtils.d("-------",error.toString());
         }
 
         //缓冲进度回调 //percent为缓冲进度0~100，beginPos为缓冲音频在文本中开始位置，endPos表示缓冲音频在
         // 文本中结束位置，info为附加信息。
         public void onBufferProgress(int percent, int beginPos, int endPos, String info) {
+            //LogUtils.d("-------","onBufferProgress");
         }
 
         //开始播放
         public void onSpeakBegin() {
+            //LogUtils.d("-------","onSpeakBegin");
         }
 
         //暂停播放
         public void onSpeakPaused() {
+            //LogUtils.d("-------","onSpeakPaused");
         }
         //播放进度回调 //percent为播放进度0~100,beginPos为播放音频在文本中开始位置，endPos表示播放音频在文
 
         public void onSpeakProgress(int percent, int beginPos, int endPos) {
+            //LogUtils.d("-------","onSpeakProgress");
         }
 
 
         public void onSpeakResumed() {
+            //LogUtils.d("-------","onSpeakResumed");
         }
 
         //会话事件回调接口
         public void onEvent(int arg0, int arg1, int arg2, Bundle arg3) {
+            //LogUtils.d("-------","onEvent");
         }
     };
 }

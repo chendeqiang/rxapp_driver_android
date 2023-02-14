@@ -46,13 +46,14 @@ class NoticeInfoActivity : BaseActivity() {
         noticeEntity = intent.getSerializableExtra(Constants.ACTIVITY_DATA) as NoticeEntity
         setToolbar(toolbar = findViewById(R.id.toolbar) as Toolbar)
         (findViewById(R.id.tv_toolbar_title) as TextView).text = "公告详情"
-        wv = findViewById(R.id.web_noticeInfo) as WebView
-        wv.loadData(noticeEntity.ccontent, "text/html; charset=UTF-8", null)
-
-        val webSetting = wv.settings
-        webSetting.defaultTextEncodingName = "UTF -8"
-        webSetting.javaScriptEnabled = true
-        webSetting.setSupportZoom(false)
-        webSetting.domStorageEnabled = true
+//        wv = findViewById(R.id.web_noticeInfo) as WebView
+//        wv.loadData(noticeEntity.ccontent, "text/html; charset=UTF-8", null)
+//
+//        val webSetting = wv.settings
+//        webSetting.savePassword =false
+//        webSetting.defaultTextEncodingName = "UTF -8"
+//        webSetting.javaScriptEnabled = true
+//        webSetting.setSupportZoom(false)
+//        webSetting.domStorageEnabled = true
     }
 }

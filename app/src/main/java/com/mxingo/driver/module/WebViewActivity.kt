@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.http.SslError
 import android.os.Bundle
-import android.webkit.SslErrorHandler
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.mxingo.driver.R
@@ -39,16 +36,18 @@ class WebViewActivity : BaseActivity() {
         url = intent.getStringExtra(Constants.URL) as String
 
         title = intent.getStringExtra(Constants.TITLE) as String
-        LogUtils.d("TAG", title + "," + url)
+        //LogUtils.d("TAG", title + "," + url)
 
         setToolbar(toolbar = findViewById(R.id.toolbar) as Toolbar)
         (findViewById(R.id.tv_toolbar_title) as TextView).text = title
 
         wv.loadUrl(url)
         val webSetting = wv.settings
+        webSetting.savePassword =false
         webSetting.javaScriptEnabled = true
         webSetting.setSupportZoom(false)
         webSetting.domStorageEnabled = true
+
 
         wv.webChromeClient = MyWebChromeClient()
         wv.webViewClient = MyWebViewClient()
@@ -65,7 +64,6 @@ class WebViewActivity : BaseActivity() {
             view.loadUrl(url)
             return false
         }
-
         override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
             if (view.url.contains("https")) {
                 handler.proceed()

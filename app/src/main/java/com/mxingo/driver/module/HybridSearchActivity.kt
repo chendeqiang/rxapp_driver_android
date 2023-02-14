@@ -28,6 +28,7 @@ class HybridSearchActivity : BaseActivity() {
         webView = findViewById(R.id.wv) as WebView
         webView.loadUrl(url)
         val webSetting = webView.settings
+        webSetting.savePassword =false
         webSetting.javaScriptEnabled = true
         webSetting.setSupportZoom(false)
         webSetting.domStorageEnabled = true

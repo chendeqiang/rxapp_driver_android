@@ -197,7 +197,7 @@ class JkmReportActivity:BaseActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == DriverRegisterActivity.PERMISSION_CAMERA && grantResults[0] == 0) {
+        if (requestCode == PERMISSION_CAMERA && grantResults[0] == 0) {
             startCamera()
         }
     }

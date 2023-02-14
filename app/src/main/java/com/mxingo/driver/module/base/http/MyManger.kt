@@ -230,7 +230,7 @@ class MyManger(val apiService: ApiService) {
         map.put("ccode", ccode)
         map.put("orderStatus", orderStatus)
         val headers = HeaderUtil.getHeaders(map)
-        LogUtils.d("dpStatusChange 参数", map.toString())
+        LogUtils.d("orderStatusChange 参数", map.toString())
         LogUtils.d("headers", headers.toString())
         apiService.orderStatusChange(map, headers).enqueue(callback)
 
@@ -317,7 +317,7 @@ class MyManger(val apiService: ApiService) {
 
     fun checkInfo(driverNo: String, name: String, mobile: String, carBrand: String, carNo: String, carLevel: Int,
                   imgIdface: String, imgIdback: String, imgDriverlicense: String, imgVehiclelicense: String,
-                  imgInsurance: String, callback: retrofit2.Callback<CommEntity>) {
+                  imgInsurance: String,img_wycdriver:String,img_wyccar:String, callback: retrofit2.Callback<CommEntity>) {
         val map = TreeMap<String, Any>()
         map.put("driverNo", driverNo)
         map.put("name", name)
@@ -330,6 +330,8 @@ class MyManger(val apiService: ApiService) {
         map.put("imgDriverlicense", imgDriverlicense)
         map.put("imgVehiclelicense", imgVehiclelicense)
         map.put("imgInsurance", imgInsurance)
+        map.put("img_wycdriver", img_wycdriver)
+        map.put("img_wyccar", img_wyccar)
         val headers = HeaderUtil.getHeaders(map)
         LogUtils.d("CheckInfo 参数", map.toString())
         LogUtils.d("headers", headers.toString())

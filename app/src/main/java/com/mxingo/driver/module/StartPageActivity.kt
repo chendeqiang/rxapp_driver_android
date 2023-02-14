@@ -7,6 +7,7 @@ import android.os.Handler
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.*
+import com.baidu.trace.LBSTraceClient
 import com.mxingo.driver.MyApplication
 import com.mxingo.driver.R
 import com.mxingo.driver.module.base.data.UserInfoPreferences
@@ -17,8 +18,9 @@ class StartPageActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LogUtils.d("classname", this::class.java.name)
+        //LogUtils.d("classname", this::class.java.name)
         setContentView(R.layout.activity_start_page)
+        LBSTraceClient.setAgreePrivacy(applicationContext,false)
         if (UserInfoPreferences.getInstance().isFristStart){
             //第一次启动app，跳转隐私协议页面
             GuideActivity.startGuideActivity(this)
@@ -26,9 +28,10 @@ class StartPageActivity : BaseActivity() {
             finish()
             return
         }else{
-            addPermissions()
+            //addPermissions()
+            LoginActivity.startLoginActivity(this)
         }
-        MyApplication.bus.post(Any())
+        //MyApplication.bus.post(Any())
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

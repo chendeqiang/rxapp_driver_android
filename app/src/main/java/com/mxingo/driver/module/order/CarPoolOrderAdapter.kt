@@ -38,6 +38,7 @@ class CarPoolOrderAdapter():BaseAdapter() {
         holder.tvEndAddress.text=order.cendcity+order.cendarea
         holder.tvCpTime.text =order.cstarttime.subSequence(0,16)
         holder.tvCpCost.text="¥"+order.allprice.toString()
+        holder.tvCpNum.text ="城际 | 拼车 "+ order.num+"人"
         return v
     }
 
@@ -59,6 +60,7 @@ class CarPoolOrderAdapter():BaseAdapter() {
         var tvCode:TextView
         var tvCpTime:TextView
         var tvCpCost:TextView
+        var tvCpNum:TextView
 
         constructor(view: View) {
             tvStartAddress =view.findViewById(R.id.tv_startdrs)
@@ -66,6 +68,7 @@ class CarPoolOrderAdapter():BaseAdapter() {
             tvCode =view.findViewById(R.id.tv_ccode)
             tvCpTime =view.findViewById(R.id.tv_cp_time)
             tvCpCost =view.findViewById(R.id.tv_cp_cost)
+            tvCpNum =view.findViewById(R.id.tv_a)
         }
     }
 
