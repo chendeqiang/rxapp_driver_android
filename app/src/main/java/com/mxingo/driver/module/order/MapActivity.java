@@ -1,24 +1,30 @@
 package com.mxingo.driver.module.order;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Dialog;
+import android.app.ActivityManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.baidu.location.LocationClient;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.common.BaiduMapSDKException;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.trace.LBSTraceClient;
 import com.mxingo.driver.OrderModel;
 import com.mxingo.driver.R;
 import com.mxingo.driver.dialog.MessageDialog2;
@@ -27,21 +33,19 @@ import com.mxingo.driver.model.CloseOrderEntity;
 import com.mxingo.driver.model.CurrentTimeEntity;
 import com.mxingo.driver.model.OrderEntity;
 import com.mxingo.driver.model.QryOrderEntity;
-import com.mxingo.driver.model.StsEntity;
 import com.mxingo.driver.module.BaseActivity;
 import com.mxingo.driver.module.RecordingService;
-import com.mxingo.driver.module.base.data.MyModulePreference;
 import com.mxingo.driver.module.base.data.UserInfoPreferences;
 import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.MyPresenter;
-import com.mxingo.driver.module.base.log.LogUtils;
 import com.mxingo.driver.module.base.map.BaiduMapUtil;
 import com.mxingo.driver.module.base.map.route.RoutePlanSearchUtil;
-import com.mxingo.driver.module.base.map.trace.MyTrace;
+import com.mxingo.driver.module.base.map.trace.BaiduTrack;
 import com.mxingo.driver.module.take.CarLevel;
 import com.mxingo.driver.module.take.OrderStatus;
 import com.mxingo.driver.module.take.OrderType;
 import com.mxingo.driver.utils.Constants;
+import com.mxingo.driver.utils.MapUtil;
 import com.mxingo.driver.utils.StartUtil;
 import com.mxingo.driver.utils.TextUtil;
 import com.mxingo.driver.utils.TimeUtil;
@@ -50,18 +54,19 @@ import com.mxingo.driver.widget.ShowToast;
 import com.mxingo.driver.widget.SlippingButton;
 import com.squareup.otto.Subscribe;
 
-import java.io.File;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.inject.Inject;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Single;
 
 public class MapActivity extends BaseActivity {
 
@@ -99,6 +104,11 @@ public class MapActivity extends BaseActivity {
     @Inject
     MyPresenter presenter;
 
+    private MapUtil mapUtil = null;
+
+    private PowerManager powerManager;
+    private boolean isDestroyed = false;
+
 
     private RoutePlanSearchUtil searchUtil;
     private String orderNo;
@@ -108,7 +118,7 @@ public class MapActivity extends BaseActivity {
     private NaviSelectDialog navDialog;
     private MyProgress progress;
     private OrderEntity order;
-
+    private int tag;
     private Timer timer = new Timer();
     private TimerTask task = new TimerTask() {
         @Override
@@ -156,12 +166,15 @@ public class MapActivity extends BaseActivity {
         progress = new MyProgress(this);
         setToolbar(toolbar);
         tvToolbarTitle.setText("用车中");
-
+        mapUtil = MapUtil.getInstance();
+        mapUtil.init((MapView) findViewById(R.id.mv_driver));
+        mapUtil.setCenter(BaiduTrack.getInstance());
         startTime = UserInfoPreferences.getInstance().getStartTime();
         orderNo = getIntent().getStringExtra(Constants.ORDER_NO);
         flowNo = getIntent().getStringExtra(Constants.FLOW_NO);
         driverNo = getIntent().getStringExtra(Constants.DRIVER_NO);
         progress.show();
+        powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
 
         presenter.qryOrder(orderNo);
         btnFinishOrder.setPosition(new SlippingButton.Position() {
@@ -169,9 +182,17 @@ public class MapActivity extends BaseActivity {
             public void overPosition() {
                 progress.show();
                 presenter.getCurrentTime();
-
             }
         });
+
+        BaiduTrack.getInstance().startTrace();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        BaiduTrack.getInstance().isServiceBind=true;
     }
 
     @Subscribe
@@ -231,7 +252,9 @@ public class MapActivity extends BaseActivity {
             Intent intent = new Intent(this, RecordingService.class);
             stopService(intent);
             //关闭鹰眼服务
-            MyTrace.getInstance().stopTrace();
+            BaiduTrack.getInstance().stopTrace();
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancelAll();
             OrderInfoActivity.startOrderInfoActivity(MapActivity.this, orderNo, flowNo, driverNo);
             finish();
         } else {
@@ -256,10 +279,8 @@ public class MapActivity extends BaseActivity {
                 } else {
                     tvBookTime.setText(TextUtil.getFormatWeek(Long.valueOf(order.bookTime)));
                     tvEndAddress.setText(order.endAddr);
-                    //MyTrace.getInstance().startTrace();
                 }
                 tvStartAddress.setText(order.startAddr);
-
                 routePlan(order.startLat, order.startLon, order.endLat, order.endLon);
                 naviSelect(order.endLat, order.endLon, order.endAddr);
                 long useTime = new Date().getTime() - order.orderStartTime;
@@ -267,13 +288,15 @@ public class MapActivity extends BaseActivity {
                 tvEstimate.setText("约" + order.planMileage / 100 / 10.0 + "公里");
                 tvToolbarTitle.setText("用车中");
                 btnFinishOrder.setHint("向右滑动结束用车");
-            } else if (order.orderStatus >= OrderStatus.WAIT_PAY_TYPE) {
-                llOrderInfo.setVisibility(View.GONE);
-                btnFinishOrder.setVisibility(View.GONE);
-                track(order.orderStartTime, order.orderStopTime, UserInfoPreferences.getInstance().getMobile());
-                tvToolbarTitle.setText("轨迹查询");
-                ShowToast.showCenter(this, "此订单已结束");
-            } else {
+            }
+//            else if (order.orderStatus >= OrderStatus.WAIT_PAY_TYPE) {
+//                llOrderInfo.setVisibility(View.GONE);
+//                btnFinishOrder.setVisibility(View.GONE);
+//                track(order.orderStartTime, order.orderStopTime, UserInfoPreferences.getInstance().getMobile());
+//                tvToolbarTitle.setText("轨迹查询");
+//                ShowToast.showCenter(this, "此订单已结束");
+//            }
+            else {
                 llOrderInfo.setVisibility(View.GONE);
                 btnFinishOrder.setVisibility(View.GONE);
             }
@@ -283,19 +306,21 @@ public class MapActivity extends BaseActivity {
 
     }
 
-
     //路径规划
     private void routePlan(double startLat, double startLon, double endLat, double endLon) {
         searchUtil = new RoutePlanSearchUtil(mvDriver.getMap(), this);
         searchUtil.drivingPlan(startLat, startLon, endLat, endLon);
-        BaiduMapUtil.getInstance().setBaiduMap(mvDriver);
-        BaiduMapUtil.getInstance().registerLocationListener();
+
+        MapUtil.getInstance().setCenter(BaiduTrack.getInstance());
+//        BaiduMapUtil.getInstance().setBaiduMap(mvDriver);
+//        BaiduMapUtil.getInstance().registerLocationListener();
     }
 
     //轨迹查询
     private void track(long startTime, long endTime, String mobile) {
         BaiduMapUtil.getInstance().setBaiduMap(mvDriver);
-        MyTrace.getInstance().queryHistoryTrack(mobile, startTime / 1000, endTime / 1000, mvDriver);
+        //MyTrace.getInstance().queryHistoryTrack(mobile, startTime / 1000, endTime / 1000, mvDriver);
+        //MyTraceService.getInstance().queryHistoryTrack(mobile, startTime / 1000, endTime / 1000);
     }
 
     @OnClick({R.id.btn_navigation})
@@ -333,10 +358,11 @@ public class MapActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
+        mapUtil.clear();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
-        mvDriver.onDestroy();
+        //mvDriver.onDestroy();
         if (searchUtil != null) {
             BaiduMapUtil.getInstance().unregisterLocationListener();
         }
@@ -352,19 +378,70 @@ public class MapActivity extends BaseActivity {
             timer.cancel();
             timer = null;
         }
+
+        destroy();
+        //BaiduTrack.getInstance().clear();
+    }
+
+    private void destroy() {
+        if (isDestroyed){
+            return;
+        }
+        isDestroyed=true;
+        BaiduTrack.getInstance().clear();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         //在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
-        mvDriver.onResume();
+        //mvDriver.onResume();
+        requestBackgroundLocationPermission();
+        // 在Android 6.0及以上系统，若定制手机使用到doze模式，请求将应用添加到白名单。
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String packageName = getPackageName();
+            Boolean isIgnoring= powerManager.isIgnoringBatteryOptimizations(packageName);
+            if (!isIgnoring) {
+                Uri uri = Uri.parse("package:" + getPackageName());
+                Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,uri);
+                try {
+                    startActivity(intent);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void requestBackgroundLocationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+                    // No explanation needed; request the permission
+                    ActivityCompat.requestPermissions(this, new String[]{(Manifest.permission.ACCESS_BACKGROUND_LOCATION)}, 0);
+                }
+            }
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
-        mvDriver.onPause();
+        //mvDriver.onPause();
+        if (isFinishing()){
+            destroy();
+        }
+        mapUtil.onPause();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        BaiduTrack.getInstance().isServiceBind=true;
+    }
+
+
 }

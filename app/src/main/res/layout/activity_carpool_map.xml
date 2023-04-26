@@ -17,8 +17,7 @@
         <com.baidu.mapapi.map.MapView
             android:id="@+id/mv_carpool"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/ll_order_info" />
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:layout_margin="@dimen/default_margin10"

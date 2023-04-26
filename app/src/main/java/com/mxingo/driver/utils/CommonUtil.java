@@ -7,6 +7,8 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 
 import com.baidu.mapapi.model.LatLng;
+import com.mxingo.driver.module.base.data.UserInfoPreferences;
+import com.mxingo.driver.module.base.map.CurrentLocation;
 
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
@@ -183,20 +185,18 @@ public class CommonUtil {
         return 180 * (radio / Math.PI) + deltAngle - 90;
     }
 
-//    /**
-//     * 保存当前定位点
-//     */
-//    public static void saveCurrentLocation(MyApplication trackApp) {
-//        SharedPreferences.Editor editor = trackApp.trackConf.edit();
-//        StringBuffer locationInfo = new StringBuffer();
-//        locationInfo.append(locTime);
-//        locationInfo.append(";");
-//        locationInfo.append(latitude);
-//        locationInfo.append(";");
-//        locationInfo.append(longitude);
-//        editor.putString(LAST_LOCATION, locationInfo.toString());
-//        editor.apply();
-//    }
+    /**
+     * 保存当前定位点
+     */
+    public static void saveCurrentLocation() {
+        StringBuffer locationInfo = new StringBuffer();
+        locationInfo.append(CurrentLocation.locTime);
+        locationInfo.append(";");
+        locationInfo.append(CurrentLocation.latitude);
+        locationInfo.append(";");
+        locationInfo.append(CurrentLocation.longitude);
+        UserInfoPreferences.getInstance().putLastLocation(locationInfo.toString());
+    }
 
     /**
      * 获取设备IMEI码

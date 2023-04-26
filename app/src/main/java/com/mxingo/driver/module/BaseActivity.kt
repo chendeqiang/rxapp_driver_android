@@ -7,14 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.mxingo.driver.MyApplication
 import com.mxingo.driver.R
-import com.mxingo.driver.module.base.http.HttpUtil
 import com.mxingo.driver.module.take.MainActivity
 
 import com.umeng.analytics.MobclickAgent
 
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity() : AppCompatActivity() {
 
 
     fun setToolbar(toolbar: Toolbar) {
@@ -35,7 +34,7 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        HttpUtil.checkNetwork(this)
+        //HttpUtil.checkNetwork(this)
         if (this::class.java.equals(StartPageActivity::class.java)) {
             MobclickAgent.onPageStart(this.packageName)
         }
@@ -62,6 +61,6 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
+        window.addFlags( WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
     }
 }

@@ -19,7 +19,7 @@ public class VersionInfo {
         }
         return versionName;
     }
-
+    @SuppressWarnings("deprecation")
     public static int getVersionCode() {
         int getVersionCode = 0;
         try {

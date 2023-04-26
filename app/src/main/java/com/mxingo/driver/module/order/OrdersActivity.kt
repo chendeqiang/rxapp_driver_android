@@ -15,7 +15,6 @@ import com.mxingo.driver.model.ListOrderEntity
 import com.mxingo.driver.model.OrderEntity
 import com.mxingo.driver.module.BaseActivity
 import com.mxingo.driver.module.LoginActivity
-import com.mxingo.driver.module.base.data.MyModulePreference
 import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter

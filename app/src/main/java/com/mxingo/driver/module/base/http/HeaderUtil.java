@@ -1,7 +1,6 @@
 package com.mxingo.driver.module.base.http;
 
 
-import com.mxingo.driver.module.base.data.MyModulePreference;
 import com.mxingo.driver.module.base.data.UserInfoPreferences;
 import com.mxingo.driver.utils.VersionInfo;
 

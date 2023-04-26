@@ -22,9 +22,7 @@ import com.mxingo.driver.module.base.log.LogUtils;
 
 import java.util.ArrayList;
 
-/**
- * Created by zhouwei on 2016/12/6.
- */
+
 
 public class RoutePlanSearchUtil implements OnGetRoutePlanResultListener {
     private RoutePlanSearch mSearch = null;

@@ -34,7 +34,6 @@ import com.mxingo.driver.model.CommEntity
 import com.mxingo.driver.model.DriverInfoEntity
 import com.mxingo.driver.model.GetCheckInfo
 import com.mxingo.driver.model.QiNiuTokenEntity
-import com.mxingo.driver.module.base.data.MyModulePreference
 import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter

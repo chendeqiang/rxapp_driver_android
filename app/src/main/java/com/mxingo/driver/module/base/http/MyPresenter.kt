@@ -682,16 +682,13 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
                 if (response.body() != null) {
                     mBs.post(response.body())
                 }
-
             }
-
         })
     }
 
     fun listNotice(pageIndex: Int, pageCount: Int) {
         manger.listNotice(pageIndex, pageCount, object : Callback<ListNoticeEntity> {
             override fun onResponse(call: Call<ListNoticeEntity>, response: Response<ListNoticeEntity>) {
-
                 if (response.body() != null) {
                     LogUtils.d("listnotice", response.body().toString())
                     mBs.post(response.body())
@@ -706,7 +703,6 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
                 t.printStackTrace()
             }
         })
-
     }
 
     fun getCurrentTime() {
@@ -738,4 +734,122 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
             }
         })
     }
+
+
+    fun bindPayAccount(mobile: String,vcode: String, orgName: String, payAccount: String) {
+        manger.bindPayAccount(mobile,vcode,orgName,payAccount, object : Callback<BindSuccessEntity> {
+            override fun onFailure(call: Call<BindSuccessEntity>?, t: Throwable) {
+                val data = BindSuccessEntity()
+                data.rspCode = "1000"
+                data.rspDesc = "网络连接失败"
+                mBs.post(data)
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<BindSuccessEntity>?, response: Response<BindSuccessEntity>?) {
+                LogUtils.d("bindPayAccount", "" + response!!.body() + "")
+                if (response.body() != null) {
+                    mBs.post(response.body())
+                }
+            }
+        })
+    }
+
+    fun cash(driverNo: String,amount: String, vcode: String,mobile: String) {
+        manger.cash(driverNo,amount,vcode,mobile, object : Callback<WithdrawSuccessEntity> {
+            override fun onFailure(call: Call<WithdrawSuccessEntity>?, t: Throwable) {
+                val data = WithdrawSuccessEntity()
+                data.rspCode = "1000"
+                data.rspDesc = "网络连接失败"
+                mBs.post(data)
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<WithdrawSuccessEntity>?, response: Response<WithdrawSuccessEntity>?) {
+                LogUtils.d("cash", "" + response!!.body() + "")
+                if (response.body() != null) {
+                    mBs.post(response.body())
+                }
+            }
+        })
+    }
+
+
+    fun listCash(driverNo: String,date:String, pageIndex: Int,pageCount: Int) {
+        manger.listCash(driverNo,date,pageIndex,pageCount, object : Callback<ListCashEntity> {
+            override fun onFailure(call: Call<ListCashEntity>?, t: Throwable) {
+                val data = ListCashEntity()
+                data.rspCode = "1000"
+                data.rspDesc = "网络连接失败"
+                mBs.post(data)
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<ListCashEntity>?, response: Response<ListCashEntity>?) {
+                LogUtils.d("listCash", "" + response!!.body() + "")
+                if (response.body() != null) {
+                    mBs.post(response.body())
+                }
+            }
+        })
+    }
+
+
+    fun withdrawSetting() {
+        manger.withdrawSetting(object : Callback<WithdrawSettingEntity> {
+            override fun onFailure(call: Call<WithdrawSettingEntity>?, t: Throwable) {
+                val data = WithdrawSettingEntity()
+                data.rspCode = "1000"
+                data.rspDesc = "网络连接失败"
+                mBs.post(data)
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<WithdrawSettingEntity>?, response: Response<WithdrawSettingEntity>?) {
+                LogUtils.d("withdrawSetting", "" + response!!.body() + "")
+                if (response.body() != null) {
+                    mBs.post(response.body())
+                }
+            }
+        })
+    }
+
+    fun getWalletInfo(driverNo: String) {
+        manger.getWalletInfo(driverNo, object : Callback<WalletEntity> {
+            override fun onFailure(call: Call<WalletEntity>?, t: Throwable) {
+                val data = WalletEntity()
+                data.rspCode = "1000"
+                data.rspDesc = "网络连接失败"
+                mBs.post(data)
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<WalletEntity>?, response: Response<WalletEntity>?) {
+                LogUtils.d("getWalletInfo", "" + response!!.body() + "")
+                if (response.body() != null) {
+                    mBs.post(response.body())
+                }
+            }
+        })
+    }
+
+    fun listFundFlow(driverNo: String,sort: String,date: String, pageIndex: Int, pageCount: Int) {
+        manger.listFundFlow(driverNo,sort,date,pageIndex,pageCount, object : Callback<WalletFundFlowEntity> {
+            override fun onFailure(call: Call<WalletFundFlowEntity>?, t: Throwable) {
+                val data = WalletFundFlowEntity()
+                data.rspCode = "1000"
+                data.rspDesc = "网络连接失败"
+                mBs.post(data)
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<WalletFundFlowEntity>?, response: Response<WalletFundFlowEntity>?) {
+                LogUtils.d("listFundFlow", "" + response!!.body() + "")
+                if (response.body() != null) {
+                    mBs.post(response.body())
+                }
+            }
+        })
+    }
+
 }

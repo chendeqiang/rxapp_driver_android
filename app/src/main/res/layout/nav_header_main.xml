@@ -170,7 +170,8 @@
 
 
     <LinearLayout
-        android:id="@+id/ll_my_bill"
+        android:visibility="gone"
+        android:id="@+id/ll_my_wallet"
         android:layout_width="match_parent"
         android:layout_height="@dimen/nav_item_height"
         android:gravity="center_vertical">
@@ -187,12 +188,14 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:drawableRight="@drawable/ic_gree_arrow"
             android:paddingRight="@dimen/default_margin"
-            android:text="我的账单"
+            android:text="我的钱包"
             android:textColor="@color/text_color_black"
             android:textSize="@dimen/text_size_16"/>
     </LinearLayout>
 
     <View
+        android:visibility="gone"
+        android:id="@+id/v_wallet"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/line_color"/>
@@ -405,10 +408,9 @@
             android:id="@+id/btn_exit"
             android:layout_width="200dp"
             android:layout_height="@dimen/nav_item_height"
-
             android:layout_centerHorizontal="true"
             android:background="@color/colorButtonBg"
-            android:text="登出"
+            android:text="退出登录"
             android:textSize="@dimen/text_size_16"/>
     </RelativeLayout>
 

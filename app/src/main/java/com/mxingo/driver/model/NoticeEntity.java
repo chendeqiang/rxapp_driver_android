@@ -34,7 +34,7 @@ public class NoticeEntity implements Serializable{
 
     @Override
     public String toString() {
-        return "NoticeEntity{" +
+        return "{" +
                 "ccode='" + ccode + '\'' +
                 ", ccontent='" + ccontent + '\'' +
                 ", creciver='" + creciver + '\'' +

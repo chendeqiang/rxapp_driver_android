@@ -5,13 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.baidu.mapapi.CoordType;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.CoordinateConverter;
 import com.mxingo.driver.widget.ShowToast;
 
 import java.io.File;
@@ -19,9 +20,7 @@ import java.io.File;
 import androidx.core.app.ActivityCompat;
 
 
-/**
- * Created by zhouwei on 2016/11/4.
- */
+
 
 public class StartUtil {
     public static double pi = 3.1415926535897932384626 * 3000.0 / 180.0;
@@ -141,6 +140,40 @@ public class StartUtil {
             Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobile));
             activity.startActivity(intent);
         }
+    }
+
+    /**
+     * 检测网络状态是否联通
+     *
+     * @return
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        try {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            if (cm == null) {
+                return false;
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                Network network = cm.getActiveNetwork();
+                NetworkCapabilities networkCapabilities = cm.getNetworkCapabilities(network);
+                if (networkCapabilities != null && networkCapabilities
+                        .hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) {
+                    return true;
+                }
+                return false;
+            }
+
+            NetworkInfo info = cm.getActiveNetworkInfo();
+            if (null != info && info.isConnected() && info.isAvailable()) {
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e("BaiduTraceSDK_V3", "current network is not available");
+            return false;
+        }
+        return false;
     }
 
 

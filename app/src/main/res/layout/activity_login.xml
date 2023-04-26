@@ -228,6 +228,7 @@
                 android:textSize="@dimen/text_size_18"/>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_register"
                 android:layout_marginTop="@dimen/default_margin10"
                 android:layout_gravity="right"

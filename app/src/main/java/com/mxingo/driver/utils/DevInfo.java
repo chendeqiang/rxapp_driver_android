@@ -7,7 +7,6 @@ import android.os.Build;
  */
 
 public class DevInfo {
-
     /**
      * 得到UUID
      */

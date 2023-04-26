@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/activity_bg1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_bar"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/default_margin10"
+            android:padding="@dimen/default_margin10"
+            android:src="@drawable/ic_whilte_arrow"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:lines="1"
+            android:text="详情"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/default_margin40"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_money"
+            android:textColor="@color/text_color_black"
+            android:textSize="40sp"
+            android:text="+5.00"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_marginStart="@dimen/default_margin10"
+            android:text="元"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="@dimen/default_margin10"
+        android:layout_gravity="center_horizontal"
+        android:text="交易金额"
+        android:textSize="@dimen/text_size_18"
+        android:textColor="@color/text_color_black_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/default_margin40"
+        android:padding="@dimen/default_margin10"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginStart="@dimen/default_margin"
+            android:textColor="@color/text_color_black_gray"
+            android:textSize="@dimen/text_size_18"
+            android:text="交易类型"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_type"
+            android:textSize="@dimen/text_size_18"
+            android:textColor="@color/text_color_black"
+            android:layout_marginStart="@dimen/default_margin40"
+            android:text="手动调整"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:padding="@dimen/default_margin10"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginStart="@dimen/default_margin"
+            android:textColor="@color/text_color_black_gray"
+            android:textSize="@dimen/text_size_18"
+            android:text="订单编号"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_msg"
+            android:textSize="@dimen/text_size_18"
+            android:textColor="@color/text_color_black"
+            android:layout_marginStart="@dimen/default_margin40"
+            android:text="测试"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:padding="@dimen/default_margin10"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginStart="@dimen/default_margin"
+            android:textColor="@color/text_color_black_gray"
+            android:textSize="@dimen/text_size_18"
+            android:text="交易时间"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:textSize="@dimen/text_size_18"
+            android:textColor="@color/text_color_black"
+            android:layout_marginStart="@dimen/default_margin40"
+            android:text="2023-03-15 11:15:00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:padding="@dimen/default_margin10"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginStart="@dimen/default_margin"
+            android:textColor="@color/text_color_black_gray"
+            android:textSize="@dimen/text_size_18"
+            android:text="说明        "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_remark_info"
+            android:textSize="@dimen/text_size_18"
+            android:textColor="@color/text_color_black"
+            android:layout_marginStart="@dimen/default_margin40"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>

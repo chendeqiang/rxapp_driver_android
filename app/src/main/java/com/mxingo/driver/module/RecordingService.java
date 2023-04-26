@@ -45,6 +45,7 @@ public class RecordingService extends Service {
     private NotificationManager notificationManager;
     private String CHANNEL_ID = "renxing_noti_Recorder";
     private String notificationName = "renxing_Recorder";
+    public static final int NOTIFICATION_ID = 2;
     private static final String LOG_TAG = "RecordingService";
     private String mFileName;
     private String mFilePath;
@@ -81,19 +82,21 @@ public class RecordingService extends Service {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, notificationName, NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
-        startForeground(1, getNotification());
+        startForeground(2, initNotification());
     }
 
-    private Notification getNotification() {
+    private Notification initNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.push) // 设置状态栏内的小图标
-                .setContentText("录音服务已开启") // 设置上下文内容
+                .setContentTitle("行车录音")
+                .setContentText("服务正在运行...") // 设置上下文内容
                 .setWhen(System.currentTimeMillis())// 设置该通知发生的时间
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId(CHANNEL_ID);
         }
         Notification notification = builder.build();
+        notificationManager.notify(NOTIFICATION_ID,notification);
         return notification;
     }
 
@@ -113,7 +116,6 @@ public class RecordingService extends Service {
 
     public void startRecording() {
         setFileNameAndPath();
-
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);

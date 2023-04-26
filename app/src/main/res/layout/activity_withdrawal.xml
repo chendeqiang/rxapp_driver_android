@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/activity_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_bar"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/default_margin10"
+            android:padding="@dimen/default_margin10"
+            android:src="@drawable/ic_whilte_arrow"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:lines="1"
+            android:text="提现账户"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_alipaycount"
+        android:layout_below="@+id/rl_bar"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/tv_1"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付宝账号"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color_black" />
+
+        <TextView
+            android:id="@+id/tv_alipay_count"
+            android:layout_marginStart="@dimen/default_margin40"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color_gray" />
+
+        <TextView
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_toLeftOf="@id/iv_1"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改账户"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/text_color_gray" />
+
+        <ImageView
+            android:layout_marginEnd="@dimen/default_margin"
+            android:id="@+id/iv_1"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_gree_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

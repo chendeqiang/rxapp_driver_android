@@ -11,9 +11,6 @@ import com.mxingo.driver.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by zhouwei on 2017/7/4.
- */
 
 public class OrderFooterView extends RelativeLayout {
     @BindView(R.id.rl_loading)

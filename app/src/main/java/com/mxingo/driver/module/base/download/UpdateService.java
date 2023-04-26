@@ -11,16 +11,14 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.widget.Toast;
-
 import com.mxingo.driver.MyApplication;
 import com.mxingo.driver.utils.TextUtil;
 
 import java.io.File;
-
 import androidx.core.content.FileProvider;
 
 
-public class UpdateService {
+public class UpdateService  {
     //下载器
     private DownloadManager downloadManager;
 
@@ -42,8 +40,8 @@ public class UpdateService {
     //下载apk
     public void downloadAPK() {
         //此处使用mContext.getExternalFilesDir(null)  Android Q 无法访问外路径
-        file = new File(mContext.getExternalFilesDir(null), MyApplication.application.getPackageName() + "_" + data.version + ".apk");
-        // file = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOWNLOADS,"xxx.apk");
+        //file = new File(mContext.getExternalFilesDir(null), MyApplication.application.getPackageName() + "_" + data.version + ".apk");
+        file = new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOWNLOADS,MyApplication.application.getPackageName() + "_" + data.version + ".apk");
         if (file.exists()) {
             file.delete();
         }
@@ -67,8 +65,6 @@ public class UpdateService {
         downloadManager = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
         //将下载请求加入下载队列，加入下载队列后会给该任务返回一个long型的id，通过该id可以取消任务，重启任务、获取下载的文件等等
         downloadId = downloadManager.enqueue(request);
-
-
 
         //注册广播接收者，监听下载状态
         mContext.registerReceiver(receiver,
@@ -113,6 +109,7 @@ public class UpdateService {
                         if (b) {
                             installAPK();
                         } else {
+                            //请求安装未知应用来源的权限
                             Intent intent = new Intent();
                             intent.setData(Uri.parse("package:" + mContext.getPackageName()));
                             intent.setAction(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
@@ -139,15 +136,11 @@ public class UpdateService {
     private void installAPK() {
         //获取下载文件的Uri
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        //7.0 以上需要FileProvider进行设置
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri apkUri = FileProvider.getUriForFile(mContext, "com.mxingo.driver.fileprovider", file);
-            intent.setDataAndType(apkUri, mContext.getContentResolver().getType(apkUri));
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        } else {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-        }
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Uri apkUri = FileProvider.getUriForFile(mContext, "com.mxingo.driver.fileprovider", file);
+        intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
         mContext.startActivity(intent);
         mContext.unregisterReceiver(receiver);
     }

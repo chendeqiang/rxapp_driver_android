@@ -1,5 +1,6 @@
 package com.mxingo.driver.module.base.http;
 
+import com.mxingo.driver.module.BindAlipayActivity;
 import com.mxingo.driver.module.CarRegisterActivity;
 import com.mxingo.driver.module.DriverCarRegistrationActivity;
 import com.mxingo.driver.module.GuideActivity;
@@ -8,11 +9,16 @@ import com.mxingo.driver.module.HybridSearchActivity;
 import com.mxingo.driver.module.JkmReportActivity;
 import com.mxingo.driver.module.LoginActivity;
 import com.mxingo.driver.module.MyBillActivity;
+import com.mxingo.driver.module.MyWalletActivity;
 import com.mxingo.driver.module.NoticeActivity;
 import com.mxingo.driver.module.NoticeInfoActivity;
 import com.mxingo.driver.module.DriverRegisterActivity;
 import com.mxingo.driver.module.RecordingService;
+import com.mxingo.driver.module.SecondBindAlipayActivity;
 import com.mxingo.driver.module.SettingActivity;
+import com.mxingo.driver.module.WithdrawActivity;
+import com.mxingo.driver.module.WithdrawRecordActivity;
+import com.mxingo.driver.module.WithdrawSettingActivity;
 import com.mxingo.driver.module.base.map.route.SearchRouteActivity;
 import com.mxingo.driver.module.order.CarPoolInfoActivity;
 import com.mxingo.driver.module.order.CarPoolOrderInfoActivity;
@@ -21,6 +27,7 @@ import com.mxingo.driver.module.order.MapActivity;
 import com.mxingo.driver.module.order.MyOrderActivity;
 import com.mxingo.driver.module.order.OrderInfoActivity;
 import com.mxingo.driver.module.order.OrdersActivity;
+import com.mxingo.driver.module.order.TrackQueryActivity;
 import com.mxingo.driver.module.take.MainActivity;
 import com.mxingo.driver.module.take.TakeOrderActivity;
 import com.mxingo.driver.module.take.TakeOrderDialog;
@@ -29,8 +36,10 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-
-
+/**
+ * Created by chendeqiang on 2017/6/22.
+ * AppComponent:注入器，储存了我们要用到的全局变量对象
+ */
 @Component(modules = {AppModule.class})
 @Singleton
 public interface AppComponent {
@@ -56,6 +65,8 @@ public interface AppComponent {
 
     void inject(MapActivity activity);
 
+    void inject(TrackQueryActivity activity);
+
     void inject(SettingActivity activity);
 
     void inject(TakeOrderDialog dialog);
@@ -70,6 +81,18 @@ public interface AppComponent {
 
     void inject(MyBillActivity activity);
 
+    void inject(MyWalletActivity activity);
+
+    void inject(WithdrawSettingActivity activity);
+
+    void inject(WithdrawActivity activity);
+
+    void inject(WithdrawRecordActivity activity);
+
+    void inject(BindAlipayActivity activity);
+
+    void inject(SecondBindAlipayActivity activity);
+
     void inject(DriverRegisterActivity activity);
 
     void inject(CarRegisterActivity activity);
@@ -78,7 +101,7 @@ public interface AppComponent {
 
     void inject(GuideActivity activity);
 
-    void  inject(HesuanReportActivity activity);
+    void inject(HesuanReportActivity activity);
 
-    void  inject(JkmReportActivity activity);
+    void inject(JkmReportActivity activity);
 }

@@ -19,6 +19,7 @@
                 android:layout_centerInParent="true" />
         </RelativeLayout>
         <TextView
+            android:id="@+id/tv_no_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="没有更多~~"

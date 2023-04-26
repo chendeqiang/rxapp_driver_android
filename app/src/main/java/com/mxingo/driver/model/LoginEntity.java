@@ -18,6 +18,8 @@ public class LoginEntity {
     public String rspCode;
     public String rxToken;
     public String rspDesc;
+    public String payAccount;
+    public int showWallet;
 
     @Override
     public String toString() {
@@ -26,6 +28,8 @@ public class LoginEntity {
                 ", rspCode='" + rspCode + '\'' +
                 ", rxToken='" + rxToken + '\'' +
                 ", rspDesc='" + rspDesc + '\'' +
+                ", payAccount='" + payAccount + '\'' +
+                ", showWallet='" + showWallet + '\'' +
                 '}';
     }
 }

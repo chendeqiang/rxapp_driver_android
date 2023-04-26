@@ -1,15 +1,16 @@
 package com.mxingo.driver.module.order
 
+import android.Manifest
 import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
+import android.os.PowerManager
 import android.provider.Settings
-
 import android.view.View
 import android.widget.*
 import androidx.core.app.ActivityCompat
@@ -21,17 +22,13 @@ import com.mxingo.driver.dialog.*
 import com.mxingo.driver.model.*
 import com.mxingo.driver.module.BaseActivity
 import com.mxingo.driver.module.RecordingService
-import com.mxingo.driver.module.base.data.MyModulePreference
 import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
-import com.mxingo.driver.module.base.log.LogUtils
 import com.mxingo.driver.module.base.map.BaiduMapUtil
-import com.mxingo.driver.module.base.map.trace.MyTrace
 import com.mxingo.driver.module.take.CarLevel
 import com.mxingo.driver.module.take.OrderStatus
 import com.mxingo.driver.module.take.OrderType
-
 import com.mxingo.driver.utils.Constants
 import com.mxingo.driver.utils.StartUtil
 import com.mxingo.driver.utils.TextUtil
@@ -40,10 +37,6 @@ import com.mxingo.driver.widget.MyProgress
 import com.mxingo.driver.widget.ShowToast
 import com.mxingo.driver.widget.SlippingButton
 import com.squareup.otto.Subscribe
-import java.io.File
-import java.io.IOException
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -102,7 +95,7 @@ class OrderInfoActivity : BaseActivity() {
 
     private lateinit var progress: MyProgress
 
-
+    lateinit var powerManager: PowerManager
     lateinit var mMediaRecorder: MediaRecorder
     private lateinit var filePath: String
 
@@ -118,7 +111,6 @@ class OrderInfoActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         LocationClient.setAgreePrivacy(true)
         setContentView(R.layout.activity_order_info)
         ComponentHolder.appComponent!!.inject(this)
@@ -135,17 +127,13 @@ class OrderInfoActivity : BaseActivity() {
             presenter.qryOrder(orderNo)
         }, 300)
 
-//        if (orderNo.equals(UserInfoPreferences.getInstance().orderNo)){
-//            btnStart.visibility =View.GONE
-//        }
-
-        BaiduMapUtil.getInstance().registerLocationListener()
+        //BaiduMapUtil.getInstance().registerLocationListener()
     }
 
 
     private fun initView() {
-//        setToolbar(toolbar = findViewById(R.id.toolbar) as Toolbar)
-//        (findViewById(R.id.tv_toolbar_title) as TextView).text = "订单详情"
+
+        powerManager = this.getSystemService(POWER_SERVICE) as PowerManager
         ivBack = findViewById(R.id.iv_back_info) as ImageView
 
         ivBack.setOnClickListener {
@@ -235,29 +223,8 @@ class OrderInfoActivity : BaseActivity() {
         }
 
         btnStartOrder.setPosition {
-            //progress.show()
-
-            //动态申请麦克风权限
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-                presenter.startOrder(orderNo, flowNo)
-            } else {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.RECORD_AUDIO)) {
-                    val message = MessageDialog(this)
-                    message.setMessageText("您的权限申请失败，请前往应用信息打开录音权限")
-                    message.setOnOkClickListener {
-                        val packageURI = Uri.parse("package:" + this@OrderInfoActivity.packageName)
-                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI)
-                        startActivity(intent)
-                        message.dismiss()
-                    }
-                    message.setOnCancelClickListener {
-                        message.dismiss()
-                    }
-                    message.show()
-                } else {
-                    ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), PERMISSION_RECORD_AUDIO)
-                }
-            }
+            //BaiduTrack.getInstance().startTrace()
+            presenter.startOrder(orderNo, flowNo)
         }
 
         btnReach.setOnClickListener {
@@ -273,9 +240,9 @@ class OrderInfoActivity : BaseActivity() {
                     dialog.dismiss()
                 }
                 dialog.setOnOkClickListener {
+                    tvEstimate.visibility = View.GONE
                     dialog.dismiss()
-                    progress.show()
-                    presenter.arrive(orderNo, flowNo, BaiduMapUtil.getInstance().lat, BaiduMapUtil.getInstance().lon)
+                    requestPermissions()
                 }
                 dialog.show()
             } else {
@@ -288,8 +255,9 @@ class OrderInfoActivity : BaseActivity() {
             }
         }
 
+        //查询订单 轨迹
         btnTrace.setOnClickListener {
-            MapActivity.startMapActivity(this, orderNo, flowNo, driverNo)
+            TrackQueryActivity.startTrackQueryActivity(this,orderNo)
         }
 
         btnCopy.setOnClickListener {
@@ -328,11 +296,48 @@ class OrderInfoActivity : BaseActivity() {
         BaiduMapUtil.getInstance().unregisterLocationListener()
     }
 
+    fun requestPermissions() {
+        val list = arrayListOf(Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            // 前台服务权限
+            list.add(Manifest.permission.FOREGROUND_SERVICE)
+        }
+
+        list.filter {
+            ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
+        }.map {
+            list.remove(it)//去掉集合中已授权的
+        }
+
+        if (list.isNotEmpty()) {//集合中剩下的是没授权的，接着动态申请
+            ActivityCompat.requestPermissions(this, list.toArray(Array<String>(list.size, { i -> i.toString() })), Constants.permissionMain)
+        }else{
+            progress.show()
+            presenter.arrive(orderNo, flowNo, BaiduMapUtil.getInstance().lat, BaiduMapUtil.getInstance().lon)
+        }
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERMISSION_RECORD_AUDIO && grantResults[0] == 0) {
-            presenter.startOrder(orderNo, flowNo)
-        }
+            if (grantResults[0]==PackageManager.PERMISSION_DENIED) {
+                val message = MessageDialog(this)
+                message.setMessageText("您的权限申请失败，请前往应用设置打开权限")
+                message.setOnOkClickListener {
+                    val packageURI = Uri.parse("package:" + this@OrderInfoActivity.packageName)
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI)
+                    startActivity(intent)
+                    message.dismiss()
+                }
+                message.setOnCancelClickListener {
+                    message.dismiss()
+                }
+                message.show()
+            }else{
+                progress.show()
+                presenter.arrive(orderNo, flowNo, BaiduMapUtil.getInstance().lat, BaiduMapUtil.getInstance().lon)
+            }
     }
 
     @Subscribe
@@ -373,14 +378,9 @@ class OrderInfoActivity : BaseActivity() {
             progress.dismiss()
             val data = any as StartOrderEntity
             if (data.rspCode.equals("00")) {
-
-                //开始录音
+                //开启录音服务
                 var intent = Intent(this, RecordingService::class.java)
                 intent.putExtra("orderNo", orderNo)
-                //var folder = File(Environment.getExternalStorageDirectory().absolutePath + "/SoundRecorder")
-//                if (!folder.exists()) {
-//                    //folder.mkdir()
-//                }
                 startService(intent)
                 MapActivity.startMapActivity(this, orderNo, flowNo, driverNo)
                 finish()
@@ -395,8 +395,6 @@ class OrderInfoActivity : BaseActivity() {
                 UserInfoPreferences.getInstance().orderNo = orderNo
                 btnStart.visibility =View.GONE
                 btnReach.visibility = View.VISIBLE
-                //开启鹰眼服务上传轨迹
-                MyTrace.getInstance().startTrace()
             }else{
                 ShowToast.showCenter(this, data.rspDesc)
             }
@@ -410,13 +408,11 @@ class OrderInfoActivity : BaseActivity() {
                 ShowToast.showCenter(this, data.rspDesc)
             }
         } else if (any::class == ResultEntity::class) {//改派限制
-            //progress.dismiss()
             val data = any as ResultEntity
             if (data.rspCode.equals("00")) {
                 progress.show()
                 presenter.getCurrentTime()
             } else {
-                //ShowToast.showCenter(this, data.rspDesc)
                 val dialog = MessageDialog2(this)
                 dialog.setMessageText(data.rspDesc)
                 dialog.setOnOkClickListener {

@@ -1,6 +1,7 @@
 package com.mxingo.driver;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
@@ -21,17 +22,18 @@ public class MyApplication extends Application {
 
     public static Application application;
     public static Bus bus;
+    public Context mContext;
     public static String currActivity = "";
     public static boolean isMainActivityLive = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        //UMConfigure.setLogEnabled(true);
-        UMConfigure.preInit(getApplicationContext(),"595dd4039f06fd77fd0004e3","Channel ID");
+        //在onCreate()方法中唯一一次初始化了AppComponent对象，并放入了ComponentHolder中
         AppComponent appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
         ComponentHolder.setAppComponent(appComponent);
         application = this;
+        mContext = getApplicationContext();
         bus = new Bus();
         bus.register(this);
 
@@ -55,18 +57,6 @@ public class MyApplication extends Application {
 
         }
         SDKInitializer.setCoordType(CoordType.BD09LL);
-
-        //讯飞语音
-//        Setting.setShowLog(false);
-//        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=" + Constants.speechAppId);
-
-        //umeng
-        UMConfigure.init(getApplicationContext(),UMConfigure.DEVICE_TYPE_PHONE,"");
-        UMConfigure.setEncryptEnabled(true);
-        MobclickAgent.setDebugMode(false);
-        MobclickAgent.setCatchUncaughtExceptions(true);
-        MobclickAgent.enableEncrypt(true);//6.0.0版本及以后
-        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
 
         bus.unregister(this);
 

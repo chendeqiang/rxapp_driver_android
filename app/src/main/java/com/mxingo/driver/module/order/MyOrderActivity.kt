@@ -10,20 +10,14 @@ import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.tabs.TabLayout
 import com.mxingo.driver.R
-import com.mxingo.driver.model.CurrentTimeEntity
 import com.mxingo.driver.model.ListDriverOrderEntity
-import com.mxingo.driver.model.OrderEntity
-import com.mxingo.driver.model.QryOrderEntity
 import com.mxingo.driver.module.BaseActivity
 import com.mxingo.driver.module.LoginActivity
-import com.mxingo.driver.module.base.data.MyModulePreference
 import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
-import com.mxingo.driver.module.take.OrderStatus
 
 import com.mxingo.driver.utils.Constants
-import com.mxingo.driver.utils.TimeUtil
 import com.mxingo.driver.widget.MyProgress
 import com.mxingo.driver.widget.MyTagButton
 import com.mxingo.driver.widget.OrderFooterView

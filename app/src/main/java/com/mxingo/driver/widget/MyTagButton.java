@@ -8,9 +8,7 @@ import com.mxingo.driver.R;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
-/**
- * Created by zhouwei on 2017/7/4.
- */
+
 
 public class MyTagButton extends AppCompatButton {
     public MyTagButton(Context context) {

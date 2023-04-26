@@ -11,7 +11,6 @@ import com.igexin.sdk.message.GTCmdMessage;
 import com.igexin.sdk.message.GTNotificationMessage;
 import com.igexin.sdk.message.GTTransmitMessage;
 import com.mxingo.driver.MyApplication;
-import com.mxingo.driver.module.base.data.MyModulePreference;
 import com.mxingo.driver.module.base.data.UserInfoPreferences;
 import com.mxingo.driver.module.base.log.LogUtils;
 import com.mxingo.driver.module.take.MainActivity;

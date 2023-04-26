@@ -12,6 +12,8 @@
     <color name="text_color_black_gray">#666666</color>
     <color name="text_color_gray">#aaaaaa</color>
     <color name="text_color_gold">#ffb579</color>
+    <color name="text_color_god">#f9efe6</color>
+    <color name="text_color_god2">#d98145</color>
     <color name="text_color_red">#ff7272</color>
     <color name="text_color_blue">#69cef8</color>
     <color name="text_color_yellow">#fff9df</color>
@@ -20,6 +22,7 @@
     <color name="line_color">#e3e3e3</color>
 
     <color name="activity_bg">#f5f5f5</color>
+    <color name="activity_bg1">#f9f9f9</color>
     <color name="bottom_tab_bg">#f4f4f4</color>
     <color name="white">#fff</color>
 

@@ -146,4 +146,31 @@ interface ApiService {
 
     @GET(ApiConstants.stsServer)
     fun stsServer():Call<StsEntity>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.payaccount)
+    fun bindPayAccount(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<BindSuccessEntity>
+
+
+    @FormUrlEncoded
+    @POST(ApiConstants.wallet)
+    fun getWalletInfo(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<WalletEntity>
+
+
+    @FormUrlEncoded
+    @POST(ApiConstants.fundflow)
+    fun listFundFlow(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<WalletFundFlowEntity>
+
+
+    @FormUrlEncoded
+    @POST(ApiConstants.cash)
+    fun cash(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<WithdrawSuccessEntity>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.listCash)
+    fun listCash(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<ListCashEntity>
+
+    @FormUrlEncoded
+    @POST(ApiConstants.withdrawSetting)
+    fun withdrawSetting(@FieldMap map: TreeMap<String, Any>, @HeaderMap headers: Map<String, String>): Call<WithdrawSettingEntity>
 }

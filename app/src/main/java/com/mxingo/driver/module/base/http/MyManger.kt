@@ -376,4 +376,72 @@ class MyManger(val apiService: ApiService) {
     fun stsServer(callback: retrofit2.Callback<StsEntity>){
         apiService.stsServer().enqueue(callback)
     }
+
+    fun bindPayAccount(mobile: String,vcode: String, orgName: String, payAccount: String,callback: retrofit2.Callback<BindSuccessEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("mobile", mobile)
+        map.put("vcode", vcode)
+        map.put("orgName", orgName)
+        map.put("payAccount", payAccount)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("bindPayAccount 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.bindPayAccount(map, headers).enqueue(callback)
+    }
+
+    fun getWalletInfo(driverNo: String,callback: retrofit2.Callback<WalletEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("driverNo", driverNo)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("getWalletInfo 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.getWalletInfo(map, headers).enqueue(callback)
+    }
+
+    fun listFundFlow(driverNo: String,sort: String,date: String, pageIndex: Int, pageCount: Int,callback: retrofit2.Callback<WalletFundFlowEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("driverNo", driverNo)
+        map.put("sort", sort)
+        map.put("date", date)
+        map.put("pageIndex", pageIndex)
+        map.put("pageCount", pageCount)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("listFundFlow 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.listFundFlow(map, headers).enqueue(callback)
+    }
+
+    fun cash(driverNo: String,amount: String, vcode: String,mobile: String,callback: retrofit2.Callback<WithdrawSuccessEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("driverNo", driverNo)
+        map.put("amount", amount)
+        map.put("vcode", vcode)
+        map.put("mobile", mobile)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("cash 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.cash(map, headers).enqueue(callback)
+    }
+
+    fun listCash(driverNo: String,date: String, pageIndex: Int,pageCount:Int,callback: retrofit2.Callback<ListCashEntity>) {
+        val map = TreeMap<String, Any>()
+        map.put("driverNo", driverNo)
+        map.put("date", date)
+        map.put("pageIndex", pageIndex)
+        map.put("pageCount", pageCount)
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("listCash 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.listCash(map, headers).enqueue(callback)
+    }
+
+
+    fun withdrawSetting(callback: retrofit2.Callback<WithdrawSettingEntity>) {
+        val map = TreeMap<String, Any>()
+        val headers = HeaderUtil.getHeaders(map)
+        LogUtils.d("withdrawSetting 参数", map.toString())
+        LogUtils.d("headers", headers.toString())
+        apiService.withdrawSetting(map, headers).enqueue(callback)
+    }
+
 }

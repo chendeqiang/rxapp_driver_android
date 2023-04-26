@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99232323">
+
+    <LinearLayout
+        android:padding="@dimen/default_margin10"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/btn_white_round_5"
+        android:orientation="vertical">
+
+        <TextView
+            android:textStyle="bold"
+            android:text="支付宝绑定提示"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/item_margin"
+            android:textColor="@color/text_color_black"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/text_size_18"/>
+
+        <TextView
+            android:text="1、请注意核对账号正确性，并确认账号已完成实名认证"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/text_color_black"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/default_margin10"
+            android:text="2、支付宝个人信息需与司机账号个人信息保持一致，否则无法提现"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/text_color_black"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/default_margin10"
+            android:text="3、请确认开通单笔转账功能，您的所有提现金额将统一转入该账户"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/text_color_black"/>
+
+        <Button
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/default_margin10"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/default_margin10"
+            android:id="@+id/btn_ok"
+            android:layout_width="150dp"
+            android:padding="@dimen/default_margin10"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_blue_round_0"
+            android:focusable="true"
+            android:text="知道了"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</RelativeLayout>

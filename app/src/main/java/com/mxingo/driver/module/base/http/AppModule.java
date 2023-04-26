@@ -19,6 +19,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * Created by chendeqiang on 2017/6/22.
+ * AppModule:初始化全局变量
+ * Context （作为参数初始化）-> AppModule(初始化全局变量) -> (注入) AppComponent ->(存储到)ComponentHolder
  */
 @Module
 public class AppModule {

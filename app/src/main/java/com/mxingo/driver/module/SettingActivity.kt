@@ -143,7 +143,7 @@ class SettingActivity : BaseActivity() {
                 versionEntity.isMustUpdate = versionEntity.forceUpdataVersions.contains(VersionInfo.getVersionName())
                 UpdateVersionActivity.startUpdateVersionActivity(this, versionEntity)
             } else {
-                ShowToast.showCenter(this, "您已经是最新版本了")
+                ShowToast.showCenter(this, "您已经是最新版本")
             }
         } else {
             ShowToast.showCenter(this, data.rspDesc)

@@ -1,19 +1,24 @@
 package com.mxingo.driver.module.base.download;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mxingo.driver.R;
 import com.mxingo.driver.module.BaseActivity;
 import com.mxingo.driver.utils.Constants;
+import com.mxingo.driver.widget.ShowToast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -60,8 +65,12 @@ public class UpdateVersionActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 llInfoNew.setVisibility(View.GONE);
-                llShowProgress.setVisibility(View.VISIBLE);
-                new UpdateService(getApplicationContext(), versionEntity).downloadAPK();
+                if (ContextCompat.checkSelfPermission(UpdateVersionActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(UpdateVersionActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }else {
+                    new UpdateService(getApplicationContext(), versionEntity).downloadAPK();
+                    finish();
+                }
             }
         });
 
@@ -85,6 +94,21 @@ public class UpdateVersionActivity extends BaseActivity {
     public void onBackPressed() {
         if (!versionEntity.isMustUpdate) {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 1:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    new UpdateService(getApplicationContext(), versionEntity).downloadAPK();
+                    finish();
+                }else{
+                    ShowToast.showCenter(this,"权限被拒绝！");
+                }
+                break;
+            default:
         }
     }
 }

@@ -54,4 +54,11 @@ object ApiConstants {
     const val jkmUpload = "usr/driver/jkupload" //健康码上传
     const val hsUpload = "usr/driver/hsupload" //核酸上传
 
+    const val payaccount  = "usr/driver/payaccount" //绑定支付宝
+    const val wallet  = "usr/driver/wallet" //司机钱包详情
+    const val fundflow  = "usr/driver/fundflow" //司机钱包流水列表
+    const val cash  = "usr/driver/cash" //提现操作
+    const val listCash  = "usr/driver/cashlist" //提现操作
+
+    const val withdrawSetting  = "usr/driver/driversetting" //提现设置
 }

@@ -1,11 +1,16 @@
 package com.mxingo.driver.module.take;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.baidu.trace.LBSTraceClient;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -34,7 +38,7 @@ import com.mxingo.driver.module.BaseActivity;
 import com.mxingo.driver.module.DriverCarRegistrationActivity;
 import com.mxingo.driver.module.HybridSearchActivity;
 import com.mxingo.driver.module.LoginActivity;
-import com.mxingo.driver.module.MyBillActivity;
+import com.mxingo.driver.module.MyWalletActivity;
 import com.mxingo.driver.module.SettingActivity;
 import com.mxingo.driver.module.WebViewActivity;
 import com.mxingo.driver.module.base.data.UserInfoPreferences;
@@ -43,10 +47,14 @@ import com.mxingo.driver.module.base.download.VersionEntity;
 import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.MyPresenter;
 //import com.mxingo.driver.module.base.speech.MySpeechSynthesizer;
+import com.mxingo.driver.module.base.log.LogUtils;
+import com.mxingo.driver.module.base.map.trace.BaiduTrack;
 import com.mxingo.driver.module.base.speech.MySpeechUtils;
 import com.mxingo.driver.module.order.CarpoolOrderActivity;
 import com.mxingo.driver.module.order.MyOrderActivity;
 import com.mxingo.driver.module.order.OrdersActivity;
+import com.mxingo.driver.utils.BitmapUtil;
+import com.mxingo.driver.utils.CommonUtil;
 import com.mxingo.driver.utils.Constants;
 import com.mxingo.driver.utils.DisplayUtil;
 import com.mxingo.driver.utils.StartUtil;
@@ -58,12 +66,18 @@ import com.squareup.otto.Subscribe;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Stack;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
@@ -73,7 +87,7 @@ import butterknife.OnClick;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Inject
-    MyPresenter presenter;
+    MyPresenter presenter;//依赖注入
     @BindView(R.id.tv_toolbar_title)
     TextView tvToolbarTitle;
     @BindView(R.id.toolbar)
@@ -98,7 +112,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView tvName;
     private TextView tvMobile;
     private TextView tvRecvNum;
-    //private MySpeechSynthesizer speechSynthesizer;
     private MySpeechUtils speechUtils;
     private TakeOrderDialog takeDialog = null;
 
@@ -108,6 +121,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private final int stackSize = 5;
     private MyProgress progress;
     private DriverInfoEntity info;
+
 
     public static void startMainActivity(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
@@ -121,23 +135,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         PushManager.getInstance().initialize(getApplicationContext());
 
+        BitmapUtil.init();
         progress = new MyProgress(this);
         driverNo = UserInfoPreferences.getInstance().getDriverNo();
+
         initView();
 
-        //speechSynthesizer = new MySpeechSynthesizer();
         speechUtils = new MySpeechUtils();
         takeDialog = new TakeOrderDialog(this, driverNo);
-
         ComponentHolder.getAppComponent().inject(this);
-        presenter.register(this);
-
+        presenter.register(this);//注册
         gson = new Gson();
         EventBus.getDefault().register(this);
-        //MyTrace.getInstance().startTrace();
-
         presenter.checkVersion(Constants.RX_DRIVER_APP);
-
         MyApplication.isMainActivityLive = true;
     }
 
@@ -165,7 +175,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         view.findViewById(R.id.ll_orders).setOnClickListener(this);
         view.findViewById(R.id.ll_my_order).setOnClickListener(this);
         view.findViewById(R.id.ll_carpool_order).setOnClickListener(this);
-        view.findViewById(R.id.ll_my_bill).setOnClickListener(this);
+
+        if (UserInfoPreferences.getInstance().showWallet()){
+            view.findViewById(R.id.ll_my_wallet).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.v_wallet).setVisibility(View.VISIBLE);
+        }
+        view.findViewById(R.id.ll_my_wallet).setOnClickListener(this);
+
         view.findViewById(R.id.ll_flight).setOnClickListener(this);
         view.findViewById(R.id.ll_driver_car_registration).setOnClickListener(this);
         view.findViewById(R.id.ll_rule).setOnClickListener(this);
@@ -206,12 +222,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_antiepidemic://通知
-                //NoticeActivity.startNoticeActivity(this);
                 AntiepidemicActivity.startAntiepidemicActivity(this, info);
                 break;
             case R.id.btn_online: {//上线
-                progress.show();
-                presenter.online(driverNo);
+//                progress.show();
+//                presenter.online(driverNo);
+                requestPermissions();
                 break;
             }
             case R.id.btn_offline: {//下线
@@ -237,8 +253,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 CarpoolOrderActivity.startCarpoolOrderActivity(this, driverNo);
                 break;
             }
-            case R.id.ll_my_bill: {//我的账单
-                MyBillActivity.startMyOrderActivity(this, driverNo);
+            case R.id.ll_my_wallet: {//我的钱包
+                MyWalletActivity.startMyWalletActivity(this,driverNo);
                 break;
             }
             case R.id.ll_flight: {//航班动态
@@ -270,6 +286,59 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         drawer.closeDrawer(GravityCompat.START);
     }
 
+    private void requestPermissions(){
+        List list= new ArrayList<String>();
+        list.add(Manifest.permission.RECORD_AUDIO);
+        list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        list.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+            // 前台服务权限
+            list.add(Manifest.permission.FOREGROUND_SERVICE);
+        }
+
+        Iterator iterator = list.iterator();
+        while (iterator.hasNext()){
+            String s = (String) iterator.next();
+            if (ContextCompat.checkSelfPermission(this, String.valueOf(s))== PackageManager.PERMISSION_GRANTED){
+                iterator.remove();
+            }
+        }
+
+        if (list.isEmpty()){
+            progress.show();
+            presenter.online(driverNo);
+        }else {
+            ActivityCompat.requestPermissions(this, (String[]) list.toArray(new String[0]),Constants.permissionMain);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0]==PackageManager.PERMISSION_DENIED){
+            MessageDialog message = new MessageDialog(this);
+            message.setMessageText("您的权限申请失败，请前往应用设置打开权限");
+            message.setOnOkClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Uri uri = Uri.parse("package:" + getPackageName());
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,uri);
+                    startActivity(intent);
+                    message.dismiss();
+                }
+            });
+            message.setOnCancelClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    message.dismiss();
+                }
+            });
+            message.show();
+        }else {
+            presenter.online(driverNo);
+        }
+    }
+
     private void callMobile(final String mobile) {
         final MessageDialog dialog = new MessageDialog(this);
         dialog.setMessageText("" + mobile);
@@ -278,7 +347,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                //StartUtil.startPhone("4008878810", MainActivity.this);
             }
         });
         dialog.setOnOkClickListener(new View.OnClickListener() {
@@ -326,6 +394,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             takeDialog.dismiss();
         }
         speechUtils.destroy();
+
+        CommonUtil.saveCurrentLocation();
+
+        if (BaiduTrack.getInstance().mClient!=null){
+            if (UserInfoPreferences.getInstance().contains("is_trace_started")&&UserInfoPreferences.getInstance().getTraceStart()){
+                // 退出app停止轨迹服务时，不再接收回调，将OnTraceListener置空
+                BaiduTrack.getInstance().mClient.setOnTraceListener(null);
+                BaiduTrack.getInstance().mClient.stopTrace(BaiduTrack.getInstance().mTrace, null);
+            }else {
+                BaiduTrack.getInstance().clear();
+            }
+        }
+        BaiduTrack.getInstance().isTraceStarted =false;
+        BaiduTrack.getInstance().isTraceStarted =false;
+        UserInfoPreferences.getInstance().remove("is_trace_started");
+        UserInfoPreferences.getInstance().remove("is_gather_started");
+        BitmapUtil.clear();
     }
 
     @Override
@@ -347,10 +432,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             progress.dismiss();
         } else if (o.getClass() == LogoutEntity.class) {
             progress.dismiss();
-            //MyTrace.getInstance().stopTrace();
             UserInfoPreferences.getInstance().clear();
-//            MyModulePreference.getInstance().setDriverNo("");
-//            MyModulePreference.getInstance().setToken("");
             LoginActivity.startLoginActivity(this);
             finish();
         } else if (o.getClass() == CheckVersionEntity.class) {
@@ -367,12 +449,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 versionEntity.isMustUpdate = versionEntity.forceUpdataVersions.contains(VersionInfo.getVersionName());
                 UpdateVersionActivity.startUpdateVersionActivity(this, versionEntity);
             }
-
-//            if (VersionInfo.getVersionCode() < 20200425) {
-//                versionEntity.isMustUpdate = versionEntity.forceUpdataVersions.contains(VersionInfo.getVersionName());
-//                UpdateVersionActivity.startUpdateVersionActivity(this, versionEntity);
-//            }
-
         }
     }
 
@@ -380,13 +456,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         OnlineEntity data = (OnlineEntity) o;
         if (data.rspCode.equals("00")) {
             onlineView();
-            //speechSynthesizer.startSpeaking("上线接单啦");
             speechUtils.startSpeaking("上线接单啦");
         } else if (data.rspCode.equals("101")) {
             ShowToast.showCenter(this, "TOKEN失效，请重新登陆");
             UserInfoPreferences.getInstance().clear();
-//            MyModulePreference.getInstance().setDriverNo("");
-//            MyModulePreference.getInstance().setToken("");
             LoginActivity.startLoginActivity(this);
             finish();
         } else {
@@ -406,13 +479,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         OfflineEntity data = (OfflineEntity) o;
         if (data.rspCode.equals("00")) {
             offlineView();
-            //speechSynthesizer.startSpeaking("停止接单啦");
             speechUtils.startSpeaking("停止接单啦");
         } else if (data.rspCode.equals("101")) {
             ShowToast.showCenter(this, "TOKEN失效，请重新登陆");
             UserInfoPreferences.getInstance().clear();
-//            MyModulePreference.getInstance().setDriverNo("");
-//            MyModulePreference.getInstance().setToken("");
             LoginActivity.startLoginActivity(this);
             finish();
         } else {
@@ -444,8 +514,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             ShowToast.showCenter(this, "TOKEN失效，请重新登陆");
 
             UserInfoPreferences.getInstance().clear();
-//            MyModulePreference.getInstance().setDriverNo("");
-//            MyModulePreference.getInstance().setToken("");
             LoginActivity.startLoginActivity(this);
             finish();
         }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99232323">
+
+    <LinearLayout
+        android:padding="@dimen/default_margin10"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/btn_white_round_5"
+        android:orientation="vertical">
+
+        <TextView
+            android:textStyle="bold"
+            android:text="绑定成功"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/item_margin"
+            android:textColor="@color/text_color_black"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/text_size_18"/>
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:text="支付宝账号绑定成功，后续您提现的金额将统一转入该账户"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/text_color_black"/>
+
+        <Button
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/default_margin"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/default_margin10"
+            android:id="@+id/btn_ok"
+            android:layout_width="150dp"
+            android:padding="@dimen/default_margin10"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_blue_round_0"
+            android:focusable="true"
+            android:text="知道了"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</RelativeLayout>

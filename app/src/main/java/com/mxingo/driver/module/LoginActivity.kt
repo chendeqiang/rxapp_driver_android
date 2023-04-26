@@ -92,18 +92,6 @@ class LoginActivity : BaseActivity() {
 
         tvRegister =findViewById(R.id.tv_register) as TextView
 
-//        if (!TextUtils.isEmpty(UserInfoPreferences.getInstance().driverNo)) {
-//            MainActivity.startMainActivity(this)
-//            finish()
-//        }
-//        ckAgreement.setOnCheckedChangeListener { buttonView, isChecked ->
-//            if (isChecked){
-//                btnLogin.isEnabled = true
-//            }else{
-//                btnLogin.isEnabled = false
-//                ShowToast.showBottom(this,"请勾选同意后再进行登录")
-//            }
-//        }
         if (!TextUtils.isEmpty(UserInfoPreferences.getInstance().driverNo)) {
             MainActivity.startMainActivity(this)
             finish()
@@ -112,7 +100,7 @@ class LoginActivity : BaseActivity() {
         tvRegister.setOnClickListener {
             val intent = Intent()
             intent.action = "android.intent.action.VIEW"
-            val content_url: Uri = Uri.parse("http://192.168.0.24:8080/MyPlatform/pullbill/adddriver.shtml") //此处填链接
+            val content_url: Uri = Uri.parse("http://192.168.0.24:8080/MyPlatform/pullbill/adddriver.shtml")
 
             intent.data = content_url
             startActivity(intent)
@@ -184,6 +172,13 @@ class LoginActivity : BaseActivity() {
                 UserInfoPreferences.getInstance().mobile = etPhone.text.toString()
                 UserInfoPreferences.getInstance().carTeam = etCarTeam.text.toString()
 
+                if (loginEntity.showWallet.equals(1)){//显示钱包
+                    UserInfoPreferences.getInstance().setShowWallet()
+                }
+
+                if (loginEntity.payAccount.isNotEmpty()&&loginEntity.payAccount!=null) {
+                    UserInfoPreferences.getInstance().payAccount = loginEntity.payAccount
+                }
                 MainActivity.startMainActivity(this)
                 finish()
             } else {
