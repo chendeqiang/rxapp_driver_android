@@ -7,8 +7,8 @@ object ApiConstants {
     const val sign = "Rx-Sign"
     const val token = "Rx-Token"
     const val version = "Rx-Vern"
-//    const val ip = "http://112.124.27.106:8018/" //测试
-    const val ip = "https://wycapi.mxingo.com:443/"//生产
+    const val ip = "http://112.124.27.106:8018/" //测试
+//    const val ip = "https://wycapi.mxingo.com:443/"//生产
 
 
     const val getVcode = "usr/driver/getvcode"//获取验证码

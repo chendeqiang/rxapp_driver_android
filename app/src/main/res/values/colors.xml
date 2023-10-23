@@ -29,5 +29,6 @@
     <color name="btn_next">#dbdbdb</color>
     <color name="transparent">#00000000</color>
     <color name="take_order_color">#96bebdc1</color>
+    <color name="gray_dedede">#dedede</color>
 
 </resources>

@@ -79,7 +79,6 @@ public class UserInfoPreferences {
         return sharedPreference.getBoolean(SHOWWALLET,false);
     }
 
-
     public void setShowWallet(){
         SharedPreferences.Editor edit = sharedPreference.edit();
         edit.putBoolean(SHOWWALLET,true);

@@ -9,7 +9,6 @@ import com.mxingo.driver.MyApplication
 import com.mxingo.driver.R
 import com.mxingo.driver.module.take.MainActivity
 
-import com.umeng.analytics.MobclickAgent
 
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
@@ -34,21 +33,12 @@ open class BaseActivity() : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        //HttpUtil.checkNetwork(this)
-        if (this::class.java.equals(StartPageActivity::class.java)) {
-            MobclickAgent.onPageStart(this.packageName)
-        }
-        MobclickAgent.onResume(this)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         MyApplication.currActivity = this::class.java.name
     }
 
     override fun onPause() {
         super.onPause()
-        if (this::class.java.equals(StartPageActivity::class.java)) {
-            MobclickAgent.onPageEnd(this.packageName)
-        }
-        MobclickAgent.onPause(this)
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 

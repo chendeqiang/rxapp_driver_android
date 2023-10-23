@@ -2,6 +2,7 @@ package com.mxingo.driver.module.take;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -77,6 +79,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -135,6 +138,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         PushManager.getInstance().initialize(getApplicationContext());
 
+        checkNotificationEnabled();
+
         BitmapUtil.init();
         progress = new MyProgress(this);
         driverNo = UserInfoPreferences.getInstance().getDriverNo();
@@ -149,6 +154,59 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         EventBus.getDefault().register(this);
         presenter.checkVersion(Constants.RX_DRIVER_APP);
         MyApplication.isMainActivityLive = true;
+    }
+
+    private void checkNotificationEnabled() {
+        boolean isEnabled = isNotificationEnabled(this);
+        LogUtils.d("is notification enabled: ",isEnabled+"");
+        if (!isEnabled) {
+            goSetting();
+        }
+    }
+
+    private void goSetting() {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_go_setting, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
+        dialog.show();
+        dialog.getWindow().setContentView(view);
+        //确认
+        dialog.findViewById(R.id.tv_go_set).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                if (Build.VERSION.SDK_INT >= 26) {
+                    // android 8.0引导
+                    intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                    intent.putExtra("android.provider.extra.APP_PACKAGE", getPackageName());
+                } else if (Build.VERSION.SDK_INT >= 21) {
+                    // android 5.0-7.0
+                    intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                    intent.putExtra("app_package", getPackageName());
+                    intent.putExtra("app_uid", getApplicationInfo().uid);
+                } else {
+                    // 其他
+                    intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                    intent.setData(Uri.fromParts("package", getPackageName(), null));
+                }
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        //取消
+        dialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private boolean isNotificationEnabled(Context context) {
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
+        return notificationManagerCompat.areNotificationsEnabled();
     }
 
     private void initView() {

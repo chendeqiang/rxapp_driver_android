@@ -3,27 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mxingo.driver">
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.DEVICE_POWER" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <!--8.0未知来源的应用权限 更新App-->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- SD卡读取权限，用户写入离线定位数据 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <!-- 允许应用读取低级别的系统日志文件 -->
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
@@ -33,24 +31,16 @@
 
     <!-- 个推SDK权限配置开始 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <!-- 支持iBeancon 需要蓝牙权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <!-- 支持个推3.0 电子围栏功能 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 浮动通知权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!-- 自定义权限 -->
     <uses-permission android:name="getui.permission.GetuiService.com.mxingo.driver" />
-
-
 
     <!-- 以下是鹰眼SDK基础权限 -->
 
@@ -86,7 +76,7 @@
 
     <permission
         android:name="getui.permission.GetuiService.com.mxingo.driver"
-        android:protectionLevel="normal" />
+        android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.READ_PROFILE" />
 
@@ -94,6 +84,12 @@
     <queries>
         <intent>
             <action android:name="android.intent.action.TTS_SERVICE"/>
+        </intent>
+    </queries>
+
+    <queries>
+        <intent>
+            <action android:name="com.getui.sdk.action" />
         </intent>
     </queries>
 
@@ -128,32 +124,28 @@
 
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->
-
-
         <!-- 个推 -->
         <meta-data
-            android:name="PUSH_APPID"
-            android:value="rTBlL1Md7W54v0bap7jPp6" />
-        <meta-data
-            android:name="PUSH_APPKEY"
-            android:value="D5xdzX9Kk19S2M5VyyYOz8" />
-        <meta-data
-            android:name="PUSH_APPSECRET"
-            android:value="8OKkZGiruR7ov0j1wjh5q7" />
+            android:name="GETUI_APPID"
+            android:value="${GETUI_APPID}" />
+<!--        <meta-data-->
+<!--            android:name="PUSH_APPKEY"-->
+<!--            android:value="D5xdzX9Kk19S2M5VyyYOz8" />-->
+<!--        <meta-data-->
+<!--            android:name="PUSH_APPSECRET"-->
+<!--            android:value="8OKkZGiruR7ov0j1wjh5q7" />-->
 
         <service
             android:name=".module.base.push.MyPushService"
             android:exported="true"
             android:label="PushService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
             android:process=":pushservice" />
         <service
-            android:name=".module.base.push.PushIntentService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+            android:name=".module.base.push.PushIntentService"/>
         <!-- 配置SDK核心服务 -->
         <service
             android:name="com.igexin.sdk.PushService"
-            android:exported="true"
+            android:exported="false"
             android:label="NotificationCenter"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:process=":pushservice">
@@ -161,7 +153,6 @@
                 <action android:name="com.igexin.sdk.action.service.message" />
             </intent-filter>
         </service>
-
 
         <receiver android:name="com.igexin.sdk.PushReceiver">
             <intent-filter>
@@ -175,6 +166,7 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
+
         <receiver
             android:name="com.igexin.sdk.PushManagerReceiver"
             android:exported="false">
@@ -190,34 +182,10 @@
             android:process=":pushservice"
             android:taskAffinity="com.igexin.sdk.PushActivityTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <service
-            android:name="com.igexin.download.DownloadService"
-            android:process=":pushservice" />
-
+        <!-- 个推SDK配置结束 -->
 
         <service android:name=".module.RecordingService" />
 
-        <receiver android:name="com.igexin.download.DownloadReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-
-        <provider
-            android:name="com.igexin.download.DownloadProvider"
-            android:authorities="downloads.com.mxingo.driver"
-            android:exported="true"
-            android:process=":pushservice" />
-
-        <activity
-            android:name="com.igexin.sdk.GActivity"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:process=":pushservice"
-            android:taskAffinity="com.igexin.sdk.PushActivityTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!-- 个推SDK配置结束 -->
 
         <activity
             android:name=".module.take.MainActivity"
@@ -245,6 +213,7 @@
         <activity android:name=".module.order.CarPoolInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".module.StartPageActivity"
             android:screenOrientation="portrait"
@@ -254,14 +223,8 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
-<!--                <data android:scheme="um.595dd4039f06fd77fd0004e3" />-->
-<!--            </intent-filter>-->
         </activity>
+
         <activity
             android:name=".module.LoginActivity"
             android:screenOrientation="portrait"

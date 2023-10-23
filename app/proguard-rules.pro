@@ -180,6 +180,12 @@
 }
 
 
+#org.conscrypt
+-dontwarn org.conscrypt.**
+-keep class org.conscrypt.** { *; }
+-keep interface org.conscrypt.** { *; }
+
+
 # Otto
 -keepclassmembers class ** {
     @com.squareup.otto.Subscribe public *;

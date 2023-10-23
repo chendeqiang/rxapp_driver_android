@@ -75,7 +75,7 @@ class WithdrawRecordActivity:BaseActivity(), AbsListView.OnScrollListener {
         orderFooterView = OrderFooterView(this)
         lvRecords.addFooterView(orderFooterView)
         lvRecords.setOnScrollListener(this)
-        birthPicker = DatePicker(this,1)
+        birthPicker = DatePicker(this,DatePicker.YEAR_MONTH)
         birthPicker.setTitleText("请选择日期")
         birthPicker.setCanceledOnTouchOutside(true)
         birthPicker.setRangeEnd(2028, 12)

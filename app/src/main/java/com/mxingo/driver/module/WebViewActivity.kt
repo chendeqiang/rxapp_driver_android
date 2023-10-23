@@ -41,6 +41,7 @@ class WebViewActivity : BaseActivity() {
         setToolbar(toolbar = findViewById(R.id.toolbar) as Toolbar)
         (findViewById(R.id.tv_toolbar_title) as TextView).text = title
 
+        wv.clearCache(true)
         wv.loadUrl(url)
         val webSetting = wv.settings
         webSetting.savePassword =false
@@ -74,5 +75,10 @@ class WebViewActivity : BaseActivity() {
 //        override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
 //            super.onReceivedError(view, request, error)
 //        }
+    }
+
+    override fun onDestroy() {
+        wv.loadUrl("about:blank")
+        super.onDestroy()
     }
 }

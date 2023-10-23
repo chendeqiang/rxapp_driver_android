@@ -108,7 +108,6 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
     private Stack<PushOrderEntity> pushData;
     private OrderEntity orderEntity;
     private SimpleDateFormat sdf = new SimpleDateFormat("MM月dd号 HH:mm");
-    //private MySpeechSynthesizer speechSynthesizer;
     private MySpeechUtils mySpeechUtils;
     private MyProgress progress;
     private boolean isSpeak = false;
@@ -127,7 +126,6 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
     };
 
     private void getNext() {
-        //speechSynthesizer.stop();
         mySpeechUtils.stopSpeaking();
         dismiss();
     }

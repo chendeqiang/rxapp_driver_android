@@ -117,5 +117,9 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
     <string name="default_file_name">My_Recording</string>
+    <string name="notification_setting_title">温馨提示</string>
+    <string name="notification_setting_hint">检测到您的通知权限已关闭，暂无法接收通知消息，请前往开启</string>
+    <string name="cancel">取消</string>
+    <string name="go_set">去设置</string>
 
 </resources>

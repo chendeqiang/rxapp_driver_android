@@ -80,8 +80,7 @@ public class PushIntentService extends GTIntentService {
     }
     // 通知到达，只有个推通道下发的通知会回调此方法
     @Override
-    public void onNotificationMessageArrived(Context context, GTNotificationMessage gtNotificationMessage) {
-
+    public void onNotificationMessageArrived(Context context, GTNotificationMessage message) {
     }
     // 通知点击，只有个推通道下发的通知会回调此方法
     @Override

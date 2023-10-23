@@ -191,18 +191,11 @@ class MyOrderActivity : BaseActivity(), View.OnClickListener, AbsListView.OnScro
             } else if (data.rspCode.equals("101")) {
                 ShowToast.showCenter(this, "TOKEN失效，请重新登陆")
                 UserInfoPreferences.getInstance().clear()
-//                MyModulePreference.getInstance().driverNo=""
-//                MyModulePreference.getInstance().token=""
                 LoginActivity.startLoginActivity(this)
                 finish()
             }
             srlRefresh.isRefreshing = false
         }
-//        else if (any::class == CurrentTimeEntity::class) {
-//            val data = any as CurrentTimeEntity
-//            val curTime = TimeUtil.getDateToString(data.now)
-//            UserInfoPreferences.getInstance().startTime = curTime
-//        }
         progress.dismiss()
 
     }

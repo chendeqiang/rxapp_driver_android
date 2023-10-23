@@ -112,6 +112,7 @@
                 android:text="元"
                 android:textColor="@color/cardview_dark_background" />
             <ImageView
+                android:visibility="invisible"
                 android:id="@+id/iv_question"
                 android:layout_width="15dp"
                 android:layout_height="15dp"

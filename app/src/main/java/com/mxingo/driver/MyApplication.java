@@ -2,11 +2,13 @@ package com.mxingo.driver;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.common.BaiduMapSDKException;
 import com.baidu.trace.LBSTraceClient;
+import com.igexin.sdk.IUserLoggerInterface;
 import com.igexin.sdk.PushManager;
 import com.mxingo.driver.module.base.http.AppComponent;
 import com.mxingo.driver.module.base.http.AppModule;
@@ -14,8 +16,6 @@ import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.DaggerAppComponent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.commonsdk.UMConfigure;
 
 
 public class MyApplication extends Application {
@@ -36,7 +36,6 @@ public class MyApplication extends Application {
         mContext = getApplicationContext();
         bus = new Bus();
         bus.register(this);
-
     }
 
     @Subscribe

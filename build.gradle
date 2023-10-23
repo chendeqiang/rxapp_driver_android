@@ -39,6 +39,10 @@ allprojects {
             url 'https://dl.google.com/dl/android/maven2/'
             name 'Google'
         }
+
+        maven {
+            url "https://mvn.getui.com/nexus/content/repositories/releases/"
+        }
     }
 
 }
