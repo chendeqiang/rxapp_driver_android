@@ -1,2 +1,1 @@
 #rxapp_driver_android
-jarsigner -digestalg SHA1 -sigalg MD5withRSA -verbose -keystore /Users/zhouwei/work/workspace/android\ project/rxapp_driver_android/app/renxing.jks -signedjar /Users/zhouwei/Downloads/下载/com.mxingo.driver.all/com.mxingo.driver_rx_sign.apk /Users/zhouwei/Downloads/下载/com.mxingo.driver.all/com.mxingo.driver_rx.apk renxing2017

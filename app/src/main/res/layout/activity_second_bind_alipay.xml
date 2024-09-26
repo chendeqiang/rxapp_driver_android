@@ -69,6 +69,7 @@
 
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/ll_alicount_now"
         android:layout_below="@+id/ll_alicount_past"
@@ -83,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="新支付宝账号"
+            android:text="支付宝账号"
             android:textSize="@dimen/text_size_18"
             android:textColor="@color/text_color_black" />
 
@@ -102,8 +103,41 @@
 
     </LinearLayout>
 
-    <Button
+    <LinearLayout
+        android:id="@+id/ll_aliname_now"
         android:layout_below="@+id/ll_alicount_now"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="支付宝姓名"
+            android:textSize="@dimen/text_size_18"
+            android:textColor="@color/text_color_black" />
+
+        <EditText
+            android:maxLines="1"
+            android:singleLine="true"
+            android:id="@+id/et_aliname_now"
+            android:textSize="@dimen/text_size_16"
+            android:background="@color/white"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:hint="请输入新的支付宝姓名"
+            android:textColor="@color/text_color_black" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_below="@+id/ll_aliname_now"
         android:id="@+id/btn_second_bind"
         android:textSize="@dimen/text_size_18"
         android:layout_margin="@dimen/default_margin"

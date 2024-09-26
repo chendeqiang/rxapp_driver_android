@@ -13,9 +13,15 @@ import android.os.PowerManager
 import android.provider.Settings
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.baidu.location.LocationClient
+import com.amap.api.location.AMapLocationClient
+import com.amap.api.location.AMapLocationClientOption
+import com.amap.api.location.AMapLocationClientOption.AMapLocationMode
+import com.amap.api.location.AMapLocationClientOption.AMapLocationProtocol
+import com.amap.api.location.AMapLocationListener
+import com.amap.api.location.AMapLocationQualityReport
 import com.mxingo.driver.OrderModel
 import com.mxingo.driver.R
 import com.mxingo.driver.dialog.*
@@ -25,7 +31,7 @@ import com.mxingo.driver.module.RecordingService
 import com.mxingo.driver.module.base.data.UserInfoPreferences
 import com.mxingo.driver.module.base.http.ComponentHolder
 import com.mxingo.driver.module.base.http.MyPresenter
-import com.mxingo.driver.module.base.map.BaiduMapUtil
+import com.mxingo.driver.module.base.map.track.TrackSearchActivity
 import com.mxingo.driver.module.take.CarLevel
 import com.mxingo.driver.module.take.OrderStatus
 import com.mxingo.driver.module.take.OrderType
@@ -39,6 +45,7 @@ import com.mxingo.driver.widget.SlippingButton
 import com.squareup.otto.Subscribe
 import java.util.*
 import javax.inject.Inject
+
 
 class OrderInfoActivity : BaseActivity() {
 
@@ -81,6 +88,9 @@ class OrderInfoActivity : BaseActivity() {
     private lateinit var tvRepub: TextView
     private lateinit var ivBack: ImageView
 
+    private var orderStartTime: Long =0
+    private var orderStopTime: Long =0
+
     private lateinit var btnCopy: Button
 
 
@@ -97,12 +107,17 @@ class OrderInfoActivity : BaseActivity() {
 
     lateinit var powerManager: PowerManager
     lateinit var mMediaRecorder: MediaRecorder
-    private lateinit var filePath: String
+
+    private lateinit var mLocationClient:AMapLocationClient
+    private lateinit var mlocationOption:AMapLocationClientOption
+
+    private val REQUEST_CODE_PERMISSION = 1
+
+    private var mLat:Double = 0.0
+    private var mLon:Double = 0.0
 
 
     companion object {
-        const val PERMISSION_RECORD_AUDIO = 101
-
         @JvmStatic
         fun startOrderInfoActivity(activty: Activity, orderNo: String, flowNo: String, driverNo: String) {
             activty.startActivityForResult(Intent(activty, OrderInfoActivity::class.java).putExtra(Constants.ORDER_NO, orderNo).putExtra(Constants.FLOW_NO, flowNo).putExtra(Constants.DRIVER_NO, driverNo), 1)
@@ -111,12 +126,15 @@ class OrderInfoActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LocationClient.setAgreePrivacy(true)
+        AMapLocationClient.updatePrivacyShow(applicationContext,true,true)
+        AMapLocationClient.updatePrivacyAgree(applicationContext,true)
         setContentView(R.layout.activity_order_info)
         ComponentHolder.appComponent!!.inject(this)
         presenter.register(this)
         progress = MyProgress(this)
         initView()
+
+        initLocation()
 
         orderNo = intent.getStringExtra(Constants.ORDER_NO) as String
         flowNo = intent.getStringExtra(Constants.FLOW_NO) as String
@@ -126,8 +144,78 @@ class OrderInfoActivity : BaseActivity() {
             progress.show()
             presenter.qryOrder(orderNo)
         }, 300)
+    }
 
-        //BaiduMapUtil.getInstance().registerLocationListener()
+    private fun initLocation() {
+        try {
+            mLocationClient = AMapLocationClient(applicationContext)
+            mlocationOption =getDefaultOption()
+            //设置定位参数
+            mLocationClient.setLocationOption(mlocationOption)
+            // 设置定位监听
+            mLocationClient.setLocationListener(locationListener)
+        }catch (e:Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * 定位监听
+     */
+    var locationListener = AMapLocationListener { location ->
+        if (null != location) {
+            mLat=location.latitude
+            mLon=location.longitude
+            //上传定位信息
+            presenter.arrive(orderNo, flowNo, mLat, mLon)
+            } else {
+            ShowToast.show(this,"定位失败，loc is null")
+        }
+    }
+
+    /**
+     * 获取GPS状态的字符串
+     * @param statusCode GPS状态码
+     * @return
+     */
+    private fun getGPSStatusString(statusCode: Int): String? {
+        var str = ""
+        when (statusCode) {
+            AMapLocationQualityReport.GPS_STATUS_OK -> str = "GPS状态正常"
+            AMapLocationQualityReport.GPS_STATUS_NOGPSPROVIDER -> str = "手机中没有GPS Provider，无法进行GPS定位"
+            AMapLocationQualityReport.GPS_STATUS_OFF -> str = "GPS关闭，建议开启GPS，提高定位质量"
+            AMapLocationQualityReport.GPS_STATUS_MODE_SAVING -> str = "选择的定位模式中不包含GPS定位，建议选择包含GPS定位的模式，提高定位质量"
+            AMapLocationQualityReport.GPS_STATUS_NOGPSPERMISSION -> str = "没有GPS定位权限，建议开启gps定位权限"
+        }
+        return str
+    }
+    private fun getDefaultOption(): AMapLocationClientOption {
+        val mOption = AMapLocationClientOption()
+        mOption.locationMode = AMapLocationMode.Hight_Accuracy //可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+
+        mOption.isGpsFirst = false //可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+
+        mOption.httpTimeOut = 30000 //可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+
+        mOption.interval = 2000 //可选，设置定位间隔。默认为2秒
+
+        mOption.isNeedAddress = true //可选，设置是否返回逆地理地址信息。默认是true
+
+        mOption.isOnceLocation = false //可选，设置是否单次定位。默认是false
+
+        mOption.isOnceLocationLatest = false //可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+
+        AMapLocationClientOption.setLocationProtocol(AMapLocationProtocol.HTTP) //可选， 设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
+
+        mOption.isSensorEnable = false //可选，设置是否使用传感器。默认是false
+
+        mOption.isWifiScan = true //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
+
+        mOption.isLocationCacheEnable = true //可选，设置是否使用缓存定位，默认为true
+
+        mOption.geoLanguage = AMapLocationClientOption.GeoLanguage.DEFAULT //可选，设置逆地理信息的语言，默认值为默认语言（根据所在地区选择语言）
+
+        return mOption
     }
 
 
@@ -192,7 +280,7 @@ class OrderInfoActivity : BaseActivity() {
 
     private fun initListener(lon: Double, lat: Double, address: String) {
         btnNavigation.setOnClickListener {
-            if (StartUtil.isInstallByread(StartUtil.baiduMapPackage) || StartUtil.isInstallByread(StartUtil.gaodeMapPackage)) {
+            if (StartUtil.isInstallByread(this,StartUtil.baiduMapPackage) || StartUtil.isInstallByread(this,StartUtil.gaodeMapPackage)) {
 
                 var navDialog = NaviSelectDialog(this)
                 navDialog.setonBaiduMapClickListener {
@@ -223,11 +311,11 @@ class OrderInfoActivity : BaseActivity() {
         }
 
         btnStartOrder.setPosition {
-            //BaiduTrack.getInstance().startTrace()
             presenter.startOrder(orderNo, flowNo)
         }
 
         btnReach.setOnClickListener {
+            requestPermissionsIfAboveM()
             val curTime = TimeUtil.getNowTime()
             val bookTime = tvBookTime.text.toString().substring(0, 16)
             val leftTime = TimeUtil.getTimeDifferenceHour(curTime, bookTime)
@@ -242,7 +330,8 @@ class OrderInfoActivity : BaseActivity() {
                 dialog.setOnOkClickListener {
                     tvEstimate.visibility = View.GONE
                     dialog.dismiss()
-                    requestPermissions()
+                    startLocation()
+                    //requestPermissionsIfAboveM()
                 }
                 dialog.show()
             } else {
@@ -257,7 +346,7 @@ class OrderInfoActivity : BaseActivity() {
 
         //查询订单 轨迹
         btnTrace.setOnClickListener {
-            TrackQueryActivity.startTrackQueryActivity(this,orderNo)
+            TrackSearchActivity.startTrackSearchActivity(this,orderStartTime,orderStopTime)
         }
 
         btnCopy.setOnClickListener {
@@ -290,54 +379,91 @@ class OrderInfoActivity : BaseActivity() {
         }
     }
 
+    //开始定位
+    private fun startLocation() {
+        try {
+            // 设置定位参数
+            mLocationClient.setLocationOption(mlocationOption)
+            // 启动定位
+            mLocationClient.startLocation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+    /**
+     * 停止定位
+     */
+    private fun stopLocation() {
+        try {
+            // 停止定位
+            mLocationClient.stopLocation()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         presenter.unregister(this)
-        BaiduMapUtil.getInstance().unregisterLocationListener()
-    }
-
-    fun requestPermissions() {
-        val list = arrayListOf(Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            // 前台服务权限
-            list.add(Manifest.permission.FOREGROUND_SERVICE)
-        }
-
-        list.filter {
-            ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
-        }.map {
-            list.remove(it)//去掉集合中已授权的
-        }
-
-        if (list.isNotEmpty()) {//集合中剩下的是没授权的，接着动态申请
-            ActivityCompat.requestPermissions(this, list.toArray(Array<String>(list.size, { i -> i.toString() })), Constants.permissionMain)
-        }else{
-            progress.show()
-            presenter.arrive(orderNo, flowNo, BaiduMapUtil.getInstance().lat, BaiduMapUtil.getInstance().lon)
+        if (null != mLocationClient) {
+            /**
+             * 如果AMapLocationClient是在当前Activity实例化的，
+             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
+             */
+            mLocationClient.onDestroy()
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-            if (grantResults[0]==PackageManager.PERMISSION_DENIED) {
-                val message = MessageDialog(this)
-                message.setMessageText("您的权限申请失败，请前往应用设置打开权限")
-                message.setOnOkClickListener {
-                    val packageURI = Uri.parse("package:" + this@OrderInfoActivity.packageName)
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI)
-                    startActivity(intent)
-                    message.dismiss()
-                }
-                message.setOnCancelClickListener {
-                    message.dismiss()
-                }
-                message.show()
-            }else{
-                progress.show()
-                presenter.arrive(orderNo, flowNo, BaiduMapUtil.getInstance().lat, BaiduMapUtil.getInstance().lon)
+    private val permissionHintMap: MutableMap<String, String?> = HashMap()
+    private fun requestPermissionsIfAboveM() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val requiredPermissions: MutableMap<String, String> = HashMap()
+            requiredPermissions[Manifest.permission.ACCESS_FINE_LOCATION] = "定位"
+            requiredPermissions[Manifest.permission.WRITE_EXTERNAL_STORAGE] = "存储"
+            requiredPermissions[Manifest.permission.READ_PHONE_STATE] = "读取设备信息"
+            requiredPermissions[Manifest.permission.RECORD_AUDIO] = "录音"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                requiredPermissions[Manifest.permission.FOREGROUND_SERVICE] = "前台服务权限"
             }
+            for (permission in requiredPermissions.keys) {
+                if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                    permissionHintMap[permission] = requiredPermissions[permission]
+                }
+            }
+            if (!permissionHintMap.isEmpty()) {
+                requestPermissions(permissionHintMap.keys.toTypedArray(), REQUEST_CODE_PERMISSION)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val failPermissions: MutableList<String> = LinkedList()
+        for (i in grantResults.indices) {
+            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                failPermissions.add(permissions[i])
+            }
+        }
+        if (!failPermissions.isEmpty()) {
+            val sb = StringBuilder()
+            for (permission in failPermissions) {
+                sb.append(permissionHintMap[permission]).append("、")
+            }
+            sb.deleteCharAt(sb.length - 1)
+            val hint = "未授予必要权限: " +
+                    sb.toString() +
+                    "，请前往设置页面开启权限"
+            AlertDialog.Builder(this)
+                    .setMessage(hint)
+                    .setNegativeButton("取消") { dialog, which -> System.exit(0) }.setPositiveButton("设置") { dialog, which ->
+                        val intent = Intent()
+                        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                        val uri = Uri.fromParts("package", packageName, null)
+                        intent.data = uri
+                        startActivity(intent)
+                        System.exit(0)
+                    }.show()
+        }
     }
 
     @Subscribe
@@ -360,6 +486,8 @@ class OrderInfoActivity : BaseActivity() {
                     tvMsg.visibility = View.GONE
                 }
                 fleetid = data.order.orgId
+                orderStartTime=data.order.orderStartTime
+                orderStopTime =data.order.orderStopTime
                 setData(data.order)
             } else {
                 ShowToast.showCenter(this, data.rspDesc)
@@ -370,6 +498,7 @@ class OrderInfoActivity : BaseActivity() {
             progress.dismiss()
             val data = any as ArriveEntity
             if (data.rspCode.equals("00")) {
+                stopLocation()
                 presenter.qryOrder(orderNo)
             } else {
                 ShowToast.showCenter(this, data.rspDesc)
@@ -382,6 +511,7 @@ class OrderInfoActivity : BaseActivity() {
                 var intent = Intent(this, RecordingService::class.java)
                 intent.putExtra("orderNo", orderNo)
                 startService(intent)
+                //开始行程
                 MapActivity.startMapActivity(this, orderNo, flowNo, driverNo)
                 finish()
             } else {

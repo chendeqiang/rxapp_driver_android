@@ -40,10 +40,10 @@ class WithdrawCommitInfoActivity:BaseActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_withdraw_commit_info)
-        createTime = intent.getStringExtra(Constants.CREATETIME)
-        payAccount = intent.getStringExtra(Constants.PAYACCOUNT)
-        amount = intent.getStringExtra(Constants.AMOUNT)
-        desc = intent.getStringExtra(Constants.DESC)
+        createTime = intent.getStringExtra(Constants.CREATETIME)!!
+        payAccount = intent.getStringExtra(Constants.PAYACCOUNT)!!
+        amount = intent.getStringExtra(Constants.AMOUNT)!!
+        desc = intent.getStringExtra(Constants.DESC)!!
 
         initView()
     }

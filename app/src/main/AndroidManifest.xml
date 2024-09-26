@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mxingo.driver">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -42,8 +43,8 @@
     <!-- 自定义权限 -->
     <uses-permission android:name="getui.permission.GetuiService.com.mxingo.driver" />
 
-    <!-- 以下是鹰眼SDK基础权限 -->
-
+    <!--用于申请调用A-GPS模块,卫星定位加速-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!-- 这个权限用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!-- 这个权限用于访问卫星系统接口提供的卫星定位信息-->
@@ -62,7 +63,6 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!-- Android Q之后，后台定位需要申请该权限 -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <!-- 以下不是鹰眼SDK需要的基础权限，可选 -->
 
     <!-- 用于加快首次卫星定位，可选权限，非必须-->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
@@ -104,36 +104,22 @@
         android:usesCleartextTraffic="true">
         <!--适配Android P   android:usesCleartextTraffic="true">-->
 
-        <!-- start baidu -->
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" />
 
+        <!-- start gaode -->
         <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="K9BQSFNudXv637sSHsIPokgR7yZAt8k6" />
-
-        <service
-            android:name="com.baidu.trace.LBSTraceService"
-            android:foregroundServiceType="location"
-            android:enabled="true"
-            android:process=":remote" />
-        <!-- end baidu -->
+            android:name="com.amap.api.v2.apikey"
+            android:value="cc425de1c6af0e6e6b6822372b230109" />
+        <service android:name="com.amap.api.track.AMapTrackService"/>
+        <service android:name="com.amap.api.location.APSService"/>
+        <!-- end gaode -->
 
 
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->
         <!-- 个推 -->
         <meta-data
-            android:name="GETUI_APPID"
-            android:value="${GETUI_APPID}" />
-<!--        <meta-data-->
-<!--            android:name="PUSH_APPKEY"-->
-<!--            android:value="D5xdzX9Kk19S2M5VyyYOz8" />-->
-<!--        <meta-data-->
-<!--            android:name="PUSH_APPSECRET"-->
-<!--            android:value="8OKkZGiruR7ov0j1wjh5q7" />-->
+            android:name="PUSH_APPID"
+            android:value="rTBlL1Md7W54v0bap7jPp6" />
 
         <service
             android:name=".module.base.push.MyPushService"
@@ -154,7 +140,8 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="com.igexin.sdk.PushReceiver">
+        <receiver android:name="com.igexin.sdk.PushReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -175,13 +162,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name="com.igexin.sdk.PushActivity"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:process=":pushservice"
-            android:taskAffinity="com.igexin.sdk.PushActivityTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 个推SDK配置结束 -->
 
         <service android:name=".module.RecordingService" />
@@ -190,6 +170,7 @@
         <activity
             android:name=".module.take.MainActivity"
             android:launchMode="singleTask"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -201,8 +182,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity
-            android:name=".module.order.TrackQueryActivity"
+        <activity android:name=".module.base.map.track.TrackSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -216,6 +196,7 @@
 
         <activity
             android:name=".module.StartPageActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

@@ -58,7 +58,7 @@ class MyBillActivity : BaseActivity(), TabLayout.OnTabSelectedListener {
         ComponentHolder.appComponent!!.inject(this)
         presenter.register(this)
         progress = MyProgress(this)
-        driverNo = intent.getStringExtra(Constants.DRIVER_NO)
+        driverNo = intent.getStringExtra(Constants.DRIVER_NO)!!
         initView()
     }
 

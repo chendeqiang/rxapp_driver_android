@@ -1,8 +1,5 @@
 package com.mxingo.driver.model;
 
-/**
- * Created by zhouwei on 2017/7/10.
- */
 
 public class LoginEntity {
 

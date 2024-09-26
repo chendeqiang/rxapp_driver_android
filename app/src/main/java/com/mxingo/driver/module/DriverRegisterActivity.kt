@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import com.github.gzuliyujiang.wheelpicker.DatePicker
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -19,7 +20,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import cn.qqtheme.framework.picker.DatePicker
+import com.github.gzuliyujiang.wheelpicker.OptionPicker
+import com.github.gzuliyujiang.wheelpicker.annotation.DateMode
+import com.github.gzuliyujiang.wheelpicker.entity.DateEntity
+import com.github.gzuliyujiang.wheelpicker.impl.UnitDateFormatter
+import com.github.gzuliyujiang.wheelpicker.widget.DateWheelLayout
+import com.github.gzuliyujiang.wheelpicker.widget.OptionWheelLayout
 import com.mxingo.driver.R
 import com.mxingo.driver.dialog.MessageDialog
 import com.mxingo.driver.dialog.SelectImageTypeDialog
@@ -33,7 +39,6 @@ import com.mxingo.driver.module.upload.UploadFileResult
 import com.mxingo.driver.utils.BitmapUtil
 import com.mxingo.driver.utils.Constants
 import com.mxingo.driver.widget.MyProgress
-import com.mxingo.driver.widget.OnePicker
 import com.mxingo.driver.widget.ShowToast
 import com.squareup.otto.Subscribe
 import java.io.File
@@ -44,7 +49,7 @@ import javax.inject.Inject
 /**
  * Created by chendeqiang on 2018/4/14 12:43
  */
-class DriverRegisterActivity : BaseActivity() {
+class DriverRegisterActivity : BaseActivity(){
     private lateinit var etDriverName: EditText
     private lateinit var etDriverMobile: EditText
     private lateinit var etCarNumber: EditText
@@ -97,8 +102,12 @@ class DriverRegisterActivity : BaseActivity() {
     private var token = ""
 
 
-    private lateinit var drivingModelPicker: OnePicker
+    //private lateinit var drivingModelPicker: OnePicker
+    private lateinit var drivingModelPicker: OptionPicker
     private lateinit var birthPicker: DatePicker
+    private lateinit var wheelLayout: DateWheelLayout
+    private lateinit var drivingModelWheelLayout: OptionWheelLayout
+
 
     companion object {
         const val START_CAMERA = 101
@@ -142,15 +151,36 @@ class DriverRegisterActivity : BaseActivity() {
         rlDrivingModel = findViewById(R.id.rl_driving_model) as RelativeLayout
         rlEndDate = findViewById(R.id.rl_end_date) as RelativeLayout
 
-        drivingModelPicker = OnePicker(this, drivingModel)
-        birthPicker = DatePicker(this)
-        birthPicker.setTitleText("生日选择")
-        birthPicker.setCanceledOnTouchOutside(true)
-        birthPicker.setRangeEnd(2000, 12, 31)
-        birthPicker.setRangeStart(1918, 1, 1)
-        birthPicker.setSelectedItem(1950, 1, 1)
-        birthPicker.setResetWhileWheel(false)
+        //drivingModelPicker = OnePicker(this, drivingModel)
+        drivingModelPicker= OptionPicker(this)
+        drivingModelWheelLayout =drivingModelPicker.wheelLayout
+        drivingModelPicker.setBodyWidth(240)
+        drivingModelPicker.setData(drivingModel)
+        drivingModelPicker.setDefaultPosition(0)
+        drivingModelWheelLayout.setCurvedEnabled(true)
+        drivingModelWheelLayout.setCurtainEnabled(true)
+        drivingModelWheelLayout.setCurtainColor(0x33CCFF)
+        drivingModelWheelLayout.setIndicatorEnabled(true)
+        drivingModelWheelLayout.setIndicatorColor(0x33CCFF)
+        drivingModelWheelLayout.setIndicatorSize(getResources().getDisplayMetrics().density * 2)
+        drivingModelWheelLayout.setTextColor(0x33CCFF)
 
+
+        birthPicker = DatePicker(this)
+        wheelLayout=birthPicker.wheelLayout
+        birthPicker.setBodyWidth(240)
+        wheelLayout.setDateMode(DateMode.YEAR_MONTH_DAY)
+        wheelLayout.setDateFormatter(UnitDateFormatter())
+        wheelLayout.setRange(DateEntity.target(1918, 1, 1), DateEntity.target(2010, 12, 31), DateEntity.today())
+        wheelLayout.setCurtainEnabled(true)
+        wheelLayout.setCurtainColor(0x33CCFF)
+        wheelLayout.setIndicatorEnabled(true)
+        wheelLayout.setIndicatorColor(0x33CCFF)
+        wheelLayout.setIndicatorSize(getResources().getDisplayMetrics().density * 2)
+        wheelLayout.setTextColor(0x33CCFF)
+        wheelLayout.getYearLabelView().setTextColor(0x33CCFF)
+        wheelLayout.getMonthLabelView().setTextColor(0x33CCFF)
+        wheelLayout.setResetWhenLinkage(false);
 
         imgUpload = arrayOf(findViewById(R.id.img_id_front) as ImageView,
                 findViewById(R.id.img_id_back) as ImageView,
@@ -168,16 +198,23 @@ class DriverRegisterActivity : BaseActivity() {
         rlDrivrerBirth.setOnClickListener {
             birthPicker.show()
         }
-        birthPicker.setOnDatePickListener(DatePicker.OnYearMonthDayPickListener { year, month, day -> tvDrivrerBirth.text = "$year-$month-$day" })
+        birthPicker.setOnDatePickedListener { year, month, day ->
+            tvDrivrerBirth.text = "$year-$month-$day"
+        }
 
         rlDrivingModel.setOnClickListener {
             drivingModelPicker.show()
         }
-        drivingModelPicker.setOnPickListener {
-            tvDrivingModel.text = drivingModelPicker.selectedItem
+        drivingModelPicker.setOnOptionPickedListener { position, item ->
+            tvDrivingModel.text = item.toString()
             dataEmpty[4] = 1
             checkView()
         }
+//        drivingModelPicker.setOnPickListener {
+//            tvDrivingModel.text = drivingModelPicker.selectedItem
+//            dataEmpty[4] = 1
+//            checkView()
+//        }
 
 
         imgUpload[0].setOnClickListener {

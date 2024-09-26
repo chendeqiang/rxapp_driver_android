@@ -22,7 +22,7 @@ import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
+@SuppressWarnings("deprecation")
 public class UpdateVersionActivity extends BaseActivity {
 
     @BindView(R.id.tv_update_content)

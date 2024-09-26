@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".module.order.TrackQueryActivity">
+    tools:context=".module.base.map.track.TrackSearchActivity">
 
     <RelativeLayout
         android:id="@+id/rl_bar"
@@ -36,9 +36,9 @@
     </RelativeLayout>
 
 
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/track_query_mapView"
+    <com.amap.api.maps.MapView
+        android:id="@+id/track_search_mapView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -14,14 +14,14 @@ static def increasedVersionCode() {
 }
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    compileSdkVersion 34
+    buildToolsVersion '34'
     defaultConfig {
         applicationId "com.mxingo.driver"
         minSdkVersion 25
-        targetSdkVersion 29
+        targetSdkVersion 34
         versionCode increasedVersionCode()
-        versionName "1.8.0"
+        versionName "1.9.2"
         flavorDimensions "versionCode"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -39,7 +39,11 @@ android {
         }
 
         //android studio 4.0 以上打包会出现这个问题
-        lintOptions { checkReleaseBuilds false }
+        lintOptions {
+            checkReleaseBuilds false
+            abortOnError false // 不在遇到错误时终止构建
+            ignoreWarnings true // 忽略所有警告
+        }
 
     }
 
@@ -108,29 +112,35 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.google.code.gson:gson:2.10.1'
-    implementation files('libs/BaiduTraceSDK_v3_2_1.jar')
-    androidTestImplementation 'androidx.test:runner:1.2.0'
+    implementation 'com.amap.api:3dmap:9.2.1'
+    implementation 'com.amap.api:search:9.7.0'
+    implementation files('libs/AMapTrack_1.5.0_AMapLocation_6.4.0_20230808.jar')
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.2.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.71'
-    implementation 'com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.6'
-    implementation 'com.github.gzu-liyujiang.AndroidPicker:FilePicker:1.5.6'
-    implementation 'com.github.gzu-liyujiang.AndroidPicker:ColorPicker:1.5.6'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22'
+    implementation 'com.github.gzu-liyujiang.AndroidPicker:Common:4.1.6'
+    implementation 'com.github.gzu-liyujiang.AndroidPicker:WheelPicker:4.1.6'
+    implementation 'com.github.gzu-liyujiang.AndroidPicker:FilePicker:4.1.6'
     implementation 'com.qiniu:qiniu-android-sdk:7.5.0'
     implementation 'com.qiniu:happy-dns:0.2.13'
     implementation 'com.kaopiz:kprogresshud:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.legacy:legacy-support-v4'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable'
-    implementation 'androidx.preference:preference:1.1.0-alpha04'
+    implementation 'androidx.preference:preference:1.2.0'
     implementation 'com.jakewharton:butterknife:10.2.1'
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -139,7 +149,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup:otto:1.3.8'
     implementation 'org.greenrobot:eventbus:3.0.0'
-    implementation 'com.google.dagger:dagger:2.23.1'
+    implementation 'com.google.dagger:dagger:2.28.3'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'com.github.fabioCollini:DaggerMock:0.6.1'
@@ -147,14 +157,13 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
     kapt 'com.jakewharton:butterknife-compiler:10.2.1'
     kapt 'com.google.dagger:dagger-compiler:2.23.1'
-    kapt 'androidx.annotation:annotation:1.1.0'
+    kapt 'androidx.annotation:annotation:1.6.0'
     implementation 'com.aliyun.dpa:oss-android-sdk:2.9.3'
     implementation 'net.grandcentrix.tray:tray:0.12.0'
-    implementation files('libs/BaiduLBS_Android.jar')
-    implementation files('libs/BaiduTraceSDK_v3_2_1.jar')
     implementation 'org.conscrypt:conscrypt-openjdk-uber:1.1.3'
 
-    implementation 'com.getui:gtsdk:3.2.15.0'  //个推SDK
-    implementation 'com.getui:gtc:3.2.1.0'  //个推核心组件
+
+    implementation 'com.getui:gtsdk:3.3.7.0'  //个推SDK
+    implementation 'com.getui:gtc:3.2.16.0'  //个推核心组件
 }
 

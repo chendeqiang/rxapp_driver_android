@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import com.baidu.trace.LBSTraceClient
 import com.mxingo.driver.MyApplication
 import com.mxingo.driver.R
 import com.mxingo.driver.dialog.MessageDialog2

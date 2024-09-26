@@ -377,12 +377,13 @@ class MyManger(val apiService: ApiService) {
         apiService.stsServer().enqueue(callback)
     }
 
-    fun bindPayAccount(mobile: String,vcode: String, orgName: String, payAccount: String,callback: retrofit2.Callback<BindSuccessEntity>) {
+    fun bindPayAccount(mobile: String,vcode: String, orgName: String, payAccount: String,payName:String,callback: retrofit2.Callback<BindSuccessEntity>) {
         val map = TreeMap<String, Any>()
         map.put("mobile", mobile)
         map.put("vcode", vcode)
         map.put("orgName", orgName)
         map.put("payAccount", payAccount)
+        map.put("payName", payName)
         val headers = HeaderUtil.getHeaders(map)
         LogUtils.d("bindPayAccount 参数", map.toString())
         LogUtils.d("headers", headers.toString())

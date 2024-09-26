@@ -5,7 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import cn.qqtheme.framework.picker.DatePicker
+import com.github.gzuliyujiang.wheelpicker.DatePicker
+import com.github.gzuliyujiang.wheelpicker.annotation.DateMode
+import com.github.gzuliyujiang.wheelpicker.contract.OnDatePickedListener
+import com.github.gzuliyujiang.wheelpicker.entity.DateEntity
+import com.github.gzuliyujiang.wheelpicker.impl.UnitDateFormatter
+import com.github.gzuliyujiang.wheelpicker.widget.DateWheelLayout
 import com.google.android.material.tabs.TabLayout
 import com.mxingo.driver.R
 import com.mxingo.driver.dialog.MessageDialog3
@@ -23,12 +28,14 @@ import com.mxingo.driver.widget.ShowToast
 import com.squareup.otto.Subscribe
 import javax.inject.Inject
 
+
 /**
  * Created by deqiangchen on 2023/3/6.
  * 我的钱包
  */
 class MyWalletActivity:BaseActivity(), TabLayout.OnTabSelectedListener, AbsListView.OnScrollListener {
 
+    private lateinit var wheelLayout: DateWheelLayout
     private lateinit var ivBack: ImageView
     private lateinit var ivQuestion: ImageView
     private lateinit var ivIntro: ImageView
@@ -71,7 +78,7 @@ class MyWalletActivity:BaseActivity(), TabLayout.OnTabSelectedListener, AbsListV
         ComponentHolder.appComponent!!.inject(this)
         presenter.register(this)
         progress = MyProgress(this)
-        driverNo = intent.getStringExtra(Constants.DRIVER_NO)
+        driverNo = intent.getStringExtra(Constants.DRIVER_NO)!!
         initView()
     }
 
@@ -97,29 +104,36 @@ class MyWalletActivity:BaseActivity(), TabLayout.OnTabSelectedListener, AbsListV
         lvRecords.addFooterView(orderFooterView)
         lvRecords.setOnScrollListener(this)
 
-        birthPicker = DatePicker(this,DatePicker.YEAR_MONTH)
-        birthPicker.setTitleText("请选择日期")
-        birthPicker.setCanceledOnTouchOutside(true)
-        birthPicker.setRangeEnd(2028, 12)
-        birthPicker.setRangeStart(2023, 1)
-        birthPicker.setSelectedItem(TimeUtil.getNowTime().substring(0,4).toInt(), TimeUtil.getNowTime().substring(5,7).toInt())
-        tvDateSelect.text = TimeUtil.getNowTime().substring(0,4)+"年"+TimeUtil.getNowTime().substring(5,7)+"月"
-        birthPicker.setResetWhileWheel(false)
+        birthPicker = DatePicker(this)
+        birthPicker.setBodyWidth(240)
+        wheelLayout=birthPicker.wheelLayout
+        wheelLayout.setDateMode(DateMode.YEAR_MONTH)
+        wheelLayout.setDateFormatter(UnitDateFormatter())
+        wheelLayout.setRange(DateEntity.target(2024, 1, 1), DateEntity.target(2035, 12, 31), DateEntity.today())
+        wheelLayout.setCurtainEnabled(true)
+        wheelLayout.setCurtainColor(0x33CCFF)
+        wheelLayout.setIndicatorEnabled(true)
+        wheelLayout.setIndicatorColor(0x33CCFF)
+        wheelLayout.setIndicatorSize(getResources().getDisplayMetrics().density * 2)
+        wheelLayout.setTextColor(0x33CCFF)
+        wheelLayout.getYearLabelView().setTextColor(0x33CCFF)
+        wheelLayout.getMonthLabelView().setTextColor(0x33CCFF)
+        wheelLayout.setResetWhenLinkage(false);
 
+        tvDateSelect.text = TimeUtil.getNowTime().substring(0,4)+"年"+TimeUtil.getNowTime().substring(5,6)+"月"
         tabStatementRecord.setSelectedTabIndicatorHeight(0)
         tabStatementRecord.addOnTabSelectedListener(this)
         llDateSelect.setOnClickListener {
             birthPicker.show()
         }
 
-        birthPicker.setOnDatePickListener(DatePicker.OnYearMonthPickListener {
-            year, month -> tvDateSelect.text = "$year"+"年"+"$month"+"月"
+
+        birthPicker.setOnDatePickedListener(OnDatePickedListener { year, month, day ->
+            tvDateSelect.text = "$year"+"年"+"$month"+"月"
             pageIndex = 0
             adapter.clear()
             progress.show()
-            presenter.listFundFlow(driverNo, sort.toString(), tvDateSelect.text.toString().substring(0,4)+"-"+tvDateSelect.text.toString().substring(5,7), pageIndex, pageCount)
-        })
-
+            presenter.listFundFlow(driverNo,sort.toString(),TimeUtil.getWalletTime(tvDateSelect.text.toString(),"年","月"),pageIndex,pageCount)        })
 
         ivBack.setOnClickListener {
             finish()
@@ -144,7 +158,7 @@ class MyWalletActivity:BaseActivity(), TabLayout.OnTabSelectedListener, AbsListV
         //提现账户
         tvWithdrawCash.setOnClickListener {
             if(UserInfoPreferences.getInstance().payAccount.isNullOrEmpty()){
-                BindAlipayActivity.startBindAlipayActivity(this,driverNo)
+                BindAlipayActivity.startBindAlipayActivity(this,driverNo)//绑定支付宝
             }else{
                 WithdrawalAccountActivity.startWithdrawalAccountActivity(this,driverNo)
             }
@@ -165,8 +179,7 @@ class MyWalletActivity:BaseActivity(), TabLayout.OnTabSelectedListener, AbsListV
             pageIndex = 0
             adapter.clear()
             progress.show()
-            presenter.listFundFlow(driverNo, sort.toString(), tvDateSelect.text.toString().substring(0,4)+"-"+tvDateSelect.text.toString().substring(5,7), pageIndex, pageCount)
-        }
+            presenter.listFundFlow(driverNo,sort.toString(),TimeUtil.getWalletTime(tvDateSelect.text.toString(),"年","月"),pageIndex,pageCount)        }
 
         lvRecords.setOnItemClickListener { _, view, i, _ ->
             if (view!=orderFooterView){
@@ -182,8 +195,7 @@ class MyWalletActivity:BaseActivity(), TabLayout.OnTabSelectedListener, AbsListV
         pageIndex = 0
         adapter.clear()
         //请求网络
-        presenter.listFundFlow(driverNo,sort.toString(),tvDateSelect.text.toString().substring(0,4)+"-"+tvDateSelect.text.toString().substring(5,7),pageIndex,pageCount)
-    }
+        presenter.listFundFlow(driverNo,sort.toString(),TimeUtil.getWalletTime(tvDateSelect.text.toString(),"年","月"),pageIndex,pageCount)    }
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
 
@@ -199,7 +211,7 @@ class MyWalletActivity:BaseActivity(), TabLayout.OnTabSelectedListener, AbsListV
         adapter.clear()
         progress.show()
         presenter.getWalletInfo(driverNo)
-        presenter.listFundFlow(driverNo,sort.toString(),tvDateSelect.text.toString().substring(0,4)+"-"+tvDateSelect.text.toString().substring(5,7),pageIndex,pageCount)
+        presenter.listFundFlow(driverNo,sort.toString(),TimeUtil.getWalletTime(tvDateSelect.text.toString(),"年","月"),pageIndex,pageCount)
 
     }
 
@@ -244,8 +256,7 @@ class MyWalletActivity:BaseActivity(), TabLayout.OnTabSelectedListener, AbsListV
             if (lvRecords.bottom == lastItemView.bottom) {
                 if (orderFooterView.refresh) {
                     pageIndex += pageCount
-                    presenter.listFundFlow(driverNo, sort.toString(), tvDateSelect.text.toString().substring(0,4)+"-"+tvDateSelect.text.toString().substring(5,7), pageIndex, pageCount)
-                }
+                    presenter.listFundFlow(driverNo,sort.toString(),TimeUtil.getWalletTime(tvDateSelect.text.toString(),"年","月"),pageIndex,pageCount)                }
             }
         }
     }

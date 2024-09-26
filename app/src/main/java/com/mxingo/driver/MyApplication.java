@@ -2,13 +2,6 @@ package com.mxingo.driver;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
-
-import com.baidu.mapapi.CoordType;
-import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.common.BaiduMapSDKException;
-import com.baidu.trace.LBSTraceClient;
-import com.igexin.sdk.IUserLoggerInterface;
 import com.igexin.sdk.PushManager;
 import com.mxingo.driver.module.base.http.AppComponent;
 import com.mxingo.driver.module.base.http.AppModule;
@@ -41,21 +34,9 @@ public class MyApplication extends Application {
     @Subscribe
     public void startApp(Object o) {
 
-        LBSTraceClient.setAgreePrivacy(getApplicationContext(),true);
-
         //个推初始化
+        PushManager.getInstance().preInit(this.getApplicationContext());
         PushManager.getInstance().initialize(this.getApplicationContext());
-
-        //百度地图
-        // 是否同意隐私政策，默认为false
-        SDKInitializer.setAgreePrivacy(getApplicationContext(), true);
-        try {
-            // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
-            SDKInitializer.initialize(getApplicationContext());
-        } catch (BaiduMapSDKException e) {
-
-        }
-        SDKInitializer.setCoordType(CoordType.BD09LL);
 
         bus.unregister(this);
 

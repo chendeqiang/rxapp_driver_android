@@ -274,7 +274,7 @@ public class TakeOrderDialog extends Dialog implements TextWatcher {
             llStartAddress.setVisibility(View.VISIBLE);
             llAddress.setVisibility(View.GONE);
             tvBookTime.setText(TextUtil.getFormatWeek(Long.valueOf(order.bookTime)));
-        } else if (order.orderType== OrderType.DIAN_DUI_DIAN){
+        } else if (order.orderType == 100){
             llEndAddress.setVisibility(View.VISIBLE);
             llFlight.setVisibility(View.GONE);
             llStartAddress.setVisibility(View.VISIBLE);

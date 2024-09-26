@@ -8,9 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by zhouwei on 16/9/24.
- */
+
 
 public class SignUtil {
 

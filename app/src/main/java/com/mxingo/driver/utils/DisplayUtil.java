@@ -7,7 +7,7 @@ import android.util.DisplayMetrics;
 /**
  * Created by zhouwei on 2017/4/17.
  */
-
+@SuppressWarnings("deprecation")
 public class DisplayUtil {
     /**
      * 将px值转换为dip或dp值，保证尺寸大小不变

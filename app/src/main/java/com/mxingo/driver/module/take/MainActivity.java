@@ -1,3 +1,4 @@
+
 package com.mxingo.driver.module.take;
 
 import android.Manifest;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +52,6 @@ import com.mxingo.driver.module.base.http.ComponentHolder;
 import com.mxingo.driver.module.base.http.MyPresenter;
 //import com.mxingo.driver.module.base.speech.MySpeechSynthesizer;
 import com.mxingo.driver.module.base.log.LogUtils;
-import com.mxingo.driver.module.base.map.trace.BaiduTrack;
 import com.mxingo.driver.module.base.speech.MySpeechUtils;
 import com.mxingo.driver.module.order.CarpoolOrderActivity;
 import com.mxingo.driver.module.order.MyOrderActivity;
@@ -86,7 +87,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+@SuppressWarnings("deprecation")
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Inject
@@ -283,7 +284,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 AntiepidemicActivity.startAntiepidemicActivity(this, info);
                 break;
             case R.id.btn_online: {//上线
-//                progress.show();
 //                presenter.online(driverNo);
                 requestPermissions();
                 break;
@@ -345,7 +345,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void requestPermissions(){
-        List list= new ArrayList<String>();
+        List<String> list= new ArrayList<String>();
         list.add(Manifest.permission.RECORD_AUDIO);
         list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         list.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -452,23 +452,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             takeDialog.dismiss();
         }
         speechUtils.destroy();
-
-        CommonUtil.saveCurrentLocation();
-
-        if (BaiduTrack.getInstance().mClient!=null){
-            if (UserInfoPreferences.getInstance().contains("is_trace_started")&&UserInfoPreferences.getInstance().getTraceStart()){
-                // 退出app停止轨迹服务时，不再接收回调，将OnTraceListener置空
-                BaiduTrack.getInstance().mClient.setOnTraceListener(null);
-                BaiduTrack.getInstance().mClient.stopTrace(BaiduTrack.getInstance().mTrace, null);
-            }else {
-                BaiduTrack.getInstance().clear();
-            }
-        }
-        BaiduTrack.getInstance().isTraceStarted =false;
-        BaiduTrack.getInstance().isTraceStarted =false;
-        UserInfoPreferences.getInstance().remove("is_trace_started");
-        UserInfoPreferences.getInstance().remove("is_gather_started");
-        BitmapUtil.clear();
     }
 
     @Override
@@ -619,5 +602,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @OnClick(R.id.fi_call)
     public void onClick() {
         call110Mobile("如遇突发紧急情况及生命财产受到侵犯，请直接拨打110！");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(true);
+            return true;
+        }
+            return super.onKeyDown(keyCode, event);
     }
 }

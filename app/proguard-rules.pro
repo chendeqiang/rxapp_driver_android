@@ -63,24 +63,11 @@
 -keep class javax.annotation.** { *; }
 -dontwarn javax.annotation.**
 
-#百度地图-------------------------------------------
--dontwarn com.baidu.**
-
--keep class com.baidu.**{*; }
-
--keep class mapsdkvi.com.gdi.bgl.** {*;}
-
--keep class vi.com.** {*;}
-#---------------------------------------------------
-
 -keep class android.graphics.**  {* ;}
 -dontwarn android.graphics.**
 #个推
 -dontwarn com.igexin.**
 -keep class com.igexin.** { *; }
-
-#科大讯飞
--keep class com.iflytek.**{*;}
 
 #androidx-------------------------------------------
 -keep class com.google.android.material.** {*;}
@@ -213,3 +200,14 @@
 
 ##忽略警告，编译通过
 -ignorewarnings
+
+
+#3D 地图 V5.0.0之后：
+-keep   class com.amap.api.maps.**{*;}
+-keep   class com.autonavi.**{*;}
+-keep   class com.amap.api.trace.**{*;}
+
+#定位
+-keep class com.amap.api.location.**{*;}
+-keep class com.amap.api.fence.**{*;}
+-keep class com.autonavi.aps.amapapi.model.**{*;}

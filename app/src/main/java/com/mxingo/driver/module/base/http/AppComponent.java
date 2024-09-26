@@ -27,7 +27,6 @@ import com.mxingo.driver.module.order.MapActivity;
 import com.mxingo.driver.module.order.MyOrderActivity;
 import com.mxingo.driver.module.order.OrderInfoActivity;
 import com.mxingo.driver.module.order.OrdersActivity;
-import com.mxingo.driver.module.order.TrackQueryActivity;
 import com.mxingo.driver.module.take.MainActivity;
 import com.mxingo.driver.module.take.TakeOrderActivity;
 import com.mxingo.driver.module.take.TakeOrderDialog;
@@ -64,8 +63,6 @@ public interface AppComponent {
     void inject(CarPoolInfoActivity activity);
 
     void inject(MapActivity activity);
-
-    void inject(TrackQueryActivity activity);
 
     void inject(SettingActivity activity);
 

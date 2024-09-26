@@ -66,7 +66,7 @@ class WebViewActivity : BaseActivity() {
             return false
         }
         override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
-            if (view.url.contains("https")) {
+            if (view.url!!.contains("https")) {
                 handler.proceed()
             }
         }

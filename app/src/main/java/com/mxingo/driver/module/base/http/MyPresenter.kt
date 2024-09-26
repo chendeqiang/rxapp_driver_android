@@ -736,8 +736,8 @@ class MyPresenter(private val mBs: Bus, private val manger: MyManger) {
     }
 
 
-    fun bindPayAccount(mobile: String,vcode: String, orgName: String, payAccount: String) {
-        manger.bindPayAccount(mobile,vcode,orgName,payAccount, object : Callback<BindSuccessEntity> {
+    fun bindPayAccount(mobile: String,vcode: String, orgName: String, payAccount: String,payName:String) {
+        manger.bindPayAccount(mobile,vcode,orgName,payAccount,payName, object : Callback<BindSuccessEntity> {
             override fun onFailure(call: Call<BindSuccessEntity>?, t: Throwable) {
                 val data = BindSuccessEntity()
                 data.rspCode = "1000"

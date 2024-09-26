@@ -3,16 +3,10 @@ package com.mxingo.driver.module.take
 /**
  * Created by zhouwei on 2017/7/10.
  */
-enum class OrderStatus{
+enum class OrderStatus(private var value: Int, private var key: String) {
     PUBORDER(1, "派单/报价中"), CANCELORDER(2, "取消订单"),  TAKEORDER(3, "待服务"), DRIVERARRIVE(4, "已就位"),
     USING(5, "开始行程"), WAIT_PAY(6, "结束行程"), PAY_SUCC(100, "支付成功"), PAY_FAIL(101, "支付失败");
 
-    private var value: Int
-    private  var key: String
-    private constructor(value: Int, key: String){
-        this.value = value
-        this.key = key
-    }
     companion object {
         @JvmStatic
         fun getKey(index: Int): String {

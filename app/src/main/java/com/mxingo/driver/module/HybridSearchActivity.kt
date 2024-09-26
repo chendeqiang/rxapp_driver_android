@@ -26,7 +26,7 @@ class HybridSearchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hybrid_search)
         webView = findViewById(R.id.wv) as WebView
-        webView.loadUrl(url)
+        webView.loadUrl(url!!)
         val webSetting = webView.settings
         webSetting.savePassword =false
         webSetting.javaScriptEnabled = true
@@ -76,7 +76,7 @@ class HybridSearchActivity : BaseActivity() {
         }
 
         override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
-            if (view.url.contains("https://")) {
+            if (view.url!!.contains("https://")) {
                 handler.proceed()
             }
         }

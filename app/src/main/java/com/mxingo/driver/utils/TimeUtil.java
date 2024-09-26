@@ -1,9 +1,10 @@
 package com.mxingo.driver.utils;
 
-import android.text.format.Time;
+import android.text.TextUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -22,13 +23,12 @@ public class TimeUtil {
      */
     public static String getNowTime() {
         String timeString = null;
-        Time time = new Time();
-        time.setToNow();
-        String year = thanTen(time.year);
-        String month = thanTen(time.month + 1);
-        String monthDay = thanTen(time.monthDay);
-        String hour = thanTen(time.hour);
-        String minute = thanTen(time.minute);
+        Calendar calendar = Calendar.getInstance();
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
+        String month = String.valueOf(calendar.get(Calendar.MONTH) + 1); // Calendar.MONTH从0开始
+        String monthDay = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        String hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+        String minute = String.valueOf(calendar.get(Calendar.MINUTE));
 
         timeString = year + "-" + month + "-" + monthDay + " " + hour + ":"
                 + minute;
@@ -77,6 +77,19 @@ public class TimeUtil {
         }
         return string;
     }
+
+    //司机钱包列表时间参数
+    public static String getWalletTime(String str, String start, String end) {
+        int startIndex = str.indexOf(start);
+        int endIndex = str.indexOf(end, startIndex + start.length());
+
+        if (startIndex != -1 && endIndex != -1 && endIndex > startIndex) {
+            return str.substring(0,4)+"-" +str.substring(startIndex + start.length(), endIndex);
+        }
+        return "";
+    }
+
+
 
     /**
      * 计算时间差
@@ -341,5 +354,20 @@ public class TimeUtil {
         String min = string.substring(0, string.lastIndexOf("."));
         return substring + "小时" + min + "分";
 
+    }
+
+    public  static String formatUTC(long l, String strPattern) {
+        if (TextUtils.isEmpty(strPattern)) {
+            strPattern = "yyyy-MM-dd HH:mm:ss";
+        }
+        if (sf == null) {
+            try {
+                sf = new SimpleDateFormat(strPattern, Locale.CHINA);
+            } catch (Throwable e) {
+            }
+        } else {
+            sf.applyPattern(strPattern);
+        }
+        return sf == null ? "NULL" : sf.format(l);
     }
 }

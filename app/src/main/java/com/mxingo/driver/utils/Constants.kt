@@ -1,7 +1,9 @@
 package com.mxingo.driver.utils
 
+import com.mxingo.driver.module.base.data.UserInfoPreferences
+
 /**
- * Created by zhouwei on 2017/6/23.
+ * Created by cdq on 2017/6/23.
  */
 object Constants {
 
@@ -17,6 +19,8 @@ object Constants {
     const val URI = "uri"
     const val ACTIVITY_DATA = "activity_data"
     const val ORDER_NO = "order_no"
+    const val ORDERSTARTTIME = "order_start_time"
+    const val ORDERSTOPTIME = "order_stop_time"
     const val ISDRAW = "is_draw"
     const val CANPICKMONEY = "can_PickMoney"
     const val FLOW_NO = "flow_no"

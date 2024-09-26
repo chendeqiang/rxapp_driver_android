@@ -20,7 +20,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+@SuppressWarnings("deprecation")
 public class PushIntentService extends GTIntentService {
 
     public PushIntentService() {
@@ -89,7 +89,7 @@ public class PushIntentService extends GTIntentService {
     }
 
     @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
+    private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

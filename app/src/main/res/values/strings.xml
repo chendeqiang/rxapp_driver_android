@@ -122,4 +122,6 @@
     <string name="cancel">取消</string>
     <string name="go_set">去设置</string>
 
+    <string name="no_result">对不起，没有搜索到相关数据！</string>
+
 </resources>

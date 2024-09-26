@@ -79,6 +79,7 @@ class CarpoolOrderActivity:BaseActivity(), AbsListView.OnScrollListener, TabLayo
                     if (data.status==0||data.status==1){
                         CarPoolOrderInfoActivity.startCarPoolOrderInfoActivity(this,data.cuuid,data.ccode)
                     }else if (data.status==2){
+                        //跳转订单完成详情页面
                         CarPoolInfoActivity.startCarPoolInfoActivity(this,data.cuuid)
                     }
                 }

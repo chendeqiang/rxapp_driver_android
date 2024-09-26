@@ -9,7 +9,11 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import cn.qqtheme.framework.picker.DatePicker
+import com.github.gzuliyujiang.wheelpicker.DatePicker
+import com.github.gzuliyujiang.wheelpicker.annotation.DateMode
+import com.github.gzuliyujiang.wheelpicker.entity.DateEntity
+import com.github.gzuliyujiang.wheelpicker.impl.UnitDateFormatter
+import com.github.gzuliyujiang.wheelpicker.widget.DateWheelLayout
 import com.mxingo.driver.R
 import com.mxingo.driver.model.ListCashEntity
 import com.mxingo.driver.module.base.http.ComponentHolder
@@ -27,6 +31,7 @@ import javax.inject.Inject
  */
 class WithdrawRecordActivity:BaseActivity(), AbsListView.OnScrollListener {
     private lateinit var birthPicker: DatePicker
+    private lateinit var wheelLayout: DateWheelLayout
     private lateinit var lvRecords: ListView
     private lateinit var srlRefresh: SwipeRefreshLayout
     private lateinit var orderFooterView: OrderFooterView
@@ -75,32 +80,35 @@ class WithdrawRecordActivity:BaseActivity(), AbsListView.OnScrollListener {
         orderFooterView = OrderFooterView(this)
         lvRecords.addFooterView(orderFooterView)
         lvRecords.setOnScrollListener(this)
-        birthPicker = DatePicker(this,DatePicker.YEAR_MONTH)
-        birthPicker.setTitleText("请选择日期")
-        birthPicker.setCanceledOnTouchOutside(true)
-        birthPicker.setRangeEnd(2028, 12)
-        birthPicker.setRangeStart(2023, 1)
-        birthPicker.setSelectedItem(TimeUtil.getNowTime().substring(0,4).toInt(), TimeUtil.getNowTime().substring(5,7).toInt())
-        tvDateSelect.text = TimeUtil.getNowTime().substring(0,4)+"年"+TimeUtil.getNowTime().substring(5,7)+"月"
-        birthPicker.setResetWhileWheel(false)
+        birthPicker = DatePicker(this)
+        birthPicker.setBodyWidth(240)
+        wheelLayout=birthPicker.wheelLayout
+        wheelLayout.setDateMode(DateMode.YEAR_MONTH)
+        wheelLayout.setDateFormatter(UnitDateFormatter())
+        wheelLayout.setRange(DateEntity.target(2024, 1, 1), DateEntity.target(2035, 12, 31), DateEntity.today())
+        wheelLayout.setCurtainEnabled(true)
+        wheelLayout.setCurtainColor(0x33CCFF)
+        wheelLayout.setIndicatorEnabled(true)
+        wheelLayout.setIndicatorColor(0x33CCFF)
+        tvDateSelect.text = TimeUtil.getNowTime().substring(0,4)+"年"+TimeUtil.getNowTime().substring(5,6)+"月"
 
         llDateSelect.setOnClickListener {
             birthPicker.show()
         }
 
-        birthPicker.setOnDatePickListener(DatePicker.OnYearMonthPickListener {
-            year, month -> tvDateSelect.text = "$year"+"年"+"$month"+"月"
+        birthPicker.setOnDatePickedListener { year, month, day ->
+            tvDateSelect.text = "$year"+"年"+"$month"+"月"
             pageIndex = 0
             adapter.clear()
             progress.show()
-            presenter.listCash(driverNo, tvDateSelect.text.toString().substring(0,4)+"-"+tvDateSelect.text.toString().substring(5,7), pageIndex, pageCount)
-        })
+            presenter.listCash(driverNo, TimeUtil.getWalletTime(tvDateSelect.text.toString(),"年","月"), pageIndex, pageCount)
+        }
 
         srlRefresh.setOnRefreshListener {
             pageIndex = 0
             adapter.clear()
             progress.show()
-            presenter.listCash(driverNo, tvDateSelect.text.toString().substring(0,4)+"-"+tvDateSelect.text.toString().substring(5,7), pageIndex, pageCount)
+            presenter.listCash(driverNo, TimeUtil.getWalletTime(tvDateSelect.text.toString(),"年","月") ,pageIndex, pageCount)
         }
 
         lvRecords.setOnItemClickListener { _, view, i, _ ->
@@ -130,7 +138,7 @@ class WithdrawRecordActivity:BaseActivity(), AbsListView.OnScrollListener {
         pageIndex = 0
         adapter.clear()
         progress.show()
-        presenter.listCash(driverNo,tvDateSelect.text.toString().substring(0,4)+"-"+tvDateSelect.text.toString().substring(5,7),pageIndex,pageCount)
+        presenter.listCash(driverNo,TimeUtil.getWalletTime(tvDateSelect.text.toString(),"年","月"),pageIndex,pageCount)
     }
 
     override fun onDestroy() {
@@ -150,7 +158,7 @@ class WithdrawRecordActivity:BaseActivity(), AbsListView.OnScrollListener {
             if (lvRecords.bottom == lastItemView.bottom) {
                 if (orderFooterView.refresh) {
                     pageIndex += pageCount
-                    presenter.listCash(driverNo, tvDateSelect.text.toString().substring(0,4)+"-"+tvDateSelect.text.toString().substring(5,7), pageIndex, pageCount)
+                    presenter.listCash(driverNo, TimeUtil.getWalletTime(tvDateSelect.text.toString(),"年","月"), pageIndex, pageCount)
                 }
             }
         }

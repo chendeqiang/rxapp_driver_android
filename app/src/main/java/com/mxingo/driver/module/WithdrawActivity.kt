@@ -64,9 +64,9 @@ class WithdrawActivity:BaseActivity() {
         setContentView(R.layout.activity_withdraw)
         ComponentHolder.appComponent!!.inject(this)
         presenter.register(this)
-        driverNo = intent.getStringExtra(Constants.DRIVER_NO)
-        isDraw = intent.getStringExtra(Constants.ISDRAW)
-        canPickMoney =intent.getStringExtra(Constants.CANPICKMONEY)
+        driverNo = intent.getStringExtra(Constants.DRIVER_NO)!!
+        isDraw = intent.getStringExtra(Constants.ISDRAW)!!
+        canPickMoney = intent.getStringExtra(Constants.CANPICKMONEY)!!
         initView()
     }
 

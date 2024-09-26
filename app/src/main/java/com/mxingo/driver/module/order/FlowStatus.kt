@@ -1,19 +1,9 @@
 package com.mxingo.driver.module.order
 
-/**
- * Created by zhouwei on 2017/7/10.
- */
-enum class FlowStatus {
+
+enum class FlowStatus(private var value: Int, private var key: String) {
     CANCEL(1, "订单取消"), RECV(2, "待服务"), USEING(3, "已就位"), ARRIVE(4, "行程中"),
     WAIT_PAY(5, "行程结束"), REPUB(6, "改派"), PAY_SUCC(100, "支付成功"), PAY_FAIL(101, "支付失败");
-
-    private var value: Int
-    private var key: String
-
-    private constructor(value: Int, key: String) {
-        this.value = value
-        this.key = key
-    }
 
     companion object {
         @JvmStatic

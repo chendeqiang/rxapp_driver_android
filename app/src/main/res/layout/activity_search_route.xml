@@ -9,7 +9,7 @@
 
     <include layout="@layout/action_bar"/>
 
-    <com.baidu.mapapi.map.MapView
+    <com.amap.api.maps.MapView
         android:id="@+id/mapView_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

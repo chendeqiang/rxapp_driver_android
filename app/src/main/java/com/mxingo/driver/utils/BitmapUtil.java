@@ -9,8 +9,8 @@ import android.net.Uri;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.amap.api.maps.model.BitmapDescriptor;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.mxingo.driver.R;
 import com.mxingo.driver.widget.ShowToast;
 
@@ -18,7 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 
-
+@SuppressWarnings("deprecation")
 public class BitmapUtil {
     public static BitmapDescriptor bmArrowPoint = null;
 

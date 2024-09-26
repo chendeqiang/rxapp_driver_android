@@ -25,6 +25,7 @@ public class UserInfoPreferences {
 
     private final String ISTRACESTARTED = "is_trace_started";
     private final String ISGATHERSTARTED = "is_gather_started";
+    private final String TRID = "trid";
 
 
     public static UserInfoPreferences getInstance() {
@@ -193,6 +194,16 @@ public class UserInfoPreferences {
 
     public boolean contains(String s){
         return sharedPreference.contains(s);
+    }
+
+    public void setTrid(Long trid){
+        SharedPreferences.Editor edit = sharedPreference.edit();
+        edit.putLong(TRID,trid);
+        edit.apply();
+    }
+
+    public long getTrid(){
+        return sharedPreference.getLong(TRID,11);
     }
 
 }

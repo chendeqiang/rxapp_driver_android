@@ -22,8 +22,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import cn.qqtheme.framework.util.ConvertUtils;
-
 
 /**
  * 文本工具类
@@ -334,16 +332,16 @@ public class TextUtil {
         return week;
     }
 
-    public static List<AddressEntity> getCity(Activity activity) {
-        Type type = new TypeToken<List<AddressEntity>>() {
-        }.getType();
-        try {
-            return new Gson().fromJson(ConvertUtils.toString(activity.getAssets().open("city.json")), type);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new ArrayList<AddressEntity>();
-    }
+//    public static List<AddressEntity> getCity(Activity activity) {
+//        Type type = new TypeToken<List<AddressEntity>>() {
+//        }.getType();
+//        try {
+//            return new Gson().fromJson(ConvertUtils.toString(activity.getAssets().open("city.json")), type);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return new ArrayList<AddressEntity>();
+//    }
 
 }

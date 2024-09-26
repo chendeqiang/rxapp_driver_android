@@ -32,6 +32,7 @@ class BindAlipayActivity:BaseActivity(){
     private lateinit var ivBack2: ImageView
     private lateinit var btnBind: Button
     private lateinit var etAliPay: EditText
+    private lateinit var etAliPayName: EditText
     private lateinit var etVcode: EditText
     private lateinit var llVerification: LinearLayout
     private lateinit var tvVcodes: List<TextView>
@@ -55,7 +56,7 @@ class BindAlipayActivity:BaseActivity(){
         setContentView(R.layout.activity_bind_alipay)
         ComponentHolder.appComponent!!.inject(this)
         presenter.register(this)
-        driverNo = intent.getStringExtra(Constants.DRIVER_NO)
+        driverNo = intent.getStringExtra(Constants.DRIVER_NO)!!
         initView()
     }
 
@@ -64,6 +65,7 @@ class BindAlipayActivity:BaseActivity(){
         ivBack2 =findViewById(R.id.iv_back_2) as ImageView
         btnBind =findViewById(R.id.btn_bind) as Button
         etAliPay =findViewById(R.id.et_alipay) as EditText
+        etAliPayName =findViewById(R.id.et_alipay_name) as EditText
         etVcode =findViewById(R.id.et_vcode) as EditText
         tvCountDown =findViewById(R.id.tv_count_down) as Button
         llVerification =findViewById(R.id.ll_verification) as LinearLayout
@@ -71,6 +73,7 @@ class BindAlipayActivity:BaseActivity(){
                 , findViewById(R.id.tv_vcode_2) as TextView
                 , findViewById(R.id.tv_vcode_3) as TextView
                 , findViewById(R.id.tv_vcode_4) as TextView)
+
         etAliPay.addTextChangedListener(object :TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -97,11 +100,13 @@ class BindAlipayActivity:BaseActivity(){
         }
 
         btnBind.setOnClickListener {
-            if (etAliPay.text.isNotEmpty()){
+            if (etAliPay.text.isNotEmpty()&&etAliPayName.text.isNotEmpty()){
                 //获取短信验证，完成绑定
                 presenter.getVcode(UserInfoPreferences.getInstance().mobile)
-            }else{
-                ShowToast.showCenter(this,"请先输入支付宝账号")
+            }else if (etAliPay.text.isNullOrEmpty()){
+                ShowToast.showCenter(this,"请输入支付宝账号")
+            }else {
+                ShowToast.showCenter(this,"请输入支付宝姓名")
             }
         }
         etVcode.addTextChangedListener(object :TextWatcher{
@@ -131,7 +136,7 @@ class BindAlipayActivity:BaseActivity(){
 
     private fun bindAlipay() {
         //请求网络，执行绑定操作
-        presenter.bindPayAccount(UserInfoPreferences.getInstance().mobile,etVcode.text.toString().trim(),UserInfoPreferences.getInstance().carTeam,etAliPay.text.toString())
+        presenter.bindPayAccount(UserInfoPreferences.getInstance().mobile,etVcode.text.toString().trim(),UserInfoPreferences.getInstance().carTeam,etAliPay.text.toString(),etAliPayName.text.toString())
 
     }
 

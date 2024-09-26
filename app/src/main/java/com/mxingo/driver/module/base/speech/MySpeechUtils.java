@@ -13,6 +13,7 @@ import java.util.Locale;
 /**
  * Created by deqiangchen on 2023/2/13.
  */
+@SuppressWarnings("deprecation")
 public class MySpeechUtils extends UtteranceProgressListener {
     private static final String TAG = "MySpeech";
     private TextToSpeech mySpeech;

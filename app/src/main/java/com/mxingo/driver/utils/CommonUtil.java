@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 
-import com.baidu.mapapi.model.LatLng;
 import com.mxingo.driver.module.base.data.UserInfoPreferences;
 import com.mxingo.driver.module.base.map.CurrentLocation;
 
@@ -17,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-
+@SuppressWarnings("deprecation")
 public class CommonUtil {
     private static DecimalFormat df = new DecimalFormat("######0.00");
 
@@ -146,43 +145,6 @@ public class CommonUtil {
             return DISTANCE;
         }
         return Math.abs((DISTANCE * slope) / Math.sqrt(1 + slope * slope));
-    }
-
-    /**
-     * 根据点和斜率算取截距
-     */
-    public static double getInterception(double slope, LatLng point) {
-        return point.latitude - slope * point.longitude;
-    }
-
-    /**
-     * 算斜率
-     */
-    public static double getSlope(LatLng fromPoint, LatLng toPoint) {
-        if (toPoint.longitude == fromPoint.longitude) {
-            return Double.MAX_VALUE;
-        }
-        return (toPoint.latitude - fromPoint.latitude) / (toPoint.longitude - fromPoint.longitude);
-    }
-
-    /**
-     * 根据两点算取图标转的角度
-     */
-    public static double getAngle(LatLng fromPoint, LatLng toPoint) {
-        double slope = getSlope(fromPoint, toPoint);
-        if (slope == Double.MAX_VALUE) {
-            if (toPoint.latitude > fromPoint.latitude) {
-                return 0;
-            } else {
-                return 180;
-            }
-        }
-        float deltAngle = 0;
-        if ((toPoint.latitude - fromPoint.latitude) * slope < 0) {
-            deltAngle = 180;
-        }
-        double radio = Math.atan(slope);
-        return 180 * (radio / Math.PI) + deltAngle - 90;
     }
 
     /**

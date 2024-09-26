@@ -17,7 +17,7 @@ import com.mxingo.driver.utils.TextUtil;
 import java.io.File;
 import androidx.core.content.FileProvider;
 
-
+@SuppressWarnings("deprecation")
 public class UpdateService  {
     //下载器
     private DownloadManager downloadManager;

@@ -57,10 +57,10 @@ public class NaviSelectDialog extends Dialog {
     public void show() {
         if (!isShowing() && context != null) {
             super.show();
-            if (!StartUtil.isInstallByread(StartUtil.baiduMapPackage) && llBaiduMap != null) {
+            if (!StartUtil.isInstallByread(context,StartUtil.baiduMapPackage) && llBaiduMap != null) {
                 llBaiduMap.setVisibility(View.GONE);
             }
-            if (!StartUtil.isInstallByread(StartUtil.gaodeMapPackage) && llGaodeMap != null) {
+            if (!StartUtil.isInstallByread(context,StartUtil.gaodeMapPackage) && llGaodeMap != null) {
                 llGaodeMap.setVisibility(View.GONE);
             }
         }

@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-/**
- * Created by zhouwei on 16/10/6.
- */
+
 
 public class HeaderUtil {
 

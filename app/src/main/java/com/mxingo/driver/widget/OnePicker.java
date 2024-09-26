@@ -5,21 +5,18 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
-
+import com.github.gzuliyujiang.wheelview.contract.OnWheelChangedListener;
+import com.github.gzuliyujiang.wheelview.widget.WheelView;
+import com.github.gzuliyujiang.wheelpicker.OptionPicker;
 import com.mxingo.driver.utils.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import cn.qqtheme.framework.picker.WheelPicker;
-import cn.qqtheme.framework.widget.WheelView;
 
-/**
- * Created by zhouwei on 2017/7/28.
- */
 
-public class OnePicker extends WheelPicker {
+public class OnePicker extends OptionPicker {
     private List<String> data = new ArrayList<>();
     private int selectedIndex = 0;
     private OnWheelListener onWheelListener;
@@ -50,52 +47,60 @@ public class OnePicker extends WheelPicker {
         return selectedIndex;
     }
 
-    @NonNull
-    @Override
-    protected View makeCenterView() {
-        LinearLayout layout = new LinearLayout(activity);
-        layout.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-        layout.setOrientation(LinearLayout.HORIZONTAL);
-        layout.setGravity(Gravity.CENTER);
-
-        wheelView = createWheelView();
-
-        int width = DisplayUtil.getWindowWidth(activity);
-        wheelView.setLayoutParams(new LinearLayout.LayoutParams(width, WRAP_CONTENT));
-        layout.addView(wheelView);
-
-        wheelView.setItems(data, selectedIndex);
-        wheelView.setOnItemSelectListener(new WheelView.OnItemSelectListener() {
-            @Override
-            public void onSelected(int index) {
-                selectedIndex = index;
-                if (onWheelListener != null) {
-                    onWheelListener.onFirstWheeled(selectedIndex, data.get(selectedIndex));
-                }
-            }
-        });
-
-        return layout;
-    }
-
-    @Override
-    public void onSubmit() {
-        if (onPickListener != null) {
-            onPickListener.onPicked(selectedIndex);
-        }
-    }
-
     public void setOnWheelListener(OnWheelListener onWheelListener) {
         this.onWheelListener = onWheelListener;
     }
 
     public void setOnPickListener(OnPickListener onPickListener) {
-        this.onPickListener = onPickListener;
+
     }
 
     public void updateData(List<String> data,int selectedIndex){
         this.data = data;
         this.selectedIndex = selectedIndex;
+    }
+
+    @NonNull
+    @Override
+    protected View createBodyView() {
+        LinearLayout layout = new LinearLayout(activity);
+        layout.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+        layout.setOrientation(LinearLayout.HORIZONTAL);
+        layout.setGravity(Gravity.CENTER);
+
+        wheelView = new WheelView(activity);
+
+        int width = DisplayUtil.getWindowWidth(activity);
+        wheelView.setLayoutParams(new LinearLayout.LayoutParams(width, WRAP_CONTENT));
+        layout.addView(wheelView);
+
+        wheelView.setData(data, selectedIndex);
+        wheelView.setOnWheelChangedListener(new OnWheelChangedListener() {
+            @Override
+            public void onWheelScrolled(WheelView view, int offset) {
+
+            }
+
+            @Override
+            public void onWheelSelected(WheelView view, int position) {
+                    selectedIndex =position;
+                    if (onWheelListener!=null){
+                        onWheelListener.onFirstWheeled(selectedIndex,data.get(selectedIndex));
+                    }
+            }
+
+            @Override
+            public void onWheelScrollStateChanged(WheelView view, int state) {
+
+            }
+
+            @Override
+            public void onWheelLoopFinished(WheelView view) {
+
+            }
+        });
+
+        return layout;
     }
 
     /**

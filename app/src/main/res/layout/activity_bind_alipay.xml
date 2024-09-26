@@ -37,8 +37,41 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/ll_alicount"
+        android:id="@+id/ll_alicount_name"
         android:layout_below="@+id/rl_bar"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="支付宝姓名"
+            android:textSize="@dimen/text_size_18"
+            android:textColor="@color/text_color_black" />
+
+        <EditText
+            android:maxLines="1"
+            android:singleLine="true"
+            android:id="@+id/et_alipay_name"
+            android:textSize="@dimen/text_size_16"
+            android:background="@color/white"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:hint="请输入支付宝姓名"
+            android:textColor="@color/text_color_black" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_alicount"
+        android:layout_below="@+id/ll_alicount_name"
         android:layout_marginTop="@dimen/default_margin"
         android:layout_width="match_parent"
         android:layout_height="50dp"

@@ -33,6 +33,7 @@ class SecondBindAlipayActivity:BaseActivity() {
     private lateinit var tvCountDown: Button
     private lateinit var tvAlipayPast: TextView
     private lateinit var etAlipayNow: EditText
+    private lateinit var etAliName: EditText
     private lateinit var etVcode: EditText
     private lateinit var llVerification: LinearLayout
     private lateinit var tvVcodes: List<TextView>
@@ -55,7 +56,7 @@ class SecondBindAlipayActivity:BaseActivity() {
         setContentView(R.layout.activity_second_bind_alipay)
         ComponentHolder.appComponent!!.inject(this)
         presenter.register(this)
-        driverNo = intent.getStringExtra(Constants.DRIVER_NO)
+        driverNo = intent.getStringExtra(Constants.DRIVER_NO)!!
         initView()
     }
 
@@ -67,6 +68,7 @@ class SecondBindAlipayActivity:BaseActivity() {
         tvCountDown =findViewById(R.id.tv_count_down) as Button
         etVcode =findViewById(R.id.et_vcode) as EditText
         etAlipayNow =findViewById(R.id.et_alipay_now) as EditText
+        etAliName =findViewById(R.id.et_aliname_now) as EditText
         llVerification =findViewById(R.id.ll_verification) as LinearLayout
         tvVcodes = arrayListOf(findViewById(R.id.tv_vcode_1) as TextView
                 , findViewById(R.id.tv_vcode_2) as TextView
@@ -101,11 +103,13 @@ class SecondBindAlipayActivity:BaseActivity() {
         })
 
         btnBind.setOnClickListener {
-            if (etAlipayNow.text.isNotEmpty()){
+            if (etAlipayNow.text.isNotEmpty()&&etAliName.text.isNotEmpty()){
                 //获取短信验证，完成绑定
                 presenter.getVcode(UserInfoPreferences.getInstance().mobile)
+            }else if (etAlipayNow.text.isNullOrEmpty()){
+                ShowToast.showCenter(this,"请输入支付宝账号")
             }else{
-                ShowToast.showCenter(this,"请先输入支付宝账号")
+                ShowToast.showCenter(this,"请输入支付宝姓名")
             }
         }
         etVcode.addTextChangedListener(object :TextWatcher{
@@ -136,7 +140,7 @@ class SecondBindAlipayActivity:BaseActivity() {
 
     private fun bindAlipay() {
         //请求网络，执行绑定操作
-        presenter.bindPayAccount(UserInfoPreferences.getInstance().mobile,etVcode.text.toString().trim(),UserInfoPreferences.getInstance().carTeam,etAlipayNow.text.toString())
+        presenter.bindPayAccount(UserInfoPreferences.getInstance().mobile,etVcode.text.toString().trim(),UserInfoPreferences.getInstance().carTeam,etAlipayNow.text.toString(),etAliName.text.toString())
     }
 
     private fun initVcode(text: String) {

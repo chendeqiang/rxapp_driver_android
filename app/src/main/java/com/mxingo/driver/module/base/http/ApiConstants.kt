@@ -1,3 +1,4 @@
+
 package com.mxingo.driver.module.base.http
 
 
@@ -7,8 +8,8 @@ object ApiConstants {
     const val sign = "Rx-Sign"
     const val token = "Rx-Token"
     const val version = "Rx-Vern"
-    const val ip = "http://112.124.27.106:8018/" //测试
-//    const val ip = "https://wycapi.mxingo.com:443/"//生产
+//    const val ip = "http://112.124.27.106:8018/" //测试
+    const val ip = "https://wycapi.mxingo.com:443/"//生产
 
 
     const val getVcode = "usr/driver/getvcode"//获取验证码
@@ -44,7 +45,7 @@ object ApiConstants {
     const val driverBill = "usr/driver//driverbill"//司机账单
     const val getTime = "http://www.mxingo.com/appTime/getNow.shtml"
 
-    const val stsServer="http://118.31.16.123:7080"
+    const val stsServer="http://47.99.72.89:7080"
 
     const val listCarPool="driver/pc/dplist"//拼车行程
     const val carpoolOrderInfo="driver/pc/dplistdetail"//行程详情

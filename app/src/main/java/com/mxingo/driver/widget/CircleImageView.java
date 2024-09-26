@@ -24,9 +24,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 
-/**
- * Created by zhouwei on 2017/7/7.
- */
+
 
 public class CircleImageView extends androidx.appcompat.widget.AppCompatImageView {
 

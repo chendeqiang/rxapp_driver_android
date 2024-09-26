@@ -93,8 +93,7 @@ class MyOrderActivity : BaseActivity(), View.OnClickListener, AbsListView.OnScro
         lvOrders.setOnItemClickListener { _, view, i, _ ->
             if (view != orderFooterView) {
                 var data = adapter.getItem(i) as ListDriverOrderEntity.OrderEntity
-                if (data.flowStatus == FlowStatus.ARRIVE_TYPE) {
-//                    presenter.getCurrentTime()
+                if (data.flowStatus == FlowStatus.ARRIVE_TYPE) {//行程中
                     MapActivity.startMapActivity(this, data.orderNo, data.flowNo, driverNo)
                 } else {
                     OrderInfoActivity.startOrderInfoActivity(this, data.orderNo, data.flowNo, driverNo)
